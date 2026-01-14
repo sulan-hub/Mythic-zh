@@ -19,6 +19,8 @@
 
 🌐 **Read in:** [English](README-en.md) | [中文](README-zh.md)
 
+汉化进度：3%
+
 # Mythic
 一个跨平台的、基于漏洞利用后的红队框架，使用 GoLang、Docker、Docker-Compose 和网页浏览器界面构建。它为操作人员、管理人员和报告人员提供协作性强且用户友好的界面，贯穿整个红队演练过程。
 
