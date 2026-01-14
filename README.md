@@ -1,4 +1,3 @@
-🌐 **Read in:** [English](README.md) | [中文](README-zh.md)
 <p align="center">
 <a href="https://github.com/its-a-feature/Mythic/pulse">
         <img src="https://img.shields.io/github/commit-activity/m/its-a-feature/Mythic/master" 
@@ -17,7 +16,7 @@
       alt="Sponsored by SpecterOps"/>
 </a>
 </p>
-
+🌐 **Read in:** [English](README-en.md) | [中文](README-zh.md)
 # Mythic
 一个跨平台的、基于漏洞利用后的红队框架，使用 GoLang、Docker、Docker-Compose 和网页浏览器界面构建。它为操作人员、管理人员和报告人员提供协作性强且用户友好的界面，贯穿整个红队演练过程。
 
