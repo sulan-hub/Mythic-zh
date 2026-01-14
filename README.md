@@ -20,7 +20,7 @@
 🌐 **Read in:** [English](README-en.md) | [中文](README-zh.md)
 
 ## 汉化进度
-
+![汉化进度截图](https://github.com/sulan-hub/Mythic-zh/blob/master/images/162102.png)
 ![汉化进度](https://geps.dev/progress/3) **3% 完成**
 
 # Mythic
