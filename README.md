@@ -153,3 +153,15 @@ This is an open source project meant to be used with authorization to assess the
 * BSides Seattle 2019 Demo Videos: [Available on my Youtube](https://www.youtube.com/playlist?list=PLHVFedjbv6sOz8OGuLdomdkr6-7VdMRQ9)
 * Objective By the Sea 2019 talk on JXA: https://objectivebythesea.com/v2/talks/OBTS_v2_Thomas.pdf
 * Objective By the sea 2019 Video: https://www.youtube.com/watch?v=E-QEsGsq3uI&list=PLliknDIoYszvTDaWyTh6SYiTccmwOsws8&index=17
+
+
+---
+
+## 关于此中文版本
+
+这是 Mythic 项目的非官方中文翻译版本。中文翻译由社区贡献。
+
+- **原始项目**: [its-a-feature/Mythic](https://github.com/its-a-feature/Mythic)
+- **翻译问题反馈**: [创建 Issue](https://github.com/your-username/Mythic-zh/issues)
+
+**注意**: 此翻译版本仅供参考，如有歧义，请以英文原版为准。
