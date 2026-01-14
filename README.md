@@ -1,3 +1,4 @@
+🌐 **Read in:** [English](README.md) | [中文](README-zh.md)
 <p align="center">
 <a href="https://github.com/its-a-feature/Mythic/pulse">
         <img src="https://img.shields.io/github/commit-activity/m/its-a-feature/Mythic/master" 
