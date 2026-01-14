@@ -53,7 +53,7 @@ export const MythicFileContext = ({agent_file_id, display_link, filename, extraS
         }
     }
     const getFileInformationError = (data) => {
-        snackActions.error("Failed to fetch file data: " + data);
+        snackActions.error("获取文件数据失败: " + data);
         console.log(data);
     }
     const getFileInformation = useMythicLazyQuery(getfileInformationQuery, {
@@ -73,7 +73,7 @@ export const MythicFileContext = ({agent_file_id, display_link, filename, extraS
     }
     return (
         <>
-            <MythicStyledTooltip title={"Preview Media"} tooltipStyle={extraStyles ? extraStyles : {}}>
+            <MythicStyledTooltip title={"预览媒体文件"} tooltipStyle={extraStyles ? extraStyles : {}}>
                 <FontAwesomeIcon icon={faPhotoVideo}
                                  style={{height: "20px", position: "relative", cursor: "pointer", display: "inline-block"}}
                                  onClick={onPreviewMedia} />

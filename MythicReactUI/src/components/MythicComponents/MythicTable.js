@@ -49,7 +49,7 @@ export function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < props.rowCount}
             checked={props.rowCount > 0 && numSelected === props.rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
+            inputProps={{ 'aria-label': '全选' }}
           />
         </TableCell>
         {props.headCells.map((headCell) => (
@@ -68,7 +68,7 @@ export function EnhancedTableHead(props) {
                 {headCell.label}
                 {orderBy === headCell.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    {order === 'desc' ? '降序排列' : '升序排列'}
                   </span>
                 ) : null}
               </TableSortLabel>

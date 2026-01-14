@@ -15,24 +15,24 @@ import { MythicStyledTooltip } from "./MythicStyledTooltip";
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import { areEqual } from 'react-window';
 
-const PREFIX = 'FileBrowserVirtualTree';
+const PREFIX = '文件浏览器虚拟树';
 
 const classes = {
-  rowContainer: `${PREFIX}-rowContainer`,
-  row: `${PREFIX}-row`,
-  rowButtonWrapper: `${PREFIX}-rowButtonWrapper`,
-  rowButton: `${PREFIX}-rowButton`,
-  rowLabel: `${PREFIX}-rowLabel`,
-  heading: `${PREFIX}-heading`,
-  secondaryHeading: `${PREFIX}-secondaryHeading`,
-  taskAndTimeDisplay: `${PREFIX}-taskAndTimeDisplay`,
-  secondaryHeadingExpanded: `${PREFIX}-secondaryHeadingExpanded`,
-  icon: `${PREFIX}-icon`,
-  details: `${PREFIX}-details`,
-  column: `${PREFIX}-column`,
-  paper: `${PREFIX}-paper`,
-  table: `${PREFIX}-table`,
-  visuallyHidden: `${PREFIX}-visuallyHidden`
+  rowContainer: `${PREFIX}-行容器`,
+  row: `${PREFIX}-行`,
+  rowButtonWrapper: `${PREFIX}-行按钮包装器`,
+  rowButton: `${PREFIX}-行按钮`,
+  rowLabel: `${PREFIX}-行标签`,
+  heading: `${PREFIX}-标题`,
+  secondaryHeading: `${PREFIX}-副标题`,
+  taskAndTimeDisplay: `${PREFIX}-任务和时间显示`,
+  secondaryHeadingExpanded: `${PREFIX}-副标题展开`,
+  icon: `${PREFIX}-图标`,
+  details: `${PREFIX}-详情`,
+  column: `${PREFIX}-列`,
+  paper: `${PREFIX}-纸张`,
+  table: `${PREFIX}-表格`,
+  visuallyHidden: `${PREFIX}-视觉隐藏`
 };
 
 const StyledAutoSizer = styled(AutoSizer)((
@@ -140,8 +140,8 @@ const StyledAutoSizer = styled(AutoSizer)((
   }
 }));
 function itemKey(index, data) {
-    // Find the item at the specified index.
-    // In this case "data" is an Array that was passed to List as "itemData".
+    // 查找指定索引处的项目
+    // 在这里，"data"是作为"itemData"传递给List的数组
     const item = data[index];
     if(item.root){
         return `${item.group};${item.id}`;
@@ -163,14 +163,12 @@ const VirtualTreeRow = React.memo(({
 }) => {
   const itemTreeData = ListProps.data[ListProps.index];
   const item = ListProps.treeRootData[itemTreeData.group]?.[itemTreeData.host]?.[itemTreeData.full_path_text] || itemTreeData;
-  //console.log("item", item, "itemlookup", ListProps.treeRootData[itemTreeData.host]?.[itemTreeData.name])
   const theme = useTheme();
   const handleOnClickButton = (e) => {
     e.stopPropagation();
     if (itemTreeData.isOpen) {
       onCollapseNode(item.id, {...item, group: itemTreeData.group, host: itemTreeData.host});
     } else {
-      //snackActions.info('fetching elements...', { autoClose: false });
       onExpandNode(item.id,  {...item, group: itemTreeData.group, host: itemTreeData.host});
     }
   };
@@ -266,11 +264,11 @@ const VirtualTreeRow = React.memo(({
           </Typography>
 
           {item.success === true && itemTreeData.depth > 0 ? (
-              <MythicStyledTooltip title='Successfully listed contents of folder' style={{display: "inline-flex", marginLeft: "5px"}}>
+              <MythicStyledTooltip title='成功列出文件夹内容' style={{display: "inline-flex", marginLeft: "5px"}}>
                   <CheckCircleOutlineIcon fontSize='small' color="success" />
               </MythicStyledTooltip>
           ) : item.success === false && itemTreeData.depth > 0 ? (
-              <MythicStyledTooltip title='Failed to list contents of folder' style={{display: "inline-flex", marginLeft: "5px"}}>
+              <MythicStyledTooltip title='列出文件夹内容失败' style={{display: "inline-flex", marginLeft: "5px"}}>
                   <ErrorIcon fontSize='small' color="error" />
               </MythicStyledTooltip>
           ) : null}
@@ -284,7 +282,7 @@ const caseInsensitiveCompare = (a, b) => {
     try{
         return a.localeCompare(b);
     }catch(error){
-        console.log("localeCompare failed for", a, b);
+        console.log("localeCompare 失败，参数：", a, b);
         return a < b;
     }
 }
@@ -302,9 +300,8 @@ const FileBrowserVirtualTreePreMemo = ({
 }) => {
     const gridRef = React.useRef(null);
   const flattenNode = useCallback(
-    // node is just a full_path_text
+    // node 只是 full_path_text
     (node, group, host, depth = 0) => {
-        //console.log(node, group, host, depth);
       if(depth === 0){
         return [
           {
@@ -371,10 +368,7 @@ const FileBrowserVirtualTreePreMemo = ({
     [openNodes, showDeletedFiles, treeAdjMatrix] // eslint-disable-line react-hooks/exhaustive-deps
   );
   const flattenedNodes = useMemo(() => {
-    //console.log("in tree", treeRootData, treeAdjMatrix)
-    // need to return an array
     let finalData = [];
-    //console.log(treeAdjMatrix);
       const groupKeys = Object.keys(treeAdjMatrix).sort(caseInsensitiveCompare);
       for(let i = 0; i < groupKeys.length; i++){
         finalData.push({
@@ -394,7 +388,6 @@ const FileBrowserVirtualTreePreMemo = ({
         });
         const hostKeys = Object.keys(treeAdjMatrix[groupKeys[i]]).sort(caseInsensitiveCompare);
         for(let j = 0; j < hostKeys.length; j++){
-        //for(const [host, matrix] of Object.entries(hosts)){
             finalData.push({
                 id: hostKeys[j],
                 name: hostKeys[j],
@@ -409,7 +402,6 @@ const FileBrowserVirtualTreePreMemo = ({
                 children: treeAdjMatrix[groupKeys[i]][hostKeys[j]][""],
                 full_path_text: hostKeys[j],
             });
-            //console.log(matrix);
             finalData.push(...Object.keys(treeAdjMatrix[groupKeys[i]][hostKeys[j]][""]).sort(caseInsensitiveCompare).reduce((prev, c) => {
                 if(!showDeletedFiles && c.deleted) {
                     return [...prev];
@@ -420,7 +412,6 @@ const FileBrowserVirtualTreePreMemo = ({
         }
     }
     return finalData;
-    //nodes.map((node) => flattenNode(node)).flat()
   },[flattenNode, treeRootData, treeAdjMatrix, showDeletedFiles]);
   React.useEffect( () => {
       let rowIndex = flattenedNodes?.findIndex(e =>

@@ -27,11 +27,11 @@ const ValidationTextField = styled(TextField)(({theme}) => ({
         },
         '& input:valid:focus + fieldset': {
             borderLeftWidth: 6,
-            padding: '4px !important', // override inline-style
+            padding: '4px !important', // 覆盖内联样式
         },
         '& textarea:focus + textarea + fieldset': {
             borderLeftWidth: 6,
-            //padding: '4px !important', // override inline-style
+            //padding: '4px !important', // 覆盖内联样式
         },
     },
 }));
@@ -74,7 +74,7 @@ const MythicTextField = ({
     }, [value]);
     const handleChange = (evt) => {
         const newValue = evt.target.value;
-        // Update local state immediately for responsive UI
+        // 立即更新本地状态以实现响应式UI
         setLocalValue({value: newValue, event: evt});
         setLocalError(validate ? validate(newValue) : false);
     };

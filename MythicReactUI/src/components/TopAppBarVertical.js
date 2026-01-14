@@ -192,7 +192,7 @@ const Dashboard = () => {
                 <SpaceDashboardTwoToneIcon style={{color: theme.navBarTextIconColor}}  fontSize={"medium"} className="mythicElement" />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Operation Dashboard"} />
+        <ListItemText primary={"仪表盘"} />
       </StyledListItem>
   )
 }
@@ -206,7 +206,7 @@ const ActiveCallbacks = () => {
             </MythicStyledTooltip>
 
         </StyledListItemIcon>
-        <ListItemText primary={"Active Callbacks"} />
+        <ListItemText primary={"会话列表"} />
       </StyledListItem>
   )
 }
@@ -219,7 +219,7 @@ const Payloads = () => {
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} icon={faBiohazard} size="lg"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Payloads"} />
+        <ListItemText primary={"插件"} />
       </StyledListItem>
   )
 }
@@ -468,7 +468,7 @@ const CreatePayload = () => {
                 <AddCircleIcon color={"success"} style={{marginLeft: "-8px", marginTop: "7px", backgroundColor: "white", borderRadius: "10px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Create Payload"} />
+        <ListItemText primary={"创建有效载荷"} />
       </StyledListItem>
   )
 }
@@ -482,7 +482,7 @@ const CreateWrapper = () => {
                 <AddCircleIcon color={"success"} style={{marginLeft: "-8px", marginTop: "7px", backgroundColor: "white", borderRadius: "10px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Create Wrapper"} />
+        <ListItemText primary={"创建封装"} />
       </StyledListItem>
   )
 }
@@ -495,7 +495,7 @@ const PayloadTypesAndC2 = () => {
                 <HeadsetTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Installed Services"} />
+        <ListItemText primary={"已安装的插件"} />
       </StyledListItem>
   )
 }
@@ -521,7 +521,7 @@ const BrowserScripts = () => {
                 <CodeOffIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"BrowserScripts"} />
+        <ListItemText primary={"浏览脚本"} />
       </StyledListItem>
   )
 }
@@ -821,7 +821,7 @@ export function TopAppBarVertical(props) {
                     <StyledListItemIcon>
                         <MoreHorizIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} />
                     </StyledListItemIcon>
-                    <ListItemText>Extra Shortcuts</ListItemText>
+                    <ListItemText>更多方式</ListItemText>
                     {openExtra ? <ExpandLess /> : <ExpandMore />}
                 </StyledListItem>
                 {openExtra &&  getExtraShortcuts()}

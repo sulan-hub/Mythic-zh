@@ -36,10 +36,9 @@ export function MythicTextEditDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={props.onClose} color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

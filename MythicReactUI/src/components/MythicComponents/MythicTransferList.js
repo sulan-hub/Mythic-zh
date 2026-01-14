@@ -154,7 +154,7 @@ const CustomTransferList = ({leftTitle, rightTitle, initialData, parentLeftData,
                     size="small"
                     className={classes.button}
                     onClick={handleAllRight}
-                    aria-label="move all right"
+                    aria-label="全部移到右侧"
                 >
                     &gt;&gt;
                 </StyledButton>
@@ -164,7 +164,7 @@ const CustomTransferList = ({leftTitle, rightTitle, initialData, parentLeftData,
                     disabled={data.filter( x => x.checked && x.left).length === 0}
                     className={classes.button}
                     onClick={handleCheckedRight}
-                    aria-label="move selected right"
+                    aria-label="移动选中项到右侧"
                 >
                     &gt;
                 </StyledButton>
@@ -174,7 +174,7 @@ const CustomTransferList = ({leftTitle, rightTitle, initialData, parentLeftData,
                     disabled={data.filter( x => x.checked && x.right).length === 0}
                     className={classes.button}
                     onClick={handleCheckedLeft}
-                    aria-label="move selected left"
+                    aria-label="移动选中项到左侧"
                 >
                     &lt;
                 </StyledButton>
@@ -183,7 +183,7 @@ const CustomTransferList = ({leftTitle, rightTitle, initialData, parentLeftData,
                     size="small"
                     className={classes.button}
                     onClick={handleAllLeft}
-                    aria-label="move all left"
+                    aria-label="全部移到左侧"
                 >
                     &lt;&lt;
                 </StyledButton>
@@ -244,13 +244,12 @@ export function MythicTransferListDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           <Button onClick={setFinalTags} variant="contained" color="success">
-            Submit
+            提交
           </Button>
         </DialogActions>
   </>
   );
 }
-

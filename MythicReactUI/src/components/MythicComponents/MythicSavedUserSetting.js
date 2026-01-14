@@ -18,7 +18,7 @@ export const GetComputedFontSize = () => {
     return parseFloat(fontSizeString);
 }
 /*
-setting_name options:
+setting_name 选项:
     hideUsernames
     showIP
     showHostname
@@ -52,7 +52,7 @@ export function useSetMythicSetting() {
             //console.log(data, mePreferences());
         },
         onError: (error) => {
-            snackActions.error("failed to save user setting: " + error.message);
+            snackActions.error("保存用户设置失败: " + error.message);
             console.log(error);
         }
     });

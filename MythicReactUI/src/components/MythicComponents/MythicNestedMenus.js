@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowRight from "@mui/icons-material/ArrowRight";
-// slightly modified from https://medium.com/geekculture/creating-a-dropdown-with-nested-menu-items-using-react-mui-bb0c084226da
+// 略有修改自 https://medium.com/geekculture/creating-a-dropdown-with-nested-menu-items-using-react-mui-bb0c084226da
 export const Dropdown = React.forwardRef(
     (
         {

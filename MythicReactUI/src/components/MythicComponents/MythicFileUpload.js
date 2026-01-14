@@ -5,7 +5,7 @@ export const UploadTaskFile = async (file, comment) => {
   try{
     formData.append("file", file);
     formData.append("comment", comment);
-    snackActions.info("Uploading " + file.name + " to Mythic...", {autoHideDuration: 1000});
+    snackActions.info("正在上传 " + file.name + " 到 Mythic...", {autoHideDuration: 1000});
   }catch(error){
     console.log(error)
     return null;
@@ -23,8 +23,8 @@ export const UploadTaskFile = async (file, comment) => {
       const upload_result = upload_response.json().then(data => {
           return data?.agent_file_id || data?.error || null;
         }).catch(error => {
-          snackActions.warning("Error: " + upload_response.statusText + "\nError Code: " + upload_response.status);
-          console.log("Error trying to get json response", error.toString());
+          snackActions.warning("错误: " + upload_response.statusText + "\n错误代码: " + upload_response.status);
+          console.log("尝试获取JSON响应时出错", error.toString());
           return null;
         });
         return upload_result;
@@ -41,7 +41,7 @@ export const UploadEventFile = async (file, comment) => {
   let formData = new FormData();
   formData.append("file", file);
   formData.append("comment", comment);
-  snackActions.info("Uploading " + file.name + " to Mythic...", {autoHideDuration: 1000});
+  snackActions.info("正在上传 " + file.name + " 到 Mythic...", {autoHideDuration: 1000});
   try{
     const upload_response = await fetch('/api/v1.4/eventing_import_webhook', {
       method: 'POST',
@@ -52,12 +52,11 @@ export const UploadEventFile = async (file, comment) => {
     });
     try{
       return upload_response.json().then(data => {
-        //console.log(data);
         return data;
       }).catch(error => {
         console.log(upload_response);
-        snackActions.warning("Error: " + upload_response.statusText + "\nError Code: " + upload_response.status);
-        console.log("Error trying to get json response", error.toString());
+        snackActions.warning("错误: " + upload_response.statusText + "\n错误代码: " + upload_response.status);
+        console.log("尝试获取JSON响应时出错", error.toString());
         return null;
       });
     }catch(error){
@@ -73,7 +72,7 @@ export const UploadEventGroupFile = async (file, eventgroup_id) => {
   let formData = new FormData();
   formData.append("eventgroup_id", eventgroup_id);
   formData.append("file", file);
-  snackActions.info("Uploading " + file.name + " to Mythic...", {autoHideDuration: 1000});
+  snackActions.info("正在上传 " + file.name + " 到 Mythic...", {autoHideDuration: 1000});
   try{
     const upload_response = await fetch('/api/v1.4/eventing_register_file_webhook', {
       method: 'POST',
@@ -84,12 +83,11 @@ export const UploadEventGroupFile = async (file, eventgroup_id) => {
     });
     try{
       return upload_response.json().then(data => {
-        //console.log(data);
         return data;
       }).catch(error => {
         console.log(upload_response);
-        snackActions.warning("Error: " + upload_response.statusText + "\nError Code: " + upload_response.status);
-        console.log("Error trying to get json response", error.toString());
+        snackActions.warning("错误: " + upload_response.statusText + "\n错误代码: " + upload_response.status);
+        console.log("尝试获取JSON响应时出错", error.toString());
         return null;
       });
     }catch(error){

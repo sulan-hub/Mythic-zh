@@ -31,8 +31,8 @@ import {meState} from "../../cache";
 import { useReactiveVar } from '@apollo/client';
 
 const createNewTagMutationTemplate = ({target_object}) => {
-  // target_object should be something like "task_id"
-  // target_object_id should be something like "89"
+  // target_object 应该是类似 "task_id" 的形式
+  // target_object_id 应该是类似 "89" 的形式
   return gql`
   mutation createNewTag($url: String!, $data: jsonb!, $source: String!, $${target_object}: Int!, $tagtype_id: Int!){
     createTag(url: $url, data: $data, source: $source, ${target_object}: $${target_object}, tagtype_id: $tagtype_id){
@@ -145,7 +145,7 @@ const TagChipDisplay = ({tag, expand}) => {
     if(expand === undefined || !expand){
       setTimeout( () => {
         setLabel(tag.tagtype.name[0]);
-      }, 10000); // wait 10s then go back to just a single letter
+      }, 10000); // 等待10秒后恢复为单个字母
     }
   }
   return (
@@ -165,7 +165,7 @@ const TagChipDisplay = ({tag, expand}) => {
   )
 }
 const StringTagDataEntry = ({name, value}) => {
-  // want to match markdown [display](url)
+  // 匹配 markdown 格式 [显示文本](链接地址)
   const regex = "^\\[.*\\]\\(.*\\)";
   const captureRegex = "^\\[(?<display>.*)\\]\\((?<url>.*)\\)(?<other>.*)";
   const targetRegex = ":target=[\"\'](?<target>.*?)[\"\']";
@@ -174,17 +174,17 @@ const StringTagDataEntry = ({name, value}) => {
     e.preventDefault();
     fetch(url).then((response) => {
       if (response.status !== 200) {
-        snackActions.warning("HTTP " + response.status + " response");
+        snackActions.warning("HTTP " + response.status + " 响应");
       } else {
-        snackActions.success("Successfully contacted url");
+        snackActions.success("成功访问URL");
       }
     }).catch(error => {
       if(error.toString() === "TypeError: Failed to fetch"){
-        snackActions.warning("Failed to make connection - this could be networking issues or ssl certs that need to be accepted first");
+        snackActions.warning("连接失败 - 可能是网络问题或需要先接受SSL证书");
       } else {
-        snackActions.warning("Error talking to server: " + error.toString());
+        snackActions.warning("与服务器通信时出错: " + error.toString());
       }
-      console.log("There was an error!", error);
+      console.log("发生错误!", error);
     })
   }
   if(RegExp(regex)?.test(value)){
@@ -197,7 +197,7 @@ const StringTagDataEntry = ({name, value}) => {
         color = colorPieces["groups"]["color"];
       }
       return (
-          <MythicStyledTooltip title={"Make API Request"}>
+          <MythicStyledTooltip title={"发送API请求"}>
             <WebhookIcon style={{cursor: "pointer", marginRight: "10px"}}
                          onClick={(e) => onClick(e, capturePieces[2])}
                          color={color}
@@ -212,7 +212,7 @@ const StringTagDataEntry = ({name, value}) => {
   } else if(value.startsWith("http:") || value.startsWith("https:")){
     return (
         <>
-          {"Click for: "}
+          {"点击访问: "}
           <Link href={value} color="textPrimary" target="_blank" >{name}</Link>
         </>
     )
@@ -265,7 +265,7 @@ function ViewTagDialog(props) {
       setSelectedTag(newTag);
     },
     onError: error => {
-      console.log("query error", error);
+      console.log("查询错误", error);
     },
     fetchPolicy: "network-only"
   })
@@ -282,39 +282,39 @@ function ViewTagDialog(props) {
   }
 return (
   <React.Fragment>
-      <DialogTitle id="form-dialog-title" onClick={stopClicks}>View Tag</DialogTitle>
+      <DialogTitle id="form-dialog-title" onClick={stopClicks}>查看标签</DialogTitle>
         <TableContainer className="mythicElement" onClick={stopClicks}>
           <Table size="small" style={{ "maxWidth": "100%", "overflow": "scroll"}}>
               <TableBody>
                 <TableRow hover>
-                  <TableCell style={{width: "20%"}}>Tag Type</TableCell>
+                  <TableCell style={{width: "20%"}}>标签类型</TableCell>
                   <TableCell style={{display: "inline-flex", flexDirection: "row", width: "100%"}}>
                     <Chip label={selectedTag?.tagtype?.name||""} size="small" style={{float: "right", backgroundColor:selectedTag?.tagtype?.color||""}} />
                     <ViewEditTags target_object={objectInfo.object_type} target_object_id={objectInfo.object_id} me={props.me} />
                   </TableCell>
                 </TableRow>
                 <TableRow hover>
-                  <TableCell>Description</TableCell>
+                  <TableCell>描述</TableCell>
                   <TableCell>{selectedTag?.tagtype?.description || ""}</TableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>Source</MythicStyledTableCell>
+                  <MythicStyledTableCell>来源</MythicStyledTableCell>
                   <MythicStyledTableCell>
                     {selectedTag?.source ||""}
                   </MythicStyledTableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>Reference URL</MythicStyledTableCell>
+                  <MythicStyledTableCell>参考URL</MythicStyledTableCell>
                   <MythicStyledTableCell>
                     {selectedTag?.url === "" ? (
-                        "No reference link provided"
+                        "未提供参考链接"
                     ) : (
-                        <Link href={selectedTag?.url || "#"} color="textPrimary" target="_blank" referrerPolicy='no'>{selectedTag?.url ? "click here" : "No reference link provided"}</Link>
+                        <Link href={selectedTag?.url || "#"} color="textPrimary" target="_blank" referrerPolicy='no'>{selectedTag?.url ? "点击此处" : "未提供参考链接"}</Link>
                     )}
                   </MythicStyledTableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Data</TableCell>
+                  <TableCell>数据</TableCell>
                   <TableCell>
                     {selectedTag?.is_json ? (
                       <TableContainer  className="mythicElement">
@@ -348,7 +348,7 @@ return (
                                         </MythicStyledTableCell>
                                     )
                                 ) : typeof selectedTag.data[key] === "boolean" ? (
-                                    <MythicStyledTableCell>{selectedTag.data[key] ? "True" : "False"}</MythicStyledTableCell>
+                                    <MythicStyledTableCell>{selectedTag.data[key] ? "是" : "否"}</MythicStyledTableCell>
                                 ) :
                                 (
                                     <MythicStyledTableCell>{String(selectedTag.data[key])}</MythicStyledTableCell>
@@ -385,7 +385,7 @@ return (
         </TableContainer>
       <DialogActions onClick={(e) => e.stopPropagation()}>
         <Button onClick={onClose} variant="contained" color="primary">
-          Close
+          关闭
         </Button>
       </DialogActions>
 </React.Fragment>
@@ -427,7 +427,7 @@ export function ViewEditTagsDialog(props) {
   })
   const [deleteTag] = useMutation(deleteTagMutation, {
     onCompleted: data => {
-      snackActions.success("Successfully deleted tag");
+      snackActions.success("成功删除标签");
       const newTags = existingTags.filter (c => c.id !== data.delete_tag_by_pk.id);
       setExistingTags(newTags);
       if(newTags.length > 0){
@@ -447,16 +447,16 @@ export function ViewEditTagsDialog(props) {
       }
     },
     onError: error => {
-      snackActions.error("Failed to delete tag: " + error.message);
+      snackActions.error("删除标签失败: " + error.message);
     }
 });
   const [updateTag] = useMutation(updateTagMutationTemplate, {
     onCompleted: data => {
-      snackActions.success("Successfully updated tag");
+      snackActions.success("成功更新标签");
       props.onClose();
     },
     onError: error => {
-      snackActions.error("Failed to update: " + error.message);
+      snackActions.error("更新失败: " + error.message);
     }
   })
 
@@ -495,7 +495,7 @@ const onAcceptDelete = () => {
 
 return (
   <React.Fragment>
-      <DialogTitle id="form-dialog-title">Edit Tags
+      <DialogTitle id="form-dialog-title">编辑标签
       </DialogTitle>
       <DialogContent dividers={true}>
       {openNewDialog ?
@@ -511,9 +511,9 @@ return (
           <Table size="small" style={{ "maxWidth": "100%", "overflow": "scroll"}}>
               <TableBody>
                 <TableRow hover>
-                  <MythicStyledTableCell style={{width: "30%"}}>Select Existing Tag to Edit or Add New</MythicStyledTableCell>
+                  <MythicStyledTableCell style={{width: "30%"}}>选择要编辑的现有标签或添加新标签</MythicStyledTableCell>
                   <MythicStyledTableCell style={{display: "inline-flex", flexDirection: "row-reverse"}}>
-                    <MythicStyledTooltip title={"Add New Tag"}>
+                    <MythicStyledTooltip title={"添加新标签"}>
                       <IconButton variant='contained' color="success" style={{float: "right"}} onClick={() => setOpenNewDialog(true)} >
                         <AddCircleOutlineIcon />
                       </IconButton>
@@ -540,24 +540,24 @@ return (
                   </MythicStyledTableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>Tag Description</MythicStyledTableCell>
+                  <MythicStyledTableCell>标签描述</MythicStyledTableCell>
                   <MythicStyledTableCell>{selectedTag?.tagtype?.description || ""}</MythicStyledTableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>Source</MythicStyledTableCell>
+                  <MythicStyledTableCell>来源</MythicStyledTableCell>
                   <MythicStyledTableCell>
-                    <MythicTextField value={newSource} onChange={onChangeSource} name="Source of tag data" />
+                    <MythicTextField value={newSource} onChange={onChangeSource} name="标签数据来源" />
                   </MythicStyledTableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>External URL</MythicStyledTableCell>
+                  <MythicStyledTableCell>外部URL</MythicStyledTableCell>
                   <MythicStyledTableCell>
-                    <MythicTextField value={newURL} onChange={onChangeURL} name="External URL reference" />
-                    <Link href={newURL} color="textPrimary" target="_blank" referrerPolicy='no'>{newURL ? "click here" : ""}</Link>
+                    <MythicTextField value={newURL} onChange={onChangeURL} name="外部URL参考" />
+                    <Link href={newURL} color="textPrimary" target="_blank" referrerPolicy='no'>{newURL ? "点击此处" : ""}</Link>
                   </MythicStyledTableCell>
                 </TableRow>
                 <TableRow hover>
-                  <MythicStyledTableCell>JSON Data</MythicStyledTableCell>
+                  <MythicStyledTableCell>JSON数据</MythicStyledTableCell>
                   <MythicStyledTableCell>
                   <AceEditor 
                     mode="json"
@@ -582,11 +582,11 @@ return (
       </DialogContent>
       <DialogActions>
         <Button onClick={props.onClose} variant="contained" color="primary">
-          Close
+          关闭
         </Button>
         {selectedTag.id &&
             <Button onClick={onSubmit} variant="contained" color="success">
-              Submit
+              提交
             </Button>
         }
 
@@ -613,7 +613,7 @@ export function NewTagDialog(props) {
   const [newTag] = useMutation(createNewTagMutationTemplate({target_object: props.target_object}), {
     onCompleted: data => {
       if(data.createTag.status === "success"){
-        snackActions.success("Successfully created new tag!");
+        snackActions.success("成功创建新标签!");
         props.onSubmit({source:newSource, url:newURL, data:newData, tagtype_id:selectedTagType.id, id: data.createTag.id});
         props.onClose()
       } else {
@@ -647,7 +647,7 @@ export function NewTagDialog(props) {
 
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Add New Tag</DialogTitle>
+        <DialogTitle id="form-dialog-title">添加新标签</DialogTitle>
         <DialogContent dividers={true}>
           <TableContainer className="mythicElement">
             <Table size="small" style={{ "maxWidth": "100%", "overflow": "scroll"}}>
@@ -655,14 +655,14 @@ export function NewTagDialog(props) {
                   <TableRow hover>
                     <MythicStyledTableCell style={{width: "20%"}}>
                       <Typography>
-                        Tag
+                        标签
                       </Typography>
                       <Typography  size="small" component="span" style={{fontSize: theme.typography.pxToRem(15)}}>
-                        To create a new tag type click <Link style={{wordBreak: "break-all"}}
+                        要创建新的标签类型，请点击 <Link style={{wordBreak: "break-all"}}
                                                              color="textPrimary"
                                                              href={"/new/tagtypes"}
                                                              underline="always" target="_blank">
-                        here
+                        此处
                       </Link>
                       </Typography>
                     </MythicStyledTableCell>
@@ -683,20 +683,20 @@ export function NewTagDialog(props) {
                     </MythicStyledTableCell>
                   </TableRow>
                   <TableRow hover>
-                    <MythicStyledTableCell>Source</MythicStyledTableCell>
+                    <MythicStyledTableCell>来源</MythicStyledTableCell>
                     <MythicStyledTableCell>
-                      <MythicTextField value={newSource} onChange={onChangeSource} name="Source of tag data" />
+                      <MythicTextField value={newSource} onChange={onChangeSource} name="标签数据来源" />
                     </MythicStyledTableCell>
                   </TableRow>
                   <TableRow hover>
-                    <MythicStyledTableCell>External URL</MythicStyledTableCell>
+                    <MythicStyledTableCell>外部URL</MythicStyledTableCell>
                     <MythicStyledTableCell>
-                      <MythicTextField value={newURL} onChange={onChangeURL} name="External URL reference" />
+                      <MythicTextField value={newURL} onChange={onChangeURL} name="外部URL参考" />
                       <Link href={newURL} color="textPrimary" target="_blank" referrerPolicy='no'>{newURL}</Link>
                     </MythicStyledTableCell>
                   </TableRow>
                   <TableRow hover>
-                    <MythicStyledTableCell>JSON Data</MythicStyledTableCell>
+                    <MythicStyledTableCell>JSON数据</MythicStyledTableCell>
                     <MythicStyledTableCell>
                     <AceEditor 
                       mode="json"
@@ -721,11 +721,11 @@ export function NewTagDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           {selectedTagType !== "" &&
               <Button onClick={onSubmit} variant="contained" color="success">
-                Submit
+                提交
               </Button>
           }
 

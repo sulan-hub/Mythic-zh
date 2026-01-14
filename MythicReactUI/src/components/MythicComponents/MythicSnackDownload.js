@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Link } from '@mui/material';
 
-const PREFIX = 'MythicSnackDownload';
+const PREFIX = 'MythicSnack下载';
 
 const classes = {
     root: `${PREFIX}-root`,
@@ -76,9 +76,9 @@ export const MythicSnackDownload = (props) => {
                 {props.title}
             </Typography>
                 <React.Fragment>
-                    <Typography gutterBottom>File ready for download</Typography>
+                    <Typography gutterBottom>文件已准备下载</Typography>
                     <Link color="textPrimary" download={true} href={"/direct/download/" + props.file_id} target="_blank">
-                        Download here
+                        点击此处下载
                     </Link>
                 </React.Fragment>
         </Root>
