@@ -86,7 +86,7 @@ export function TestEventGroupFileDialog({onClose, initialWorkflow}){
     return (
         <React.Fragment>
             <DialogTitle id="form-dialog-title">
-                Create and Verify Eventing Workflow
+                创建并验证事件工作流
                 <MythicStyledTooltip title={"Preview Graph"} tooltipStyle={{float: "right"}}>
                     <IconButton color={"info"} variant={"contained"} onClick={previewGraph}>
                         <AccountTreeIcon />
@@ -120,13 +120,13 @@ export function TestEventGroupFileDialog({onClose, initialWorkflow}){
             </DialogContent>
             <DialogActions>
                 <Button variant="contained" onClick={onClose} color="primary">
-                    Close
+                    关闭
                 </Button>
                 <Button variant={"contained"} color={"success"} onClick={testFile}>
-                    Test
+                    测试
                 </Button>
                 <Button variant={"contained"} color={"warning"} onClick={submitAsFile}>
-                    Save and Submit
+                    保存并提交
                 </Button>
             </DialogActions>
         </React.Fragment>

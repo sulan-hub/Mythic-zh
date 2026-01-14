@@ -190,7 +190,7 @@ export function OperationTable(props){
                     open={openNewOperation}  
                     onClose={() => {setOpenNewOperationDialog(false);}}
                     innerDialog={
-                        <MythicModifyStringDialog title={"New Operation's Name"} 
+                        <MythicModifyStringDialog title={"新操作名称"} 
                             onClose={() => {setOpenNewOperationDialog(false);}} 
                             value={""} 
                             onSubmit={onSubmitNewOperation} 

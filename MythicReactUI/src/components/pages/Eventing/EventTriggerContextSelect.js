@@ -203,10 +203,10 @@ export function EventTriggerContextSelectDialog({onClose, triggerContext}) {
     }
     return (
         <React.Fragment>
-            <DialogTitle id="form-dialog-title">Trigger a workflow</DialogTitle>
+            <DialogTitle id="form-dialog-title">触发工作流</DialogTitle>
             <DialogContent dividers={true} style={{maxHeight: "calc(70vh)"}}>
                 <DialogContentText>
-                    Trigger a workflow with selected context and optional additional data.
+                    使用所选上下文和可选附加数据触发工作流。
                 </DialogContentText>
                 <Select
                     style={{marginBottom: "10px", width: "100%"}}
@@ -261,7 +261,7 @@ export function EventTriggerContextSelectDialog({onClose, triggerContext}) {
                         <TableRow>
                             <MythicStyledTableCell>
                                 <Button onClick={addRow} color={"success"}>
-                                    Add Entry
+                                    添加条目
                                 </Button>
                             </MythicStyledTableCell>
                             <MythicStyledTableCell></MythicStyledTableCell>
@@ -272,10 +272,10 @@ export function EventTriggerContextSelectDialog({onClose, triggerContext}) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} variant="contained" color="primary">
-                    Close
+                    关闭
                 </Button>
                 <Button onClick={onSubmit} variant="contained" color="success">
-                    Submit
+                    提交
                 </Button>
             </DialogActions>
         </React.Fragment>
