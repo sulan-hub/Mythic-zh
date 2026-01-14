@@ -18,35 +18,34 @@
 </p>
 
 # Mythic
-A cross-platform, post-exploit, red teaming framework built with GoLang, docker, docker-compose, and a web browser UI. It's designed to provide a collaborative and user friendly interface for operators, managers, and reporting throughout red teaming. 
+一个跨平台的、基于漏洞利用后的红队框架，使用 GoLang、Docker、Docker-Compose 和网页浏览器界面构建。它为操作人员、管理人员和报告人员提供协作性强且用户友好的界面，贯穿整个红队演练过程。
 
-* Check out a [series of YouTube videos](https://ghst.ly/mythic-op) showing Operator usage
-* Check out a [series of YouTube videos](https://www.youtube.com/playlist?list=PLJK0fZNGiFU_iJI2A8S5OdloTDexi5zs8) showing Developer tips and tricks
+* 查看使用方法的 [YouTube](https://ghst.ly/mythic-op) 视频
+* 查看开发者技巧和窍门的 [YouTube](https://www.youtube.com/playlist?list=PLJK0fZNGiFU_iJI2A8S5OdloTDexi5zs8) 视频
 
-## Starting Mythic
+## 开始 Mythic
 
-Mythic is controlled via the `mythic-cli` binary. To generate the binary, run `sudo make` from the main Mythic directory. 
-From there, you can run `sudo ./mythic-cli start` to bring up all default Mythic containers.
+Mythic 是通过 `mythic-cli` 二进制文件控制的。要生成该二进制文件，请在主 Mythic 目录下运行 `sudo make`。然后，您可以运行 `sudo ./mythic-cli start` 来启动所有默认的 Mythic 容器。
 
-More specific setup instructions, configurations, examples, screenshots, and more can be found on the [Mythic Documentation](https://docs.mythic-c2.net) website.
+更多具体的安装说明、配置、示例、截图等内容可以在 [Mythic 文档](https://docs.mythic-c2.net) 网站上找到。
 
-## Installing Agents and C2 Profiles
+## 安装代理和 C2 配置文件
 
-The Mythic repository itself does not host any Payload Types or any C2 Profiles. Instead, Mythic provides a command, `./mythic-cli install github <url> [-b branch name] [-f]`, that can be used to install agents into a current Mythic instance.
+Mythic 仓库本身不托管任何 Payload 类型或 C2 配置文件。相反，Mythic 提供了一个命令 `./mythic-cli install github <url> [-b branch name] [-f]`，可以用来将代理安装到当前的 Mythic 实例中。
 
-Payload Types and C2 Profiles can be found on the [overview](https://mythicmeta.github.io/overview) page.
+Payload 类型和 C2 配置文件可以在 [概览](https://mythicmeta.github.io/overview) 页面找到。
 
-To install an agent, simply run the script and provide an argument of the path to the agent on GitHub:
+要安装代理，只需运行脚本并提供 GitHub 上代理的路径作为参数：
 ```bash
 sudo ./mythic-cli install github https://github.com/MythicAgents/apfell
 ```
 
-The same is true for installing C2 Profiles:
+安装 C2 配置文件也是相同的操作：
 ```bash
 sudo ./mythic-cli install github https://github.com/MythicC2Profiles/http
 ```
 
-This allows the agents and c2 profiles to be updated at a much more regular pace and separates out the Mythic Core components from the rest of Mythic.
+这使代理和 C2 配置文件可以更频繁地更新，并将 Mythic 核心组件与其余 Mythic 功能分离开来。
 
 ## Updating
 
