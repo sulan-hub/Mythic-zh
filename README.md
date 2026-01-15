@@ -20,7 +20,9 @@
 
 ## 汉化进度
 ![汉化进度截图](https://github.com/sulan-hub/Mythic-zh/blob/master/images/162102.png)
+
 开始于：2026/1/13
+
 ![汉化进度](https://geps.dev/progress/15) **15% 完成**
 
 # Mythic
