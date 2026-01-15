@@ -441,10 +441,10 @@ export const LineTimeMultiChartCard = ({data, additionalStyles, colors=normalCol
                         </MythicStyledTooltip>
                     </span>
                 }
-                Activity per Day {view_utc_time ? "( UTC )" : "( " + Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone + " )"}
+                每日活动情况 {view_utc_time ? "( UTC )" : "( " + Intl?.DateTimeFormat()?.resolvedOptions()?.timeZone + " )"}
                 <span style={{}}>
                     {customizeElement}
-                    <MythicStyledTooltip title={showLegend ? "Hide Legend" : "Show Legend"}>
+                    <MythicStyledTooltip title={showLegend ? "隐藏图例" : "显示图例"}>
                         <IconButton onClick={toggleLegend} >
                             {showLegend ? <VisibilityIcon /> : <VisibilityOffIcon />}
                         </IconButton>
@@ -473,8 +473,8 @@ export const LineTimeMultiChartCard = ({data, additionalStyles, colors=normalCol
                     },
                 ]}
                 yAxis={[
-                    {id: "taskAxis", scaleType: "linear", label: "Tasks Issued"},
-                    {id: "callbackAxis", scaleType: "linear", label: "Active Callbacks", position: "right"}
+                    {id: "taskAxis", scaleType: "linear", label: "已发布任务"},
+                    {id: "callbackAxis", scaleType: "linear", label: "活动会话", position: "right"}
                 ]}
                 series={data.y}
                 sx={{

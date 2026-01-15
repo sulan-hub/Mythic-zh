@@ -82,7 +82,7 @@ export function QuickStartCard() {
         <CardContent style={{margin: 0, paddingTop: 0}}>
           <ol>
             <li>
-              Create a payload at <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" target="_blank" href={"/new/createpayload"}>Create -> Create Payload</Link>
+              Create a payload at <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" target="_blank" href={"/new/createpayload"}>Create -》 Create Payload</Link>
               <ul>
                 <li>Select Desired OS</li>
                 <li>Select Payload Type and Supply Build Parameters</li>
@@ -93,7 +93,7 @@ export function QuickStartCard() {
                 <li>Build Your Payload</li>
               </ul>
             </li>
-            <li>Download Your Payload at <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" target="_blank" href={"/new/payloads"}>Operational Data -> Payloads</Link></li>
+            <li>Download Your Payload at <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" target="_blank" href={"/new/payloads"}>Operational Data -》 Payloads</Link></li>
             <li>Run Your payload
               <ul>
                 <li>For More Information About Your Agent, Check Out The <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" target="_blank" href={"/docs/agents"}>Internal Documentation</Link></li>

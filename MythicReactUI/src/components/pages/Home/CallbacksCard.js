@@ -267,15 +267,15 @@ const ActiveCallbacksDashboardElement = ({me, data, editing, removeElement}) => 
         <CallbackDataCard data={active}
                           mainTitle={
                             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: "0px" }}>
-                                {"Active Callbacks"}
-                                <MythicTextField type={"number"} value={recentHours} name={"recent hours"} onChange={onChangeRecent}
+                                {"会话状态"}
+                                <MythicTextField type={"number"} value={recentHours} name={"设置最近存活会话 hours"} onChange={onChangeRecent}
                                                  showLabel={true} inline={true} marginBottom={"0px"}
                                                  variant={"standard"}
-                                                 width={5} />
+                                                 width={10} />
                             </div>}
                           secondTitle={
                             <div style={{display: "flex", flexDirection: "row"}}>
-                                {"Recent Checkins <" + recentHours + "hrs"}
+                                {recentHours + "hrs 前存活的会话"}
                             </div>
                           }
                           mainElement={
@@ -359,7 +359,7 @@ const Top10TagTypesDashboardElement = ({me, data, editing, removeElement}) => {
     }, [data]);
     return (
         <PieChartCard data={tags}
-                      title={"Top 10 Tags"}
+                      title={"Top 10 标签"}
                       hidden={false}
                       onClick={handleTagClick} editing={editing}
                       removeElement={removeElement}
@@ -397,7 +397,7 @@ const Top10ArtifactsDashboardElement = ({me, data, editing, removeElement}) => {
     }, [data]);
     return (
         <PieChartCard data={taskArtifacts}
-                      title={"Top 10 Artifacts"}
+                      title={"Top 10 丢失（失真）次数"}
                       hidden={false}
                       onClick={handleArtifactClick}
                       editing={editing}
@@ -469,7 +469,7 @@ const ProxyUsageDashboardElement = ({me, data, editing, removeElement}) => {
         setCallbackPorts(callbackPortActiveArrayOptions);
     }, [data]);
     return (
-        <TableDataCard title={"Top Proxy Activity"}
+        <TableDataCard title={"代理活动"}
                        tableHead={
                            <TableHead>
                                <TableRow>
@@ -556,13 +556,13 @@ const Top10UserContextsDashboardElement = ({me, data, editing, removeElement}) =
         setTaskedUser(taskedUserOptions);
     }, [data]);
     return (
-        <TableDataCard title={"Top 10 User Contexts"}
+        <TableDataCard title={"Top 10 用户操作次数"}
                        onRowClick={handleUserContextClick}
                        tableHead={
                            <TableHead>
                                <TableRow>
-                                   <MythicTableCell>{"User"}</MythicTableCell>
-                                   <MythicTableCell>{"Tasks"}</MythicTableCell>
+                                   <MythicTableCell>{"用户"}</MythicTableCell>
+                                   <MythicTableCell>{"次数"}</MythicTableCell>
                                </TableRow>
                            </TableHead>
                        }
@@ -641,12 +641,12 @@ const Top10HostContextsDashboardElement = ({me, data, editing, removeElement}) =
         setTaskedHosts(taskedHostOptions);
     }, [data]);
     return (
-        <TableDataCard title={"Top 10 Active Hosts"}
+        <TableDataCard title={"Top 10 运行命令的主机"}
                        tableHead={
                            <TableHead>
                                <TableRow>
-                                   <MythicTableCell>{"Host"}</MythicTableCell>
-                                   <MythicTableCell>{"Tasks"}</MythicTableCell>
+                                   <MythicTableCell>{"主机"}</MythicTableCell>
+                                   <MythicTableCell>{"次数"}</MythicTableCell>
                                </TableRow>
                            </TableHead>
                        }
@@ -728,12 +728,12 @@ const Top10RecentPayloadsDashboardElement = ({me, data, editing, removeElement})
     }
     return (
         <>
-            <TableDataCard title={"Recently Created Payloads"}
+            <TableDataCard title={"最近创建的载荷"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
-                                       <MythicTableCell>{"Payload"}</MythicTableCell>
-                                       <MythicTableCell>{"Actions"}</MythicTableCell>
+                                       <MythicTableCell>{"载荷"}</MythicTableCell>
+                                       <MythicTableCell>{"操作"}</MythicTableCell>
                                    </TableRow>
                                </TableHead>
                            }
@@ -817,7 +817,7 @@ const Top10RecentWorkflowsDashboardElement = ({me, data, editing, removeElement}
                 borderRadius: "4px",
             }} >
                 <h3 style={{marginTop: 0, marginLeft: "5px", marginBottom: 0, paddingBottom: 0}}>
-                    {"No Workflows Created"}
+                    {"未创建工作流"}
                 </h3>
                 <div style={{height: 200, overflowY: "auto"}}>
                     <div style={{
@@ -830,7 +830,7 @@ const Top10RecentWorkflowsDashboardElement = ({me, data, editing, removeElement}
                                 onClick={() => setOpenNewWorkflowModal(true)}
                                 style={{marginRight: "20px", float: "right"}}
                                 startIcon={<AddCircleIcon color="success" style={{backgroundColor: "white", borderRadius: "10px"}}/>} >
-                            Create a Workflow
+                            创建工作流程
                         </Button>
                     </div>
                     {openNewWorkflowModal &&
@@ -851,12 +851,12 @@ const Top10RecentWorkflowsDashboardElement = ({me, data, editing, removeElement}
     }
     return (
         <>
-            <TableDataCard title={"Workflow Executions"}
+            <TableDataCard title={"工作流执行"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
-                                       <MythicTableCell>{"Workflow"}</MythicTableCell>
-                                       <MythicTableCell>{"Status"}</MythicTableCell>
+                                       <MythicTableCell>{"工作流"}</MythicTableCell>
+                                       <MythicTableCell>{"状态"}</MythicTableCell>
                                    </TableRow>
                                </TableHead>
                            }
@@ -874,7 +874,7 @@ const Top10RecentWorkflowsDashboardElement = ({me, data, editing, removeElement}
                            editing={editing}
                            removeElement={removeElement}
                            customizeElement={
-                               <MythicStyledTooltip title={"Create new Workflow"}>
+                               <MythicStyledTooltip title={"创建新工作流"}>
                                    <IconButton style={{padding: 0}} size={"small"} onClick={() => setOpenNewWorkflowModal(true)}>
                                        <AddCircleIcon color="success" style={{backgroundColor: "white", borderRadius: "10px"}}/>
                                    </IconButton>
@@ -1018,7 +1018,7 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
                 {p.name}
                 </>,
                 value: <>
-                    {p.id === me.user.current_operation_id ? ("Current Operation") : (
+                    {p.id === me.user.current_operation_id ? ("当前操作") : (
                         <React.Fragment>
                             <Button size="small" startIcon={<PlayArrowIcon/>}
                                     onClick={()=>makeCurrentOperation(p)}
@@ -1072,7 +1072,7 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
                             open={openNewOperation}
                             onClose={() => {setOpenNewOperationDialog(false);}}
                             innerDialog={
-                                <MythicModifyStringDialog title={"New Operation's Name"}
+                                <MythicModifyStringDialog title={"新组织名称"}
                                                           onClose={() => {setOpenNewOperationDialog(false);}}
                                                           value={""}
                                                           onSubmit={onSubmitNewOperation}
@@ -1086,14 +1086,14 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
     }
     return (
         <>
-            <TableDataCard title={"Ongoing Operations"}
+            <TableDataCard title={"日常运作"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
-                                       <MythicTableCell>{"Operation"}</MythicTableCell>
-                                       <MythicTableCell>{"Configure"}</MythicTableCell>
-                                       <MythicTableCell>{"Operators"}</MythicTableCell>
-                                       <MythicTableCell>{"Status"}</MythicTableCell>
+                                       <MythicTableCell>{"组织"}</MythicTableCell>
+                                       <MythicTableCell>{"配置"}</MythicTableCell>
+                                       <MythicTableCell>{"操作员"}</MythicTableCell>
+                                       <MythicTableCell>{"状态"}</MythicTableCell>
                                    </TableRow>
                                </TableHead>
                            }
@@ -1146,7 +1146,7 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
                     open={openNewOperation}
                     onClose={() => {setOpenNewOperationDialog(false);}}
                     innerDialog={
-                        <MythicModifyStringDialog title={"New Operation's Name"}
+                        <MythicModifyStringDialog title={"新组织名称"}
                                                   onClose={() => {setOpenNewOperationDialog(false);}}
                                                   value={""}
                                                   onSubmit={onSubmitNewOperation}
@@ -1233,7 +1233,7 @@ const Top10CommandStatsDashboardElement = ({me, data, editing, removeElement}) =
     }, [data]);
     return (
         <PieChartCard data={commands} onClick={handleErrorTaskClick}
-            title={"Top 10 Command Stats"} hidden={false}
+            title={"Top 10 使用的命令"} hidden={false}
                            editing={editing}
                            removeElement={removeElement}
             />
@@ -1270,7 +1270,7 @@ const OperatorActivityDashboardElement = ({me, data, editing, removeElement}) =>
     }, [data]);
     return (
         <PieChartCard data={operators}
-                      title={"Operator Activity"}
+                      title={"用户操作次数"}
                       hidden={false}
                       editing={editing}
                       removeElement={removeElement}
@@ -1308,7 +1308,7 @@ const TaskStatusDashboardElement = ({me, data, editing, removeElement}) => {
     }, [data]);
     return (
         <PieChartCard data={taskSuccessRate}
-                      title={"Task Status"}
+                      title={"任务状态"}
                       hidden={false}
                       editing={editing}
                       removeElement={removeElement}
@@ -1458,12 +1458,12 @@ const Top10RecentFileDownloadsDashboardElement = ({me, data, editing, removeElem
     }, [data]);
     return (
         <>
-            <TableDataCard title={"Recently Downloaded Files"}
+            <TableDataCard title={"最近下载的文件"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
-                                       <MythicTableCell>{"Host"}</MythicTableCell>
-                                       <MythicTableCell>{"File"}</MythicTableCell>
+                                       <MythicTableCell>{"主机"}</MythicTableCell>
+                                       <MythicTableCell>{"文件"}</MythicTableCell>
                                    </TableRow>
                                </TableHead>
                            }
@@ -1519,7 +1519,7 @@ const Top10RecentScreenshotsDashboardElement = ({me, data, editing, removeElemen
     }, [data]);
     return (
         <>
-            <TableDataCard title={"Recent Screenshots"}
+            <TableDataCard title={"最近的截图"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
@@ -1592,7 +1592,7 @@ const Top10RecentTasksDashboardElement = ({me, data, editing, removeElement}) =>
     }, [data]);
     return (
         <>
-            <TableDataCard title={"Recent Tasking"}
+            <TableDataCard title={"最近的命令"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
@@ -1643,12 +1643,12 @@ const Top10RecentCredentialsDashboardElement = ({me, data, editing, removeElemen
     }
     return (
         <>
-            <TableDataCard title={"Recent Credentials"}
+            <TableDataCard title={"最近的证书"}
                            tableHead={
                                <TableHead>
                                    <TableRow>
-                                       <MythicTableCell>Account</MythicTableCell>
-                                       <MythicTableCell>Comment</MythicTableCell>
+                                       <MythicTableCell>账户</MythicTableCell>
+                                       <MythicTableCell>注释</MythicTableCell>
                                    </TableRow>
                                </TableHead>
                            }
@@ -1999,10 +1999,10 @@ export function CallbacksCard({me}) {
             }}
             >
                 <Typography variant="h5" style={{textAlign: "left", display: "inline-block", marginLeft: "10px"}}>
-                    Welcome <b>{me.user.username}</b>
+                    欢迎 <b>{me.user.username}</b>
                     {me.user.current_operation_id === 0 ? null : (
                         <>
-                        {" to"} <b>{me.user.current_operation}</b>'s Dashboard
+                        {" 到"} <b>{me.user.current_operation}</b>的仪表板
                         </>
                     )}
 

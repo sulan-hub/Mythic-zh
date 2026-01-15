@@ -160,12 +160,12 @@ export function OperationTableRow(props){
                 <Button size="small" startIcon={<AssessmentIcon/>}
                         onClick={() => {navigate("/new")}} color="primary"
                         disabled={me?.user?.current_operation_id !== props.id}
-                        variant="contained">Analysis</Button>
+                        variant="contained">分析</Button>
                 </TableCell>
                 <TableCell>
                     {props.id === me.user.current_operation_id ? ("Current Operation") : (
                       <React.Fragment>
-                        <Button size="small" startIcon={<PlayArrowIcon/>} onClick={makeCurrentOperation} color="info" variant="contained">Make Current</Button>
+                        <Button size="small" startIcon={<PlayArrowIcon/>} onClick={makeCurrentOperation} color="info" variant="contained">设为当前</Button>
                       </React.Fragment>
                     )}
                 </TableCell>

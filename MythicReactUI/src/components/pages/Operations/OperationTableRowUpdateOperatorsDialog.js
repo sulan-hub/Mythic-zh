@@ -205,7 +205,7 @@ export function OperationTableRowUpdateOperatorsDialog(props) {
     }
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Modify Operator Assignments</DialogTitle>
+        <DialogTitle id="form-dialog-title">修改操作符分配</DialogTitle>
         <DialogContent dividers={true}>
           <TableContainer className="mythicElement" style={{marginTop: "0px"}}>
               <Table stickyHeader={true} size="small" style={{"tableLayout": "fixed", "maxWidth": "calc(100vw)", "overflow": "scroll"}}>
