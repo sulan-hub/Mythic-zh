@@ -53,19 +53,19 @@ sudo ./mythic-cli install github https://github.com/MythicC2Profiles/http
 
 这使代理和 C2 配置文件可以更频繁地更新，并将 Mythic 核心组件与其余 Mythic 功能分离开来。
 
-## Updating
+## 更新
 
-Use the `./mythic-cli update` command to check for available updates across `mythic-cli`, `mythic_server`, and `mythic_react`'s UI. 
-This will _NOT_ do the update for you, but let you know if an update exists. To check for updates against a specific branch, use `./mythic-cli update -b [branch name]`.
+使用 `./mythic-cli update` 命令来检查 `mythic-cli`、`mythic_server` 和 `mythic_react` 用户界面是否有可用更新。
+这不会为你执行更新，但会让你知道是否存在更新。如需检查特定分支的更新，请使用 `./mythic-cli update -b [分支名称]`.
 
 
-## Mythic Docker Containers
+## Mythic Docker 容器
 <p align="left">
   <img src="https://img.shields.io/docker/v/itsafeaturemythic/mythic_go_base?color=green&label=Latest DockerHub Release&sort=semver" alt="latest docker versions"/> 
   <img src="https://img.shields.io/github/v/tag/MythicMeta/Mythic_Docker_Templates?include_prereleases&label=Latest GitHub Tag"/>
 </p>
 
-Mythic uses Docker and Docker-compose for all of its components, which allows Mythic to provide a wide range of components and features without having requirements exist on the host. However, it can be helpful to have insight into how the containers are configured. All of Mythic's docker containers are hosted on DockerHub under [itsafeaturemythic](https://hub.docker.com/search?q=itsafeaturemythic&type=image).
+Mythic 对其所有组件都使用 Docker 和 Docker-compose，这使得 Mythic 能够提供广泛的组件和功能，而无需在主机上有任何特定要求。然而，了解容器的配置方式可能会很有帮助。所有 Mythic 的 Docker 容器都托管在 DockerHub 上，链接为 [itsafeaturemythic](https://hub.docker.com/search?q=itsafeaturemythic&type=image)。
 
 - [mythic_go_base](https://hub.docker.com/repository/docker/itsafeaturemythic/mythic_go_base/general) - [Dockerfile](https://github.com/MythicMeta/Mythic_Docker_Templates/tree/master/mythic_go_base)
   - <img src="https://img.shields.io/docker/image-size/itsafeaturemythic/mythic_go_base/latest" alt="image size"/>
@@ -89,9 +89,9 @@ Mythic uses Docker and Docker-compose for all of its components, which allows My
   - <img src="https://img.shields.io/docker/image-size/itsafeaturemythic/mythic_python_go/latest" alt="image size"/>
   - <img src="https://img.shields.io/docker/pulls/itsafeaturemythic/mythic_python_go" alt="docker pull count"/>
 
-Additionally, Mythic uses a custom PyPi package (mythic_container) and a custom Golang package (https://github.com/MythicMeta/MythicContainer) to help control and sync information between all the containers as well as providing an easy way to script access to the server.
+此外，Mythic 使用了一个自定义的 PyPi 包（mythic_container）和一个自定义的 Golang 包（https://github.com/MythicMeta/MythicContainer）来帮助控制和同步所有容器之间的信息，同时提供了一种便捷的方法来编写访问服务器的脚本。
 
-Dockerfiles for each of these Docker images can be found on [MythicMeta](https://github.com/MythicMeta/Mythic_Docker_Templates).
+这些 Docker 镜像的 Dockerfile 可以在 [MythicMeta](https://github.com/MythicMeta/Mythic_Docker_Templates) 找到。
 
 ### mythic-container PyPi
 <p align="left">
