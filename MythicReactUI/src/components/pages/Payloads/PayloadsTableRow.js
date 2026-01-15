@@ -153,7 +153,7 @@ export function PayloadsTableRow(props){
     };
     const options = [
         {
-            name: "Rename File", type: "item",
+            name: "重命名文件", type: "item",
             icon: <DriveFileRenameOutlineIcon style={{marginRight: "10px"}}/>,
             click: ({event}) => {
                 event.preventDefault();
@@ -162,7 +162,7 @@ export function PayloadsTableRow(props){
             }
          },
          {
-             name: "Edit Description", type: "item",
+             name: "编辑注释", type: "item",
              icon: <DescriptionIcon color={"info"} style={{marginRight: "10px"}} />,
              click: ({event}) => {
                  event.preventDefault();
@@ -171,7 +171,7 @@ export function PayloadsTableRow(props){
             }
          },
         {
-            name: "View Payload Configuration", type: "item",
+            name: "查看配置", type: "item",
             icon: <InfoIconOutline color={"info"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
                 event.preventDefault();
@@ -180,7 +180,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Compare Payload Configuration", type: "item",
+            name: "比较配置", type: "item",
             icon: <DifferenceIcon color={"info"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
                 event.preventDefault();
@@ -189,7 +189,7 @@ export function PayloadsTableRow(props){
             }
         },
          {
-             name: props.callback_alert ? "Alerting to New Callbacks" : "Not Alerting to New Callbacks",
+             name: props.callback_alert ? "提醒新的会话" : "不提醒新会话",
              type: "item",
              icon: props.callback_alert ?
                  <VisibilityIcon color={"success"} style={{marginRight: "10px"}}  />:
@@ -201,7 +201,7 @@ export function PayloadsTableRow(props){
              }
         },
         {
-            name: props.callback_allowed ? "Allowing New Callbacks from this Payload" : "Preventing New Callbacks from this Payload",
+            name: props.callback_allowed ? "允许此载荷有新会话" : "不允许此载荷有新的会话",
             type: "item",
             icon: props.callback_allowed ?
                 <VisibilityIcon color={"success"} style={{marginRight: "10px"}}  /> :
@@ -213,7 +213,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "View Build Message/Stdout",
+            name: "查看构建消息/标准输出",
             type: "item",
             icon: <MessageIcon style={{marginRight: "10px"}}  />,
             click: ({event}) => {
@@ -224,7 +224,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "View Build Errors",
+            name: "查看构建错误消息",
             type: "item",
             icon: <ErrorIcon color={"error"} style={{marginRight: "10px"}}  />,
             click: ({event}) => {
@@ -235,7 +235,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Trigger New Build",
+            name: "触发新构建",
             type: "item",
             icon: <CachedIcon color={"success"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -245,7 +245,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Trigger New Build With Edits",
+            name: "触发新构建并编辑",
             type: "item",
             icon: <CachedIcon color={"success"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -255,7 +255,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Export Payload Config",
+            name: "导出载荷配置",
             type: "item",
             icon: <IosShareIcon color={"info"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -265,7 +265,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Generate Redirect Rules",
+            name: "生成重定向规则",
             type: "item",
             icon: <PhoneMissedIcon style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -275,7 +275,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Check Agent C2 Configuration",
+            name: "检查代理 C2 配置",
             type: "item",
             icon: <VerifiedIcon style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -285,7 +285,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Generate IOCs",
+            name: "生成 IOC",
             type: "item",
             icon: <FingerprintIcon style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -295,7 +295,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Generate Sample Message",
+            name: "生成示例消息",
             type: "item",
             icon: <BiotechIcon style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -305,7 +305,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: "Generate Fake Callback",
+            name: "生成假会话",
             type: "item",
             icon: <AddIcCallIcon color={"success"} style={{marginRight: "10px"}} />,
             click: ({event}) => {
@@ -315,7 +315,7 @@ export function PayloadsTableRow(props){
             }
         },
         {
-            name: props.deleted ? "Restore Payload" : "Delete the Payload from Disk",
+            name: props.deleted ? "恢复载荷" : "从磁盘删除载荷",
             type: "item",
             icon: props.deleted ? <RestoreFromTrashIcon color={"success"} style={{marginRight: "10px"}} /> :
                     <DeleteIcon color={"error"} style={{marginRight: "10px"}}/>,
@@ -352,7 +352,7 @@ export function PayloadsTableRow(props){
             <TableRow key={"payload" + props.uuid} hover>
                 <MythicStyledTableCell>
                     <Button size="small" onClick={openMenu} >
-                        Actions <ArrowDropDownIcon />
+                        操作 <ArrowDropDownIcon />
                     </Button>
                 {openUpdate &&
                     <ClickAwayListener onClickAway={handleClose} mouseEvent={"onMouseDown"}>
