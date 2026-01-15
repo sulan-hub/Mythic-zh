@@ -155,11 +155,11 @@ export function CallbacksTabsTaskingFilterDialog(props) {
   }
   return (
     <Root>
-        <DialogTitle id="form-dialog-title">Filter Which Tasks Are Visible in this Callback</DialogTitle>
+        <DialogTitle id="form-dialog-title">过滤该回连中可见的任务</DialogTitle>
         <DialogContent dividers={true} style={{overflow: "hidden"}}>
             <React.Fragment>
                 <FormControl className={classes.formControl}>
-                <InputLabel id="operator-chip-label">Only Show Tasks by the Following Operators</InputLabel>
+                <InputLabel id="operator-chip-label">仅显示以下操作员的任务</InputLabel>
                 <Select
                   labelId="operator-chip-label"
                   multiple
@@ -184,11 +184,11 @@ export function CallbacksTabsTaskingFilterDialog(props) {
                   ))}
                 </Select>
               </FormControl>
-                Only Show Tasks with Comments: <Switch checked={onlyHasComments} onChange={handleCommentsChange} color="primary" name="Only Comments" inputProps={{'aria-label': 'primary checkbox'}}/>
+                仅带注释显示任务: <Switch checked={onlyHasComments} onChange={handleCommentsChange} color="primary" name="Only Comments" inputProps={{'aria-label': 'primary checkbox'}}/>
                 <br/>
-              Hide Error Tasks:<Switch checked={hideErrors} onChange={handleHideErrorsChange} color="primary" name="Hide Errors" inputProps={{'aria-label': 'primary checkbox'}}/>
+              隐藏错误任务:<Switch checked={hideErrors} onChange={handleHideErrorsChange} color="primary" name="Hide Errors" inputProps={{'aria-label': 'primary checkbox'}}/>
               <FormControl className={classes.formControl}>
-                  <InputLabel id="include-chip-label">Only Show These Commands</InputLabel>
+                  <InputLabel id="include-chip-label">只显示这些命令</InputLabel>
                   <Select
                     labelId="include-chip-label"
                     multiple
@@ -217,7 +217,7 @@ export function CallbacksTabsTaskingFilterDialog(props) {
                   <Button onClick={clearAllOnlyCommands} variant={"contained"}>Clear</Button>
               }
                 <FormControl className={classes.formControl}>
-                  <InputLabel id="exclude-chip-label">Do Not Show These Commands</InputLabel>
+                  <InputLabel id="exclude-chip-label">不显示这些命令</InputLabel>
                   <Select
                     labelId="exclude-chip-label"
                     multiple
@@ -245,15 +245,15 @@ export function CallbacksTabsTaskingFilterDialog(props) {
               {everythingBut.length > 0 &&
                   <Button onClick={clearAllEverythingBut} variant={"contained"}>Clear</Button>
               }
-                <MythicTextField value={onlyParameters} onChange={onChange} name="Only Show Tasks with the Following Parameter Regex"/>
+                <MythicTextField value={onlyParameters} onChange={onChange} name="仅显示符合以下参数正则表达式的任务"/>
             </React.Fragment>
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" >
-            Close
+            取消
           </Button>
           <Button onClick={onSubmit} color="success" variant="contained" >
-            Filter
+            过滤
           </Button>
         </DialogActions>
   </Root>

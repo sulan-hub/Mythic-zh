@@ -22,7 +22,7 @@ import Divider from '@mui/material/Divider';
 import {b64DecodeUnicode} from './ResponseDisplay';
 import {snackActions} from "../../utilities/Snackbar";
 
-//if we need to get all the loaded commands for the callback and filter, use this
+// 如果需要获取回调的所有已加载命令并进行筛选，使用此查询
 const GetLoadedCommandsQuery = gql`
 query GetLoadedCommandsQuery($callback_id: Int!) {
   loadedcommands(where: {callback_id: {_eq: $callback_id}}) {
@@ -35,7 +35,7 @@ query GetLoadedCommandsQuery($callback_id: Int!) {
   }
 }
 `;
-//if we need to get all the possible commands for a payload type and filter, use this
+// 如果需要获取特定载荷类型的所有可能命令并进行筛选，使用此查询
 const getAllCommandsQuery = gql`
 query getAllCommandsQuery($payload_type_id: Int!){
     command(where: {payload_type_id: {_eq: $payload_type_id}, deleted: {_eq: false}}) {
@@ -45,7 +45,7 @@ query getAllCommandsQuery($payload_type_id: Int!){
     }
 }
 `;
-//if we need to get all the possible edges for the callback, use this
+// 如果需要获取回调的所有可能边，使用此查询
 const getAllEdgesQuery = gql`
 query getAllEdgesQuery($callback_id: Int!){
     callbackgraphedge(where: {_or: [{source_id:{_eq: $callback_id}}, {destination_id: {_eq: $callback_id}}]}) {
@@ -102,7 +102,7 @@ query getAllEdgesQuery($callback_id: Int!){
       }
     }
 `;
-// get all payloads query
+// 获取所有载荷的查询
 const getAllPayloadsQuery = gql`
 query getAllPayloadsQuery($operation_id: Int!){
     payload(where: {deleted: {_eq: false}, build_phase: {_eq: "success"}, operation_id: {_eq: $operation_id}}, order_by: {id: desc}) {
@@ -138,7 +138,7 @@ query getAllPayloadsQuery($operation_id: Int!){
   }
 }
 `;
-// get all payloads on hosts
+// 获取主机上所有载荷的查询
 const getAllPayloadsOnHostsQuery = gql`
 query getAllPayloadsOnHostsQuery($operation_id: Int!){
     payloadonhost(where: {deleted: {_eq: false}, operation_id: {_eq: $operation_id}, payload: {c2profileparametersinstances: {c2profile: {is_p2p: {_eq: true}}}}}, order_by: {id: desc}) {
@@ -206,7 +206,7 @@ query getAllPayloadsOnHostsQuery($operation_id: Int!){
     }
 }
 `;
-// use this to add a payload on a host
+// 用于在主机上添加载荷的变更
 const addPayloadOnHostMutation = gql`
     mutation addPayloadOnHostMutation($host: String!, $payload_id: Int!){
         insert_payloadonhost_one(object: {host: $host, payload_id: $payload_id}) {
@@ -214,7 +214,7 @@ const addPayloadOnHostMutation = gql`
           }
     }
 `;
-// use this to remove a payload on a host
+// 用于从主机移除载荷的变更
 const removePayloadOnHostMutation = gql`
     mutation removePayloadOnHostMutation($payload_id: Int!, $host: String!, $operation_id: Int!){
         update_payloadonhost(where: {host: {_eq: $host}, payload_id: {_eq: $payload_id}, operation_id: {_eq: $operation_id}}, _set: {deleted: true}) {
@@ -222,7 +222,7 @@ const removePayloadOnHostMutation = gql`
           }
     }
 `;
-// use this to get all the parameters and information for the command we're trying to execute
+// 用于获取要执行的命令的所有参数和信息的查询
 const getCommandQuery = gql`
 query getCommandQuery($id: Int!){
   command_by_pk(id: $id) {
@@ -261,7 +261,7 @@ query getCommandQuery($id: Int!){
   }
 }
 `;
-// use this to get all the credentials for the command we're trying to execute
+// 用于获取要执行的命令的所有凭据的查询
 const getCredentialsQuery = gql`
 query getCredentialsQuery($operation_id: Int!){
     credential(where: {deleted: {_eq: false}, operation_id: {_eq: $operation_id}}, order_by: {id: desc}){
@@ -295,7 +295,7 @@ export function TaskParametersDialog(props) {
     const [parameters, setParameters] = useState([]);
     const [rawParameters, setRawParameters] = useState(false);
     const [requiredPieces, setRequiredPieces] = useState({all: false, loaded: false, edges: false, credentials: false});
-    //get all the data about our command that we can
+    // 获取我们命令的所有可能数据
     const [getAllCommands, { data: allCommandsLoading}] = useLazyQuery(getAllCommandsQuery, {
         fetchPolicy: "no-cache"
     });
@@ -317,13 +317,13 @@ export function TaskParametersDialog(props) {
     const [addPayloadOnHost] = useMutation(addPayloadOnHostMutation, {
         onCompleted: data => {
             if(data.insert_payloadonhost_one.id){
-                snackActions.success("Successfully tracked payload on host");
+                snackActions.success("成功跟踪主机上的载荷");
             }
             getAllPayloadsOnHosts({variables: {operation_id: props.operation_id}});
         },
         onError: data => {
-            console.log("failed to add payload on host", data);
-            snackActions.error("Failed to add payload on host: " + data.message);
+            console.log("添加主机载荷失败", data);
+            snackActions.error("添加主机载荷失败: " + data.message);
         }
     });
     const [RemovePayloadOnHost] = useMutation(removePayloadOnHostMutation, {
@@ -331,8 +331,8 @@ export function TaskParametersDialog(props) {
             getAllPayloadsOnHosts({variables: {operation_id: props.operation_id}})
         },
         onError: data => {
-            console.log("failed to remove payload from host", data);
-            snackActions.error("Failed to remove payload from host: " + data.message);
+            console.log("从主机移除载荷失败", data);
+            snackActions.error("从主机移除载荷失败: " + data.message);
         }
     });
     const [submenuOpenPreventTask, setSubmenuOpenPreventTask] = React.useState(false);
@@ -340,7 +340,7 @@ export function TaskParametersDialog(props) {
         variables: {id: props.command.id},
         fetchPolicy: "no-cache",
         onCompleted: data => {
-            // do an initial pass to see what other quries we need to make
+            // 进行初始检查以查看需要哪些其他查询
             let requiredPiecesInitial = {all: false, loaded: false, edges: false, credentials: false};
             let groupNames = [];
             data.command_by_pk.commandparameters.forEach( (cmd) => {
@@ -355,7 +355,7 @@ export function TaskParametersDialog(props) {
                     requiredPiecesInitial["loaded"] = true;
                 }else if(cmd.type === "AgentConnect"){
                     requiredPiecesInitial["connect"] = true;
-                    //need payloads as well in case the user wants to add a payload to a host
+                    // 如果需要，用户可能希望向主机添加载荷
                     requiredPiecesInitial["payloads"] = true;
                 }else if(cmd.type === "PayloadList"){
                     requiredPiecesInitial["payloads"] = true;
@@ -441,7 +441,7 @@ export function TaskParametersDialog(props) {
                        (!requiredPieces["payloads"] || loadedAllPayloadsLoading) && 
                        (!requiredPieces["connect"] || loadedAllPayloadsOnHostsLoading) &&
                        (!requiredPieces["credentials"] || loadedCredentialsLoading) ){
-            //only process the parameter once we have fetched all the required pieces
+            // 只有在获取了所有必需部分后才处理参数
             const params = rawParameters.command_by_pk.commandparameters.reduce( (prev, cmd) => {
                 if(cmd.parameter_group_name !== selectedParameterGroup){
                     return [...prev];
@@ -510,7 +510,7 @@ export function TaskParametersDialog(props) {
                         }
                         let filter = cmd.choice_filter_by_command_attributes;
                         if(cmd.choices_are_all_commands){
-                            //get all of the latest commands
+                            // 获取所有最新的命令
                             choices = [...allCommandsLoading.command];
                             choices = choices.reduce( (prevn, c) => {
                                 let match = true;
@@ -542,7 +542,7 @@ export function TaskParametersDialog(props) {
                                 else{defaultV = choices[0];}
                             }
                         }else if(cmd.choices_are_loaded_commands){
-                            //get all of the loaded commands
+                            // 获取所有已加载的命令
                             choices = [...loadedCommandsLoading.loadedcommands];
                             choices = choices.reduce( (prevn, c) => {
                                 let match = true;
@@ -632,7 +632,7 @@ export function TaskParametersDialog(props) {
                                     const c2info = entry.c2profileparametersinstances.reduce( (prevn, cur) => {
                                     const val = !cur.c2profileparameter.crypto_type ? cur.value : {crypto_type: cur.value, enc_key: cur.enc_key_base64, dec_key: cur.dec_key_base64};
                                         if(cur.c2profile.name in prevn){
-                                            //we just want to add a new entry to the c2profile.name list
+                                            // 我们只想向 c2profile.name 列表添加一个新条目
                                             
                                             return {...prevn, [cur.c2profile.name]: [...prevn[cur.c2profile.name], { name: cur.c2profileparameter.name, value:  val } ] }
                                     }else{
@@ -643,7 +643,7 @@ export function TaskParametersDialog(props) {
                                     for( const [key, value] of Object.entries(c2info)){
                                         c2array.push({name: key, parameters: value});
                                     }
-                                    const payloadInfo = {...entry.registered_payload, c2info: c2array, display: "Callback " + entry.display_id + " - " + entry.description, ...entry, type: "callback", payloadOnHostID:null};
+                                    const payloadInfo = {...entry.registered_payload, c2info: c2array, display: "回调 " + entry.display_id + " - " + entry.description, ...entry, type: "callback", payloadOnHostID:null};
                                     return {...host, payloads: [...host.payloads, payloadInfo]}
                                 }else{
                                     return host;
@@ -653,7 +653,7 @@ export function TaskParametersDialog(props) {
                                 const c2info = entry.c2profileparametersinstances.reduce( (prevn, cur) => {
                                 const val = !cur.c2profileparameter.crypto_type ? cur.value : {crypto_type: cur.value, enc_key: cur.enc_key_base64, dec_key: cur.dec_key_base64};
                                     if(cur.c2profile.name in prevn){
-                                        //we just want to add a new entry to the c2profile.name list
+                                        // 我们只想向 c2profile.name 列表添加一个新条目
                                             
                                         return {...prevn, [cur.c2profile.name]: [...prevn[cur.c2profile.name], { name: cur.c2profileparameter.name, value:  val } ] }
                                     }else{
@@ -664,7 +664,7 @@ export function TaskParametersDialog(props) {
                                 for( const [key, value] of Object.entries(c2info)){
                                     c2array.push({name: key, parameters: value});
                                 }
-                                const payloadInfo = {...entry.registered_payload, c2info: c2array, display: "Callback " + entry.display_id + " - " + entry.description, ...entry, type: "callback", payloadOnHostID:null};
+                                const payloadInfo = {...entry.registered_payload, c2info: c2array, display: "回调 " + entry.display_id + " - " + entry.description, ...entry, type: "callback", payloadOnHostID:null};
                                 return [...prevn, {host: entry.host, payloads: [payloadInfo] } ]
                             }else{
                                 return updates;
@@ -675,19 +675,19 @@ export function TaskParametersDialog(props) {
                             const updates = prevn.map( (host) => {
                                 if(host.host === entry.host){
                                     found = true;
-                                    // need to check for entries that exist within host.payload but not loadedAllPayloadsOnHostsLoading.payloadonhost
-                                        // this would mean that the payload was deleted
-                                    //now we need to merge this entry with our current payloads/callbacks for the host
+                                    // 需要检查存在于 host.payload 中但不在 loadedAllPayloadsOnHostsLoading.payloadonhost 中的条目
+                                        // 这意味着载荷已被删除
+                                    // 现在我们需要将此条目与主机的当前载荷/回调合并
                                     let duplicated_payload = false;
                                     host.payloads.forEach( (p) => {
                                         if(p.id === entry.payload.id){duplicated_payload = true}
                                     });
                                     if(duplicated_payload){return host}
-                                    // what was fetched doesn't exist in the current list
+                                    // 获取的内容不存在于当前列表中
                                     const c2info = entry.payload.c2profileparametersinstances.reduce( (prevn, cur) => {
                                         const val = !cur.c2profileparameter.crypto_type ? cur.value : {crypto_type: cur.value, enc_key: cur.enc_key_base64, dec_key: cur.dec_key_base64};
                                             if(cur.c2profile.name in prevn){
-                                                //we just want to add a new entry to the c2profile.name list
+                                                // 我们只想向 c2profile.name 列表添加一个新条目
 
                                                 return {...prevn, [cur.c2profile.name]: [...prevn[cur.c2profile.name], { name: cur.c2profileparameter.name, value:  val } ] }
                                         }else{
@@ -710,16 +710,16 @@ export function TaskParametersDialog(props) {
                                             }
                                         })}
                                 }else{
-                                    //this doesn't match our host, so don't modify
+                                    // 这与我们的主机不匹配，所以不修改
                                     return host; 
                                 }
                             });
                             if(!found){
-                                // did even find the host, so add a new host entry
+                                // 甚至没有找到主机，所以添加新的主机条目
                                 const c2info = entry.payload.c2profileparametersinstances.reduce( (prevn, cur) => {
                                     const val = !cur.c2profileparameter.crypto_type ? cur.value : {crypto_type: cur.value, enc_key: cur.enc_key_base64, dec_key: cur.dec_key_base64};
                                     if(cur.c2profile.name in prevn){
-                                        //we just want to add a new entry to the c2profile.name list
+                                        // 我们只想向 c2profile.name 列表添加一个新条目
                                         
                                         return {...prevn, [cur.c2profile.name]: [...prevn[cur.c2profile.name], { name: cur.c2profileparameter.name, value:  val } ] }
                                     }else{
@@ -739,13 +739,13 @@ export function TaskParametersDialog(props) {
                                 return updates;
                             }
                         }, []);
-                        // callbacksOrganized has all the information for active callbacks to link to
-                        // organized has all the information for payloads on hosts to link to
-                        // need to merge the two
+                        // callbacksOrganized 包含所有可链接的活跃回调信息
+                        // organized 包含所有可链接的主机上载荷信息
+                        // 需要合并两者
                         const allOrganized = callbacksOrganized.reduce( (prevn, cur) => {
                             let hostIndex = prevn.findIndex(o => o.host === cur.host);
                             if(hostIndex > -1){
-                                // need to add cur.payloads to the prev[hostIndex].payloads list
+                                // 需要将 cur.payloads 添加到 prev[hostIndex].payloads 列表中
                                 prevn[hostIndex].payloads = [...prevn[hostIndex].payloads, ...cur.payloads];
                                 return [...prevn];
                             }else{
@@ -765,7 +765,7 @@ export function TaskParametersDialog(props) {
                             if(supported_agents.length > 0 && !supported_agents.includes(payload.payloadtype.name)){return prevn};
                             let matched = true;
                             if(payload.payloadtype.name in build_requirements){
-                                //this means we have a filtering condition on our payload
+                                // 这意味着我们的载荷有一个过滤条件
                                 for(const [key, value] of Object.entries(build_requirements[payload.payloadtype.name])){
                                     payload.buildparameterinstances.forEach( (build_param) => {
                                         if(build_param.buildparameter.name === key){
@@ -789,7 +789,7 @@ export function TaskParametersDialog(props) {
                             let bTimestamp = new Date(b.filemetum.timestamp);
                             return aTimestamp < bTimestamp ? 1 : -1;
                         });
-                        //now filter the payloads based on supported_agents and supported_agent_build_parameters
+                        // 现在根据 supported_agents 和 supported_agent_build_parameters 筛选载荷
                         if(payloads.length > 0){
                             return [...prev, {...cmd, choices: payloads, default_value: payloads[0].uuid, value: payloads[0].uuid}];
                         }else{
@@ -799,14 +799,14 @@ export function TaskParametersDialog(props) {
                         const edge_active_choices = loadedAllEdgesLoading.callbackgraphedge.reduce( (prevn, edge) => {
                             if(edge.source.id === edge.destination.id) {return prevn}
                             if(edge.end_timestamp === null){
-                                return [...prevn, {...edge, display: "Callback " + edge.source.display_id + " --" + edge.c2profile.name + "--> Callback " + edge.destination.display_id + (edge.end_timestamp === null? "(Active)" : "(Dead at " + edge.end_timestamp + ")")}];
+                                return [...prevn, {...edge, display: "回调 " + edge.source.display_id + " --" + edge.c2profile.name + "--> 回调 " + edge.destination.display_id + (edge.end_timestamp === null? "(活跃)" : "(已失效于 " + edge.end_timestamp + ")")}];
                             }
                             return prevn;
                         }, []);
                         const edge_dead_choices = loadedAllEdgesLoading.callbackgraphedge.reduce( (prevn, edge) => {
                             if(edge.source.id === edge.destination.id) {return prevn}
                             if(edge.end_timestamp !== null){
-                                return [...prevn, {...edge, display: "Callback " + edge.source.display_id + " --" + edge.c2profile.name + "--> Callback " + edge.destination.display_id + (edge.end_timestamp === null? "(Active)" : "(Dead at " + edge.end_timestamp + ")")}];
+                                return [...prevn, {...edge, display: "回调 " + edge.source.display_id + " --" + edge.c2profile.name + "--> 回调 " + edge.destination.display_id + (edge.end_timestamp === null? "(活跃)" : "(已失效于 " + edge.end_timestamp + ")")}];
                             }
                             return prevn;
                         }, []);
@@ -824,7 +824,7 @@ export function TaskParametersDialog(props) {
             if(sorted.length > 0){
                 sorted[0]["autoFocus"] = true;
             }
-            // go through to set matching values between old and new
+            // 遍历以设置新旧值之间的匹配
             for(let i = 0; i < sorted.length; i++){
                 for(let j = 0; j < parameters.length; j++){
                     if(sorted[i].name === parameters[j].name){
@@ -856,13 +856,13 @@ export function TaskParametersDialog(props) {
                     break;
                 case "AgentConnect":
                     if (Object.keys(param.value).length === 0){
-                        snackActions.warning("No connection info specified")
+                        snackActions.warning("未指定连接信息")
                         return
                     }
                     collapsedParameters[param.name] = param.value;
                     break
                 case "File":
-                    const newUUID = await UploadTaskFile(param.value, "Uploaded as part of tasking");
+                    const newUUID = await UploadTaskFile(param.value, "作为任务的一部分上传");
                     if(newUUID){
                         if(newUUID !== "Missing file in form"){
                             newFileUUIDs.push(newUUID);
@@ -879,16 +879,16 @@ export function TaskParametersDialog(props) {
                             fileIDs.push(param.value[i]);
                             continue
                         }
-                        const newUUID = await UploadTaskFile(param.value[i], "Uploaded as part of tasking");
+                        const newUUID = await UploadTaskFile(param.value[i], "作为任务的一部分上传");
                         if(newUUID){
                             if(newUUID !== "Missing file in form"){
                                 newFileUUIDs.push(newUUID);
                                 fileIDs.push(newUUID);
                             } else {
-                                snackActions.warning("Failed to upload file");
+                                snackActions.warning("文件上传失败");
                             }
                         } else {
-                            snackActions.warning("Failed to upload file");
+                            snackActions.warning("文件上传失败");
                         }
                     }
                     collapsedParameters[param.name] = fileIDs;
@@ -903,7 +903,7 @@ export function TaskParametersDialog(props) {
                     };
                     break;
                 default:
-                    console.log("Unknown parameter type");
+                    console.log("未知参数类型");
             }
         }
         setBackdropOpen(false);
@@ -951,7 +951,7 @@ export function TaskParametersDialog(props) {
                     break;
                 case "AgentConnect":
                     if (Object.keys(param.value).length === 0){
-                        snackActions.warning("No connection info specified")
+                        snackActions.warning("未指定连接信息")
                         return
                     }
                     collapsedParameters[param.name] = param.value;
@@ -970,28 +970,28 @@ export function TaskParametersDialog(props) {
                     };
                     break;
                 default:
-                    console.log("Unknown parameter type");
+                    console.log("未知参数类型");
             }
         }
         return collapsedParameters;
     }
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">{commandInfo.cmd}'s Parameters</DialogTitle>
+        <DialogTitle id="form-dialog-title">{commandInfo.cmd} 的参数</DialogTitle>
         <DialogContent dividers={true}>
             <Backdrop open={backdropOpen} style={{zIndex: 2, position: "absolute"}}>
                 <CircularProgress color="inherit" />
             </Backdrop>
             <Typography component="div" >
-                <b>Description</b> <pre style={{margin:0, wordBreak: "break-word", overflow: "word-wrap", whiteSpace: "pre-wrap"}}>{commandInfo.description}</pre><br/>
+                <b>注释</b> <pre style={{margin:0, wordBreak: "break-word", overflow: "word-wrap", whiteSpace: "pre-wrap"}}>{commandInfo.description}</pre><br/>
                 <Divider />
-                <b>Requires Admin?</b><pre style={{margin:0}}>{commandInfo.needs_admin ? "True": "False"}</pre><br/>
+                <b>是否需要管理员权限？</b><pre style={{margin:0}}>{commandInfo.needs_admin ? "是": "否"}</pre><br/>
                 <Divider />
                 {parameterGroups.length > 1 &&
                     <FormControl style={{width: "100%", marginTop: "7px"}} >
                         <TextField
                             select
-                            label="Parameter Group"
+                            label="参数分组"
                             value={selectedParameterGroup}
                             onChange={onChangeParameterGroup}
                             
@@ -1011,8 +1011,8 @@ export function TaskParametersDialog(props) {
                 <Table size="small" style={{"tableLayout": "fixed", "maxWidth": "100%", "overflow": "scroll"}}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{width: "30%"}}>Parameter</TableCell>
-                            <TableCell>Value</TableCell>
+                            <TableCell style={{width: "30%"}}>参数</TableCell>
+                            <TableCell>内容</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -1034,13 +1034,12 @@ export function TaskParametersDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           <Button onClick={onSubmit} disabled={submenuOpenPreventTask} variant="contained" color="warning">
-            Task
+            任务
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

@@ -6,7 +6,7 @@ import {MythicStyledTooltip} from "../../MythicComponents/MythicStyledTooltip";
 
 export const ResponseDisplayDownload = (props) =>{
     const scrollContent = (node, isAppearing) => {
-        // only auto-scroll if you issued the task
+        // 只有当你下发了任务时才自动滚动
         document.getElementById(`scrolltotaskbottom${props.task.id}`)?.scrollIntoView({
             //behavior: "smooth",
             block: "end",
@@ -22,7 +22,7 @@ export const ResponseDisplayDownload = (props) =>{
         {props.download?.plaintext || ""}
       </pre>
       
-      <MythicStyledTooltip title={props?.download?.hoverText || "Download payload"} >
+      <MythicStyledTooltip title={props?.download?.hoverText || "下载文件"} >
         <Button variant={props.download?.variant || "contained"} component="a" target="_blank" color="primary" href={"/api/v1.4/files/download/" + props.download.agent_file_id} download
           startIcon={<GetAppIcon />}>
             {props.download?.name || ""}

@@ -38,10 +38,10 @@ export function DownloadHistoryDialog(props){
                   <TableHead>
                       <TableRow>
                           <TableCell style={{}}></TableCell>
-                          <TableCell style={{width: "15rem"}}>Time</TableCell>
-                          <TableCell style={{width: "5rem"}}>Task</TableCell>
-                          <TableCell style={{width: "5rem"}}>Callback</TableCell>
-                          <TableCell>Comment</TableCell>
+                          <TableCell style={{width: "15rem"}}>时间</TableCell>
+                          <TableCell style={{width: "5rem"}}>任务</TableCell>
+                          <TableCell style={{width: "5rem"}}>回连</TableCell>
+                          <TableCell>注释</TableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>
@@ -50,7 +50,7 @@ export function DownloadHistoryDialog(props){
                         <TableCell >
                             {hist.complete ? (
                                 <div style={{display: "inline-flex", alignItems: "center"}}>
-                                    <MythicStyledTooltip title={"Preview Media"}>
+                                    <MythicStyledTooltip title={"预览媒体文件"}>
                                         <FontAwesomeIcon icon={faPhotoVideo} style={{
                                             height: "25px", marginRight: "5px", position: "relative", cursor: "pointer", display: "inline-block"}}
                                                          onClick={(e) => onPreviewMedia(e, hist)} />
@@ -103,7 +103,7 @@ export function DownloadHistoryDialog(props){
           
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
     </React.Fragment>

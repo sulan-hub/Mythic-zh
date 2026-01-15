@@ -392,7 +392,7 @@ function CallbacksTablePreMemo(props){
                 disabled: true
             },
             {
-                name: "Interact", icon: defaultInteractIcon, click: ({event}) => {
+                name: "交互", icon: defaultInteractIcon, click: ({event}) => {
                     event.stopPropagation();
                     const tabType = interactType;
                     onOpenTab({
@@ -404,7 +404,7 @@ function CallbacksTablePreMemo(props){
                 }, type: "item"
             },
             {
-                name: "Edit Description and Color", icon: <EditIcon style={{paddingRight: "5px"}} />, click:({event}) => {
+                name: "编辑备注和颜色", icon: <EditIcon style={{paddingRight: "5px"}} />, click:({event}) => {
                     event.stopPropagation();
                     updateDescription({payload_description: rowDataStatic.payload.description,
                         callback_display_id: rowDataStatic.display_id,
@@ -414,13 +414,13 @@ function CallbacksTablePreMemo(props){
                 }, type: "item"
             },
             {
-                name: 'Hide Callback', icon: <VisibilityOffIcon color={"warning"} style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                name: '隐藏会话', icon: <VisibilityOffIcon color={"warning"} style={{paddingRight: "5px"}}/>, click: ({event}) => {
                     event.stopPropagation();
                     hideCallback({variables: {callback_display_id: rowDataStatic.display_id}});
                 }, type: "item"
             },
             {
-                name: "Exit Callback", icon: <FontAwesomeIcon icon={faSkullCrossbones} style={{color: theme.palette.error.main, cursor: "pointer", marginRight: "8px"}} />,
+                name: "退出会话", icon: <FontAwesomeIcon icon={faSkullCrossbones} style={{color: theme.palette.error.main, cursor: "pointer", marginRight: "8px"}} />,
                 click: ({event}) => {
                     taskingData.current = {
                         "parameters": "",
@@ -434,7 +434,7 @@ function CallbacksTablePreMemo(props){
                 }, type: "item"
             },
             {
-                name: rowDataStatic.locked ? 'Unlock (Locked by ' + rowDataStatic.locked_operator.username + ')' : 'Lock Callback',
+                name: rowDataStatic.locked ? 'Unlock (Locked by ' + rowDataStatic.locked_operator.username + ')' : '锁定会话',
                 icon: rowDataStatic.locked ? (<LockIcon color={"error"} style={{paddingRight: "5px"}}/>) : (<LockOpenIcon color={"success"} style={{paddingRight: "5px"}} />),
                 click: ({event}) => {
                     event.stopPropagation();
@@ -446,7 +446,7 @@ function CallbacksTablePreMemo(props){
                 }, type: "item"
             },
             {
-                name: rowDataStatic.trigger_on_checkin_after_time > 0 ? "Adjust Alert Trigger" : "Add New Alert Trigger",
+                name: rowDataStatic.trigger_on_checkin_after_time > 0 ? "调整触发器" : "新增触发器",
                 type: "item",
                 icon: rowDataStatic.trigger_on_checkin_after_time > 0 ? (<NotificationsOffTwoToneIcon color={"warning"} style={{paddingRight: "5px"}} />) : (<NotificationsActiveTwoToneIcon color={"success"} style={{paddingRight: "5px"}}/>),
                 click: ({event}) => {
@@ -455,10 +455,10 @@ function CallbacksTablePreMemo(props){
                 }
             },
             {
-                name: "Eventing", icon: <PlayCircleFilledTwoToneIcon />, click: (event) => {}, type: "menu",
+                name: "事件处理", icon: <PlayCircleFilledTwoToneIcon />, click: (event) => {}, type: "menu",
                 menuItems: [
                     {
-                        name: "Start Eventing Workflow", icon: <PlayCircleFilledTwoToneIcon style={{paddingRight: "5px"}} />,
+                        name: "启动事件工作流", icon: <PlayCircleFilledTwoToneIcon style={{paddingRight: "5px"}} />,
                         click: ({event}) => {
                             eventingDataRef.current = {
                                 name: "callback_id",
@@ -470,10 +470,10 @@ function CallbacksTablePreMemo(props){
                 ]
             },
             {
-                name: "Browsers", icon: null, click: () => {}, type: "menu",
+                name: "浏览会话", icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     {
-                        name: 'File Browser', icon: <FontAwesomeIcon icon={faFolderOpen} style={{color: theme.folderColor, cursor: "pointer", marginRight: "10px"}} />,
+                        name: '文件浏览器', icon: <FontAwesomeIcon icon={faFolderOpen} style={{color: theme.folderColor, cursor: "pointer", marginRight: "10px"}} />,
                         click: ({event}) => {
                             event.preventDefault();
                             event.stopPropagation();
@@ -487,7 +487,7 @@ function CallbacksTablePreMemo(props){
                         }
                     },
                     {
-                        name: 'Process Browser', icon: <AccountTreeIcon style={{paddingRight: "5px"}}/>,
+                        name: '进程浏览器', icon: <AccountTreeIcon style={{paddingRight: "5px"}}/>,
                         click: ({event}) => {
                             event.preventDefault();
                             event.stopPropagation();
@@ -503,7 +503,7 @@ function CallbacksTablePreMemo(props){
                     {
                         name: <div style={{display: "flex", flexDirection: "column", width: "100%"}}>
                             <Typography>
-                                {"Custom Agent Browsers:"}
+                                {"自定义代理浏览器:"}
                             </Typography>
                         </div>,
                         icon: null, click: ({event}) => {},
@@ -514,22 +514,22 @@ function CallbacksTablePreMemo(props){
                 ]
             },
             {
-                name: "Bulk Actions", icon: null, click: (event) => { }, type: "menu",
+                name: "批量操作", icon: null, click: (event) => { }, type: "menu",
                 menuItems: [
                     {
-                        name: "Hide Multiple", icon: <VisibilityOffIcon color={"warning"} style={{paddingRight: "5px"}}/>,
+                        name: "隐藏多个", icon: <VisibilityOffIcon color={"warning"} style={{paddingRight: "5px"}}/>,
                         click: ({event}) => {
                             setOpenHideMultipleDialog(true);
                         }
                     },
                     {
-                        name: "Task Multiple", icon: <FontAwesomeIcon icon={faList} style={{cursor: "pointer", marginRight: "10px"}} />,
+                        name: "多任务", icon: <FontAwesomeIcon icon={faList} style={{cursor: "pointer", marginRight: "10px"}} />,
                         click: ({event}) => {
                             setOpenTaskMultipleDialog({open: true, data: rowDataStatic});
                         }
                     },
                     {
-                        name: "Start Multiple Eventing Workflows", icon: <PlayCircleFilledTwoToneIcon style={{paddingRight: "5px"}}/>,
+                        name: "启动多个事件工作流", icon: <PlayCircleFilledTwoToneIcon style={{paddingRight: "5px"}}/>,
                         click: ({event}) => {
                             setOpenEventingMultipleDialog(true);
                         }
@@ -537,10 +537,10 @@ function CallbacksTablePreMemo(props){
                 ]
             },
             {
-                name: "Tasking Views", icon: null, click: () => {}, type: "menu",
+                name: "任务视图", icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     {
-                        name: 'Default Tasking', icon: <KeyboardIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: '默认排序', icon: <KeyboardIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             event.stopPropagation();
                             const tabType = "interact";
                             onOpenTab({
@@ -552,7 +552,7 @@ function CallbacksTablePreMemo(props){
                         }
                     },
                     {
-                        name: 'Split Tasking', icon: <VerticalSplitIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: '平分排序', icon: <VerticalSplitIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             event.stopPropagation();
                             const tabType = "interactSplit";
                             onOpenTab({
@@ -564,7 +564,7 @@ function CallbacksTablePreMemo(props){
                         }
                     },
                     {
-                        name: "Console View", icon: <TerminalIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: "控制台", icon: <TerminalIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             event.stopPropagation();
                             const tabType = "interactConsole";
                             onOpenTab({
@@ -576,7 +576,7 @@ function CallbacksTablePreMemo(props){
                         }
                     },
                     {
-                        name: "Expand Callback", icon: <OpenInNewIcon style={{paddingRight: "5px"}} />, click: ({event}) => {
+                        name: "展开会话", icon: <OpenInNewIcon style={{paddingRight: "5px"}} />, click: ({event}) => {
                             event.stopPropagation();
                             window.open("/new/callbacks/" + rowDataStatic.display_id, "_blank").focus();
                         }
@@ -584,22 +584,22 @@ function CallbacksTablePreMemo(props){
                 ]
             },
             {
-                name: "Metadata", icon: null, click: () => {}, type: "menu",
+                name: "会话数据", icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     {
-                        name: "Export Callback", icon: <ImportExportIcon style={{paddingRight: "5px"}} />, click: ({event}) => {
+                        name: "导出会话为json", icon: <ImportExportIcon style={{paddingRight: "5px"}} />, click: ({event}) => {
                             event.stopPropagation();
                             exportConfig({variables: {agent_callback_id: rowDataStatic.agent_callback_id}});
                         }
                     },
                     {
-                        name: "View Metadata", icon: <InfoIcon color={"info"} style={{paddingRight: "5px"}} />, click: ({event}) => {
+                        name: "查看会话数据", icon: <InfoIcon color={"info"} style={{paddingRight: "5px"}} />, click: ({event}) => {
                             event.stopPropagation();
                             metaDialog(rowDataStatic.id);
                         }
                     },
                     {
-                        name: "Modify Groupings", icon: <WidgetsIcon color={"info"} style={{paddingRight: "5px"}} />, click: ({event}) => {
+                        name: "修改分组", icon: <WidgetsIcon color={"info"} style={{paddingRight: "5px"}} />, click: ({event}) => {
                             event.stopPropagation();
                             editMythicTreeGroupsDialog(rowDataStatic.id);
                         }
@@ -607,30 +607,30 @@ function CallbacksTablePreMemo(props){
                 ]
             },
             {
-                name: "Other Callbacks", icon: null, click: () => {}, type: "menu",
+                name: "其他会话", icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     {
-                        name: "Interact", icon: <KeyboardIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: "交互", icon: <KeyboardIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             setOpenMultipleTabsDialog({open: true, tabType: "interact"});
                         }
                     },
                     {
-                        name: "Split Tasking", icon: <VerticalSplitIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: "平分排序", icon: <VerticalSplitIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             setOpenMultipleTabsDialog({open: true, tabType: "interactSplit"});
                         }
                     },
                     {
-                        name: "Console View", icon: <TerminalIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: "控制台", icon: <TerminalIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             setOpenMultipleTabsDialog({open: true, tabType: "interactConsole"});
                         }
                     },
                     {
-                        name: "File Browser", icon: <FontAwesomeIcon icon={faFolderOpen} style={{color: theme.folderColor, cursor: "pointer", marginRight: "10px"}} />, click: ({event}) => {
+                        name: "文件浏览器", icon: <FontAwesomeIcon icon={faFolderOpen} style={{color: theme.folderColor, cursor: "pointer", marginRight: "10px"}} />, click: ({event}) => {
                             setOpenMultipleTabsDialog({open: true, tabType: "fileBrowser"});
                         }
                     },
                     {
-                        name: "Process Browser", icon:  <AccountTreeIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
+                        name: "进程浏览器", icon:  <AccountTreeIcon style={{paddingRight: "5px"}}/>, click: ({event}) => {
                             setOpenMultipleTabsDialog({open: true, tabType: "processBrowser"});
                         }
                     }

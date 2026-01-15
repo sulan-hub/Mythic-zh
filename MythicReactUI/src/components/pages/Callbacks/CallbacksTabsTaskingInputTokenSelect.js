@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -15,20 +15,20 @@ export function CallbacksTabsTaskingInputTokenSelect(props) {
         const opts = [...props.options];
         setOptions(opts);
         if(opts.length > 0){
-            setSelected("Default Token");
-            props.changeSelectedToken("Default Token");
+            setSelected("默认令牌");
+            props.changeSelectedToken("默认令牌");
         }else{
-            setSelected("Default Token");
-            props.changeSelectedToken("Default Token");
+            setSelected("默认令牌");
+            props.changeSelectedToken("默认令牌");
         }
     }, [props.options]);
     const renderValue = (value) => {
-      if(value === "Default Token"){
-        return "Default Token";
+      if(value === "默认令牌"){
+        return "默认令牌";
       }
       if(value.User === null){
         if(value.description === null){
-          return value.token_id + " - No Description";
+          return value.token_id + " - 无描述";
         }else{
           return value.token_id + " - " + value.description;
         }
@@ -52,7 +52,7 @@ export function CallbacksTabsTaskingInputTokenSelect(props) {
           renderValue={renderValue}
           input={<Input style={{width: "100%"}}/>}
         >
-          <MenuItem value={"Default Token"} key={0}>Default Token</MenuItem>
+          <MenuItem value={"默认令牌"} key={0}>默认令牌</MenuItem>
           {options.map( (opt) => (
               <MenuItem value={opt.token} key={opt.token.id}>{renderValue(opt.token)}</MenuItem>
           ) )}
@@ -60,4 +60,3 @@ export function CallbacksTabsTaskingInputTokenSelect(props) {
       </FormControl>
   );
 }
-

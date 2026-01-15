@@ -89,20 +89,20 @@ export function TaskTokenDialog(props) {
     });
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Token Information</DialogTitle>
+        <DialogTitle id="form-dialog-title">令牌信息</DialogTitle>
             <TableContainer className="mythicElement">
               <Table size="small" style={{"tableLayout": "fixed", "maxWidth": "calc(100vw)", "overflow": "scroll"}}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{width: "30%"}}>Token Property</TableCell>
-                            <TableCell>Token Value</TableCell>
+                            <TableCell style={{width: "30%"}}>令牌属性</TableCell>
+                            <TableCell>令牌值</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                       {tokenData.map( (element, index) => (
                         <TableRow key={'row' + index} hover>
                           <TableCell>{element.name}</TableCell>
-                          <TableCell>{element.value === true ? ("True") : (element.value === false ? ("False") : (element.value) ) }</TableCell>
+                          <TableCell>{element.value === true ? ("是") : (element.value === false ? ("否") : (element.value) ) }</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -110,10 +110,9 @@ export function TaskTokenDialog(props) {
               </TableContainer>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
     </React.Fragment>
   );
 }
-

@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import {MythicStyledTooltip} from "../../MythicComponents/MythicStyledTooltip";
 
+// 从点击的标签页ID中提取回调ID
 export const getCallbackIdFromClickedTab = (tabId) => {
     if(tabId === null || tabId === undefined){return 0}
     if(tabId === ""){return 0}
@@ -26,7 +27,7 @@ export const getCallbackIdFromClickedTab = (tabId) => {
     }else if(tabId.includes("customProcessBasedBrowser")) {
         return Number(tabId.split("customProcessBasedBrowser")[0]);
     } else {
-        console.log("unknown tab type", tabId);
+        console.log("未知标签页类型", tabId);
         return 0;
     }
 }
@@ -40,6 +41,7 @@ export function Callbacks({me}) {
     const openTabRef = React.useRef([]);
     const callbackTableGridRef = React.useRef();
     const [callbackTableSplitSizes, setCallbackTableSplitSizes] = React.useState([30, 70]);
+    
     const setClickedTabId = (tabID) => {
         if(callbackTableGridRef.current){
             let tabIDNumber = getCallbackIdFromClickedTab(tabID);
@@ -53,7 +55,9 @@ export function Callbacks({me}) {
         setClickedTabIdValue(tabID);
         setNewDataForTab((prev) => {return {...prev, [tabID]: false}});
     }
+    
     useEffect(() => {
+        // 从本地存储加载已打开的标签页
         const oldTabs = localStorage.getItem('openTabs');
         if (oldTabs !== undefined && oldTabs !== null) {
             try {
@@ -64,21 +68,25 @@ export function Callbacks({me}) {
                     setClickedTabId(lastClickedTab);
                 }
             } catch (error) {
-                console.log('failed to parse oldTabs', error);
+                console.log('解析已打开标签页失败', error);
             }
         }
+        // 从本地存储加载分割尺寸
         const oldSizes = localStorage.getItem("callbackTableSplitSizes");
         if (oldSizes) {
             try{
                 setCallbackTableSplitSizes(JSON.parse(oldSizes));
             }catch(error){
-                console.log("failed to parse callback table split sizes");
+                console.log("解析回调表格分割尺寸失败");
             }
         }
     }, []);
+    
     useEffect( () => {
         openTabRef.current = openTabs;
     }, [openTabs])
+    
+    // 打开单个标签页
     const onOpenTab = React.useRef( (tabData) => {
         let found = false;
         openTabRef.current = openTabRef.current.map( (tab) => {
@@ -90,7 +98,7 @@ export function Callbacks({me}) {
         openTabRef.current.forEach((tab) => {
             if (tab.tabID === tabData.tabID) found = true;
         });
-        //console.log("found is", found, tabData.tabID, tabData.tabType, tabData.callbackID, openTabs);
+        
         if (!found) {
             const tabs = [...openTabRef.current, { ...tabData }];
             localStorage.setItem('openTabs', JSON.stringify(tabs));
@@ -102,6 +110,8 @@ export function Callbacks({me}) {
         setClickedTabId(tabData.tabID);
         
     });
+    
+    // 打开多个标签页
     const onOpenTabs = React.useRef( (tabData) => {
         let currentTabs = [...openTabRef.current];
         for(let i = 0; i < tabData.length; i++){
@@ -119,6 +129,8 @@ export function Callbacks({me}) {
         setClickedTabId(tabData[0].tabID);
 
     });
+    
+    // 编辑标签页描述
     const onEditTabDescription = React.useCallback( (tabInfo, description) => {
         const tabs = openTabs.map((t) => {
             if (t.tabID === tabInfo.tabID) {
@@ -130,6 +142,8 @@ export function Callbacks({me}) {
         setOpenTabs(tabs);
         localStorage.setItem('openTabs', JSON.stringify(tabs));
     }, [openTabs]);
+    
+    // 关闭标签页
     const onCloseTab = React.useCallback( ({ tabID, index }) => {
         const tabSet = openTabs.filter((tab) => {
             return tab.tabID !== tabID;
@@ -141,8 +155,9 @@ export function Callbacks({me}) {
             localStorage.removeItem("clickedTab");
         }
     }, [openTabs]);
+    
+    // 拖拽标签页
     const onDragTab = ({selected, toLeftOf}) => {
-        //console.log("onDragTab in CallbacksTabs", selected, toLeftOf);
         let selectedPieces = selected.split("-");
         let targetTabIndex = selectedPieces[selectedPieces.length -1] -0;
         let newLocationPieces = toLeftOf.split("-");
@@ -150,17 +165,16 @@ export function Callbacks({me}) {
         if(newLocation > targetTabIndex){
             newLocation = newLocation -1;
         }
-        //console.log("from index", targetTabIndex, "to index", newLocation);
+        
         if(targetTabIndex === newLocation){
             return;
         }
+        
         let newOpenTabList = [];
         for(let i = 0; i < openTabs.length; i++){
             if(i === targetTabIndex){
-                //console.log("matched targetTabIndex")
                 continue;
             } else if(i === newLocation){
-                //console.log("matched new location")
                 if(newLocation > targetTabIndex){
                     newOpenTabList.push(openTabs[i]);
                     newOpenTabList.push(openTabs[targetTabIndex]);
@@ -175,70 +189,88 @@ export function Callbacks({me}) {
             }
         }
         setOpenTabs(newOpenTabList);
-        //openTabRef.current = newOpenTabList;
         localStorage.setItem('openTabs', JSON.stringify(newOpenTabList));
     }
+    
+    // 关闭所有标签页
     const closeAllTabs = () => {
         setOpenTabs([]);
         localStorage.setItem('openTabs', JSON.stringify([]));
     }
+    
+    // 关闭除当前标签页外的所有标签页
     const closeAllExceptThisTab = ({event, index}) => {
         const newOpenTabs = [openTabs[index]];
         setOpenTabs(newOpenTabs);
         localStorage.setItem('openTabs', JSON.stringify(newOpenTabs));
     }
+    
+    // 上下文菜单选项
     const contextMenuOptions = [
         {
-            name: 'Close All Tabs', 
+            name: '关闭所有标签页', 
             click: ({event}) => {
                 closeAllTabs();
             }
         },
         {
-            name: 'Close All Other Tabs', 
+            name: '关闭其他所有标签页', 
             click: ({event, index}) => {
                 closeAllExceptThisTab({event, index});
             }
         },
     ];
+    
     const onDragEnd = ({ destination, source }) => {
-        // dropped outside the list
+        // 如果拖拽到列表外则返回
         if (!destination) return;
         const newItems = reorder(openTabs, source.index, destination.index);
         setOpenTabs(newItems);
         localStorage.setItem('openTabs', JSON.stringify(newItems));
     };
+    
     return (
         <>
-            <Split direction="vertical"
-                   sizes={callbackTableSplitSizes}
-                   minSize={[0,0]}
-                   onDragEnd={(sizes) => localStorage.setItem('callbackTableSplitSizes', JSON.stringify(sizes))}
-                   style={{ height: "100%" }}>
+            <Split 
+                direction="vertical"
+                sizes={callbackTableSplitSizes}
+                minSize={[0,0]}
+                onDragEnd={(sizes) => localStorage.setItem('callbackTableSplitSizes', JSON.stringify(sizes))}
+                style={{ height: "100%" }}
+            >
                 <div style={{display: "flex", flexDirection: "row-reverse"}}>
-                    <Paper elevation={5} style={{width: "30px", display: "flex", flexDirection: "column", alignItems: "center", overflow: "hidden",
-                    backgroundColor: "transparent"}}>
+                    <Paper elevation={5} style={{
+                        width: "30px", 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        alignItems: "center", 
+                        overflow: "hidden",
+                        backgroundColor: "transparent"
+                    }}>
                         {topDisplay !== 'table' &&
-                            <MythicStyledTooltip title={"Table View"}>
+                            <MythicStyledTooltip title={"表格视图"}>
                                 <IconButton onClick={() =>setTopDisplay("table")}>
                                     <TocIcon />
                                 </IconButton>
                             </MythicStyledTooltip>
                         }
                         {topDisplay !== 'graph' &&
-                            <MythicStyledTooltip title={"Graph View"} >
+                            <MythicStyledTooltip title={"图形视图"} >
                                 <IconButton onClick={() =>setTopDisplay("graph")}>
                                     <AssessmentIcon />
                                 </IconButton>
                             </MythicStyledTooltip>
                         }
                         {openCallbackImport &&
-                            <MythicDialog fullWidth={true} maxWidth="sm" open={openCallbackImport}
-                                          onClose={()=>{setOpenCallbackImport(false);}}
-                                          innerDialog={<ImportCallbackConfigDialog onClose={()=>{setOpenCallbackImport(false);}} />}
+                            <MythicDialog 
+                                fullWidth={true} 
+                                maxWidth="sm" 
+                                open={openCallbackImport}
+                                onClose={()=>{setOpenCallbackImport(false);}}
+                                innerDialog={<ImportCallbackConfigDialog onClose={()=>{setOpenCallbackImport(false);}} />}
                             />
                         }
-                        <MythicStyledTooltip title={"Import previously exported Callbacks"} >
+                        <MythicStyledTooltip title={"导入之前导出的回调"} >
                             <IconButton onClick={() =>setOpenCallbackImport(true)}>
                                 <PhoneForwardedIcon />
                             </IconButton>
@@ -249,7 +281,9 @@ export function Callbacks({me}) {
                         topDisplay={topDisplay}
                         onOpenTab={onOpenTab.current}
                         onOpenTabs={onOpenTabs.current}
-                        me={me} clickedTabId={clickedTabId}/>
+                        me={me} 
+                        clickedTabId={clickedTabId}
+                    />
                 </div>
                 <div >
                     <CallbacksTabs

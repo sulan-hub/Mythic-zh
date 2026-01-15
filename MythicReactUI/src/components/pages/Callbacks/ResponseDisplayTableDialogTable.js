@@ -16,10 +16,9 @@ export function ResponseDisplayTableDialogTable({table, callback_id, title, onCl
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={onClose} color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

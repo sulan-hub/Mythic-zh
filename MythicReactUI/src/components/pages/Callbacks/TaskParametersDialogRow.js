@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
@@ -127,9 +128,7 @@ export function TaskParametersDialogRow(props){
             if(data.dynamic_query_function.status === "success"){
                 try{
                     let choicesInUse = [];
-                    if (data.dynamic_query_function.complex_choices !== null &&
-                        data.dynamic_query_function.complex_choices !== undefined &&
-                        data.dynamic_query_function.complex_choices.length > 0) {
+                    if (data.dynamic_query_function.complex_choices !== null && data.dynamic_query_function.complex_choices.length > 0) {
                         usingDynamicParamComplexChoices.current = true;
                         setChoiceOptions([...data.dynamic_query_function.complex_choices]);
                         choicesInUse = [...data.dynamic_query_function.complex_choices];
@@ -210,9 +209,8 @@ export function TaskParametersDialogRow(props){
                         }
                     }
                 }catch(error){
-                    console.log(error);
                     setBackdropOpen(false);
-                    snackActions.warning("Failed to parse dynamic parameter results");
+                    snackActions.warning("解析动态参数结果失败");
                     usingDynamicParamComplexChoices.current = false;
                     setChoiceOptions([]);
                     setValue("");
@@ -224,7 +222,7 @@ export function TaskParametersDialogRow(props){
             setBackdropOpen(false);
         },
         onError: (data) => {
-            snackActions.warning("Failed to perform dynamic parameter query");
+            snackActions.warning("执行动态参数查询失败");
             console.log(data);
             setBackdropOpen(false);
         }
@@ -244,7 +242,7 @@ export function TaskParametersDialogRow(props){
                     props.onChange(props.name, newTypedArrayValue, false);
                 }catch(error){
                     setBackdropOpen(false);
-                    snackActions.warning("Failed to parse typed array function results");
+                    snackActions.warning("解析类型化数组函数结果失败");
                     setTypedArrayValue([]);
                 }
 
@@ -254,7 +252,7 @@ export function TaskParametersDialogRow(props){
             setBackdropOpen(false);
         },
         onError: (data) => {
-            snackActions.warning("Failed to perform parse typed array function");
+            snackActions.warning("执行解析类型化数组函数失败");
             console.log(data);
             setBackdropOpen(false);
         }
@@ -271,7 +269,7 @@ export function TaskParametersDialogRow(props){
     const [createCredential] = useMutation(createCredentialMutation, {
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
-            snackActions.success("Successfully created new credential");
+            snackActions.success("成功创建新凭证");
             if(data.createCredential.status === "success"){
                 getCredential({variables: {id: data.createCredential.id}});
             } else {
@@ -279,19 +277,19 @@ export function TaskParametersDialogRow(props){
             }
         },
         onError: (data) => {
-            snackActions.error("Failed to create credential");
+            snackActions.error("创建凭证失败");
             console.log(data);
         }
     });
     const [deleteCredential] = useMutation(updateCredentialDeleted, {
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
-            snackActions.success("removed credential!");
+            snackActions.success("已移除凭证!");
             updateToLatestCredential.current = true;
             props.removedCredential(data.credential_by_pk);
         },
         onError: (data) => {
-            snackActions.error("Failed to delete credential");
+            snackActions.error("删除凭证失败");
             console.log(data);
         }
     });
@@ -300,7 +298,7 @@ export function TaskParametersDialogRow(props){
     const locallySubmenuOpenPreventTaskingRef = React.useRef(false);
     const reIssueDynamicQueryFunction = () => {
         setBackdropOpen(true);
-        snackActions.info("Querying payload type container for options...",  {autoClose: 1000});
+        snackActions.info("正在向载荷类型容器查询选项...",  {autoClose: 1000});
         getDynamicParams({variables:{
                 callback: props.callback_id,
                 parameter_name: props.name,
@@ -314,7 +312,7 @@ export function TaskParametersDialogRow(props){
        if(props.dynamic_query_function !== ""){
             if(!usingDynamicParamChoices.current){
                 setBackdropOpen(true);
-                snackActions.info("Querying payload type container for options...",  {autoClose: 1000});
+                snackActions.info("正在向载荷类型容器查询选项...",  {autoClose: 1000});
                 getDynamicParams({variables:{
                     callback: props.callback_id,
                     parameter_name: props.name,
@@ -342,7 +340,7 @@ export function TaskParametersDialogRow(props){
                //console.log(props.value);
                if(props.value.length > 0 && props.value[0][0] === ""){
                    setBackdropOpen(true);
-                   snackActions.info("PayloadType Container parsing TypedArray values...",  {autoClose: 1000});
+                   snackActions.info("载荷类型容器正在解析类型化数组值...",  {autoClose: 1000});
                    parseTypedArray({variables:{
                            callback: props.callback_id,
                            parameter_name: props.name,
@@ -428,7 +426,7 @@ export function TaskParametersDialogRow(props){
                 }else{
                     if(!setAlarmAboutNoP2pRef.current){
                         setAlarmAboutNoP2pRef.current = true;
-                        snackActions.warning("Mythic knows of no host with a P2P payload. Please add one.");
+                        snackActions.warning("Mythic 未发现任何具有 P2P 载荷的主机。请添加一个。");
                         props.setSubmenuOpenPreventTasking(true);
                         locallySubmenuOpenPreventTaskingRef.current = true;
                     }
@@ -446,7 +444,7 @@ export function TaskParametersDialogRow(props){
                 }
                 if(!setAlarmAboutNoP2pRef.current){
                     setAlarmAboutNoP2pRef.current = true;
-                    snackActions.warning("Mythic knows of no host with a P2P payload. Please add one.");
+                    snackActions.warning("Mythic 未发现任何具有 P2P 载荷的主机。请添加一个。");
                     props.setSubmenuOpenPreventTasking(true);
                     locallySubmenuOpenPreventTaskingRef.current = true;
                 }
@@ -460,7 +458,7 @@ export function TaskParametersDialogRow(props){
                        try{
                            setValue(parseInt(props.value));
                        }catch(error){
-                           console.log("expected number, but", props.value, "isn't number");
+                           console.log("应为数字，但", props.value, "不是数字");
                            setValue(0);
                        }
                    }
@@ -469,7 +467,7 @@ export function TaskParametersDialogRow(props){
                }
            }
            if(props.type === "CredentialJson"){
-               //console.log("updating choiceOptions from useEffect in dialog row: ", [...props.choices])
+               //console.log("从对话框行的 useEffect 更新 choiceOptions: ", [...props.choices])
                setChoiceOptions([...props.choices]);
                if(updateToLatestCredential.current){
                 setValue(0);
@@ -609,7 +607,7 @@ export function TaskParametersDialogRow(props){
     }
     const onAgentConnectAddNewPayloadOnHost = () => {
         if(agentConnectNewHost === ""){
-            snackActions.error("Must set a hostname");
+            snackActions.error("必须设置主机名");
             return;
         }
         props.setSubmenuOpenPreventTasking(false);
@@ -621,7 +619,7 @@ export function TaskParametersDialogRow(props){
         if(props.choices[agentConnectHost]["payloads"][agentConnectPayload].payloadOnHostID){
             props.onAgentConnectRemovePayloadOnHost({payload: props.choices[agentConnectHost]["payloads"][agentConnectPayload], host: agentConnectHostOptions[agentConnectHost].host});
         }else{
-            snackActions.warning("Can't remove a callback");
+            snackActions.warning("无法移除回调");
         }
         
     }
@@ -741,14 +739,14 @@ export function TaskParametersDialogRow(props){
                                     }
                                 </Select>
                             </FormControl>
-                            OR
-                            <MythicTextField required={props.required} placeholder={"Custom Value"} value={chooseOneCustomValue} multiline={true} maxRows={5}
-                                             validate={testParameterValues} errorText={"Must match: " + props.verifier_regex}
+                            或
+                            <MythicTextField required={props.required} placeholder={"自定义值"} value={chooseOneCustomValue} multiline={true} maxRows={5}
+                                             validate={testParameterValues} errorText={"必须匹配: " + props.verifier_regex}
                                              onChange={onChangeTextChooseOneCustom} display="inline-block" onEnter={props.onSubmit} autoFocus={props.autoFocus}
                                              name={props.name} marginTop={"5px"}
                             />
                             {props.dynamic_query_function !== "" &&
-                                <MythicStyledTooltip title={"ReIssue Dynamic Query Function"} tooltipStyle={{display: "inline-block"}}>
+                                <MythicStyledTooltip title={"重新执行动态查询函数"} tooltipStyle={{display: "inline-block"}}>
                                     <IconButton onClick={reIssueDynamicQueryFunction}>
                                         <RefreshIcon />
                                     </IconButton>
@@ -767,7 +765,7 @@ export function TaskParametersDialogRow(props){
                         </Backdrop>
                         <FormControl style={{width: "100%"}}>
                             {ChoiceOptions.length === 0 &&
-                                <InputLabel>{"No Options Available"}</InputLabel>
+                                <InputLabel>{"无可用选项"}</InputLabel>
                             }
                             <Select
                             disabled={ChoiceOptions.length === 0}
@@ -789,7 +787,7 @@ export function TaskParametersDialogRow(props){
                             </Select>
                         </FormControl>
                         {props.dynamic_query_function !== "" &&
-                            <MythicStyledTooltip title={"ReIssue Dynamic Query Function"} tooltipStyle={{display: "inline-block"}}>
+                            <MythicStyledTooltip title={"重新执行动态查询函数"} tooltipStyle={{display: "inline-block"}}>
                                 <IconButton onClick={reIssueDynamicQueryFunction}>
                                     <RefreshIcon />
                                 </IconButton>
@@ -804,7 +802,7 @@ export function TaskParametersDialogRow(props){
                         <Table size="small" style={{tableLayout: "fixed", maxWidth: "100%", "overflow": "auto"}}>
                             <TableBody>
                                 <TableRow>
-                                    <MythicStyledTableCell>Treat new lines as new entries</MythicStyledTableCell>
+                                    <MythicStyledTableCell>将换行符视为新条目</MythicStyledTableCell>
                                     <MythicStyledTableCell>
                                         <Switch checked={treatNewlinesAsNewEntries} onChange={toggleTreatNewlinesAsNewEntries} color={"info"} />
                                     </MythicStyledTableCell>
@@ -816,7 +814,7 @@ export function TaskParametersDialogRow(props){
                                 {arrayValue.map( (a, i) => (
                                     <TableRow key={'array' + props.name + i} >
                                         <MythicStyledTableCell style={{width: "2rem"}}>
-                                            <MythicStyledTooltip title={"Remove array element"}>
+                                            <MythicStyledTooltip title={"移除数组元素"}>
                                                 <IconButton onClick={(e) => {removeArrayValue(i)}} color="error">
                                                     <DeleteIcon />
                                                 </IconButton>
@@ -825,7 +823,7 @@ export function TaskParametersDialogRow(props){
                                         <MythicStyledTableCell>
                                             <MythicTextField required={props.required} fullWidth={true} placeholder={""} value={a} multiline={true} autoFocus={props.autoFocus || i > 0}
                                                 onChange={(n,v,e) => onChangeArrayText(v, e, i)} display="inline-block" maxRows={5}
-                                                validate={testParameterValues} errorText={"Must match: " + props.verifier_regex}
+                                                validate={testParameterValues} errorText={"必须匹配: " + props.verifier_regex}
                                                              marginBottom={"0px"}
                                             />
                                         </MythicStyledTableCell>
@@ -833,7 +831,7 @@ export function TaskParametersDialogRow(props){
                                 ))}
                                 <TableRow >
                                     <MythicStyledTableCell style={{width: "5rem", paddingLeft:"0"}}>
-                                        <MythicStyledTooltip title={"Add new array element"} >
+                                        <MythicStyledTooltip title={"添加新数组元素"} >
                                             <IconButton onClick={addNewArrayValue} size="large"> <AddCircleIcon color="success"  /> </IconButton>
                                         </MythicStyledTooltip>
                                     </MythicStyledTableCell>
@@ -849,7 +847,7 @@ export function TaskParametersDialogRow(props){
                         <Table size="small" style={{tableLayout: "fixed", maxWidth: "100%", "overflow": "auto"}}>
                             <TableBody>
                                 <TableRow>
-                                    <MythicStyledTableCell>Treat new lines as new entries</MythicStyledTableCell>
+                                    <MythicStyledTableCell>将换行符视为新条目</MythicStyledTableCell>
                                     <MythicStyledTableCell>
                                         <Switch checked={treatNewlinesAsNewEntries} onChange={toggleTreatNewlinesAsNewEntries} color={"info"} />
                                     </MythicStyledTableCell>
@@ -882,7 +880,7 @@ export function TaskParametersDialogRow(props){
                                                 </FormControl>
                                                 <MythicTextField required={props.required} fullWidth={true} placeholder={""} value={a[1]} multiline={true} autoFocus={props.autoFocus || i > 0}
                                                                  onChange={(n,v,e) => onChangeTypedArrayText(v, e, i)} display="inline-block" maxRows={5}
-                                                                 validate={testParameterValues} errorText={"Must match: " + props.verifier_regex}
+                                                                 validate={testParameterValues} errorText={"必须匹配: " + props.verifier_regex}
                                                                  marginBottom={"0px"}
                                                 />
                                             </div>
@@ -904,7 +902,7 @@ export function TaskParametersDialogRow(props){
                 return (
                     <MythicTextField required={props.required} placeholder={props.default_value} value={value} multiline={true} maxRows={5}
                         onChange={onChangeText} display="inline-block" onEnter={props.onSubmit} autoFocus={props.autoFocus}
-                        validate={testParameterValues} errorText={"Must match: " + props.verifier_regex}
+                        validate={testParameterValues} errorText={"必须匹配: " + props.verifier_regex}
                                      marginBottom={"0px"}
                     />
                 )
@@ -912,7 +910,7 @@ export function TaskParametersDialogRow(props){
                 return (
                     <MythicTextField required={props.required} placeholder={props.default_value} value={value} multiline={false} type="number"
                         onChange={onChangeNumber} display="inline-block" onEnter={props.onSubmit} autoFocus={props.autoFocus}
-                        validate={testParameterValues} errorText={"Must match: " + props.verifier_regex}
+                        validate={testParameterValues} errorText={"必须匹配: " + props.verifier_regex}
                                      marginBottom={"0px"}
                     />
                 )
@@ -924,7 +922,7 @@ export function TaskParametersDialogRow(props){
                 return (
                     <>
                         <Button variant="contained" component="label">
-                            { fileValue.name === "" ? "Select File" : fileValue.name }
+                            { fileValue.name === "" ? "选择文件" : fileValue.name }
                             <input onChange={onFileChange} type="file" hidden />
                         </Button>
                     </>
@@ -934,7 +932,7 @@ export function TaskParametersDialogRow(props){
                 return (
                     <>
                         <Button variant="contained" component="label">
-                            Select Files
+                            选择多个文件
                             <input onChange={onFileMultChange} type="file" hidden multiple />
                         </Button>
                         { fileMultValue.length > 0 &&
@@ -997,14 +995,14 @@ export function TaskParametersDialogRow(props){
                                 {openAdditionalPayloadOnHostMenu ? (
                                 <React.Fragment>
                                     <TableRow>
-                                        <MythicStyledTableCell style={{width: "15em"}}>Hostname</MythicStyledTableCell>
+                                        <MythicStyledTableCell style={{width: "15em"}}>主机名</MythicStyledTableCell>
                                         <MythicStyledTableCell>
-                                            <MythicTextField required={true} placeholder={"hostname"} value={agentConnectNewHost} multiline={false} autoFocus={props.autoFocus}
+                                            <MythicTextField required={true} placeholder={"主机名"} value={agentConnectNewHost} multiline={false} autoFocus={props.autoFocus}
                                                 onChange={onChangeAgentConnectNewHost} display="inline-block"/>
                                         </MythicStyledTableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <MythicStyledTableCell>Payload on that host</MythicStyledTableCell>
+                                        <MythicStyledTableCell>该主机上的载荷</MythicStyledTableCell>
                                         <MythicStyledTableCell>
                                             <FormControl style={{width: "100%"}}>
                                                 <Select
@@ -1020,28 +1018,28 @@ export function TaskParametersDialogRow(props){
                                                             </Typography>
                                                         </MenuItem>
                                                     ))
-                                                ) : ( <MenuItem key={props.name + "nooptionnewpayload"} value="-1">No Payloads</MenuItem> )}
+                                                ) : ( <MenuItem key={props.name + "nooptionnewpayload"} value="-1">无可用载荷</MenuItem> )}
                                                 </Select>
                                             </FormControl>
                                         </MythicStyledTableCell>
                                     </TableRow>
                                     <TableRow>
                                         <MythicStyledTableCell>
-                                            <Button component="span"  style={{color: theme.palette.success.main, padding: 0}} onClick={onAgentConnectAddNewPayloadOnHost}><AddCircleIcon />Confirm</Button>
+                                            <Button component="span"  style={{color: theme.palette.success.main, padding: 0}} onClick={onAgentConnectAddNewPayloadOnHost}><AddCircleIcon />确认</Button>
                                         </MythicStyledTableCell>
                                         <MythicStyledTableCell>
                                             <Button component="span" style={{color: theme.palette.warning.main, padding: 0}} onClick={() =>{
                                                 setOpenAdditionalPayloadOnHostmenu(false);
                                                 props.setSubmenuOpenPreventTasking(false);
                                                 locallySubmenuOpenPreventTaskingRef.current = false;
-                                            }}><CancelIcon />Cancel</Button>
+                                            }}><CancelIcon />取消</Button>
                                         </MythicStyledTableCell>
                                     </TableRow>
                                 </React.Fragment>
                                 ) : (<React.Fragment>
                                     <TableRow>
                                         <MythicStyledTableCell style={{width: "14em"}}>
-                                            Host 
+                                            主机 
                                         </MythicStyledTableCell>
                                         <MythicStyledTableCell>
                                             <FormControl style={{width: "100%"}}>
@@ -1060,7 +1058,7 @@ export function TaskParametersDialogRow(props){
                                         </MythicStyledTableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <MythicStyledTableCell>Payload / Callback</MythicStyledTableCell>
+                                        <MythicStyledTableCell>载荷 / 回调</MythicStyledTableCell>
                                         <MythicStyledTableCell>
                                             <FormControl style={{width: "100%"}}>
                                                 <Select
@@ -1084,24 +1082,24 @@ export function TaskParametersDialogRow(props){
                                     </TableRow>
                                     <TableRow>
                                         <MythicStyledTableCell>
-                                            <MythicStyledTooltip title={"Associate new payload with a specific host for linking"}>
+                                            <MythicStyledTooltip title={"将新载荷与特定主机关联以进行链接"}>
                                                 <Button component="span" style={{color: theme.palette.success.main, padding: 0}} onClick={() =>{
                                                     setOpenAdditionalPayloadOnHostmenu(true);
                                                     props.setSubmenuOpenPreventTasking(true);
                                                     locallySubmenuOpenPreventTaskingRef.current = true;
-                                                }}><AddCircleIcon />Register New</Button>
+                                                }}><AddCircleIcon />注册新的</Button>
                                             </MythicStyledTooltip>
 
                                         </MythicStyledTableCell>
                                         <MythicStyledTableCell>
-                                            <MythicStyledTooltip title={"Mark associated payload as no longer on host and not available for linking"}>
+                                            <MythicStyledTooltip title={"标记关联的载荷已不在主机上，无法用于链接"}>
                                                 <Button component="span" style={{color: theme.palette.error.main, padding: 0}}
-                                                        onClick={onAgentConnectRemovePayloadOnHost}><DeleteIcon />Remove Listed</Button>
+                                                        onClick={onAgentConnectRemovePayloadOnHost}><DeleteIcon />移除已列出的</Button>
                                             </MythicStyledTooltip>
                                         </MythicStyledTableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <MythicStyledTableCell>C2 Profile</MythicStyledTableCell>
+                                        <MythicStyledTableCell>C2 配置文件</MythicStyledTableCell>
                                         <MythicStyledTableCell>
                                             <FormControl style={{width: "100%"}}>
                                                     <Select
@@ -1125,8 +1123,8 @@ export function TaskParametersDialogRow(props){
                             <Table size="small" style={{"tableLayout": "fixed", "maxWidth": "100%", "overflow": "scroll"}}>
                                 <TableHead>
                                         <TableRow>
-                                            <MythicStyledTableCell style={{width: "30%"}}>Parameter</MythicStyledTableCell>
-                                            <MythicStyledTableCell>Value</MythicStyledTableCell>
+                                            <MythicStyledTableCell style={{width: "30%"}}>参数</MythicStyledTableCell>
+                                            <MythicStyledTableCell>值</MythicStyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                 <TableBody>
@@ -1166,7 +1164,7 @@ export function TaskParametersDialogRow(props){
                                             {opt.comment.length > 0 ?
                                                 (
                                                     <>
-                                                        <b>{"\nComment: "}</b>  {opt.comment}
+                                                        <b>{"\n注释: "}</b>  {opt.comment}
                                                     </>
                                                 )
                                                 : ""}
@@ -1184,13 +1182,13 @@ export function TaskParametersDialogRow(props){
                             background: "white",
                             borderRadius: "10px",
                             marginRight: "5px"
-                        }}/> Credential</Button>
+                        }}/> 凭证</Button>
                         <Button color={"warning"} component="span" style={{padding: 0}} onClick={() =>{
                             onDeleteCredential();
                         }}><DeleteIcon style={{
                             color: theme.palette.error.main,
                             marginRight: "5px"
-                        }}/> Credential</Button>
+                        }}/> 凭证</Button>
                     </React.Fragment>
                     
                 )
@@ -1210,7 +1208,7 @@ export function TaskParametersDialogRow(props){
                     }}>
                         {props.description}
                     </Typography>
-                    {props.required && <Typography component="div" color={"warning"}>Required</Typography>}
+                    {props.required && <Typography component="div" color={"warning"}>必填</Typography>}
                  </MythicStyledTableCell>
                 <MythicStyledTableCell>
                     {getParameterObject()}
@@ -1218,4 +1216,3 @@ export function TaskParametersDialogRow(props){
             </TableRow>
         )
 }
-

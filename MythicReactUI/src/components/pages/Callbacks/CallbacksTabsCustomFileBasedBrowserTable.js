@@ -68,17 +68,17 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     const [selectedRows, setSelectedRows] = React.useState([]);
     const [updateComment] = useMutation(updateFileComment, {
         onCompleted: (data) => {
-            snackActions.success('updated comment');
+            snackActions.success('注释已更新');
         },
     });
     const onSubmitUpdatedComment = (comment) => {
         updateComment({ variables: { mythictree_id: commentDataRef.current.id, comment: comment } });
     };
     const [initialDefaultColumns, setInitialDefaultColumns] = React.useState([
-        { name: 'name', type: 'name', key: 'name_text', fillWidth: true, visible: true },
+        { name: '名称', type: 'name', key: 'name_text', fillWidth: true, visible: true },
         ...props.treeConfig.table.columns,
-        { name: 'tags', type: 'tags', key: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
-        { name: 'comment', type: 'comment', key: 'comment', width: 200 },
+        { name: '标签', type: 'tags', key: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
+        { name: '注释', type: 'comment', key: 'comment', width: 200 },
     ]);
     const [columnOrder, setColumnOrder] = React.useState(initialDefaultColumns);
     const columns = React.useMemo(
@@ -121,7 +121,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         return parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a]?.metadata[sortData.sortKey]) >
                         parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b]?.metadata[sortData.sortKey]) ? 1 : -1;
                     }catch(error) {
-                        console.log("failed to parse data for sorting", error);
+                        console.log("解析排序数据失败", error);
                         return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a]?.metadata[sortData.sortKey] >
                         props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b]?.metadata[sortData.sortKey] ? 1 : -1
                     }
@@ -141,7 +141,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         }
                         return parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey]) > parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey]) ? 1 : -1;
                     } catch (error) {
-                        console.log("failed to parse data for sorting", error);
+                        console.log("解析排序数据失败", error);
                         return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey] > props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey] ? 1 : -1;
                     }
                 }
@@ -164,7 +164,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                     }
                     return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey].localeCompare(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey]);
                 }catch(error){
-                    console.log("failed to parse data for sorting", error);
+                    console.log("解析排序数据失败", error);
                     return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey] > props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey] ? 1 : -1
                 }
 
@@ -180,7 +180,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
         try{
             updateSetting({setting_name: `${props.treeConfig.name}_browser_filter_options`, value: {...filterOptions, [selectedColumn.key]: value }});
         }catch(error){
-            console.log("failed to save filter options");
+            console.log("保存筛选选项失败");
         }
     }
     const filterRow = (row) => {
@@ -208,7 +208,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     }
     const gridData = React.useMemo(
         () =>
-            // row is just the name
+            // 行数据仅为名称
             sortedData.reduce((prev, row) => {
                 if(filterRow(row)){
                     return [...prev];
@@ -273,21 +273,19 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     }
     const displayFormat = getDisplayFormat();
     useEffect(() => {
-        // when the folder changes, we need to aggregate all of the entries
-        //console.log(props.selectedFolderData, props.treeAdjMatrix, props.treeRootData)
+        // 当文件夹变更时，需要聚合所有条目
         let desiredPath = props.selectedFolderData.full_path_text;
         if(props.selectedFolderData.id === props.selectedFolderData.host){
             desiredPath = "";
         }
         let newAllData = Object.keys(props.treeAdjMatrix[props.selectedFolderData.group]?.[props.selectedFolderData.host]?.[desiredPath] || {});
         setAllData(newAllData);
-        //console.log("just set all data")
     }, [props.selectedFolderData, props.treeAdjMatrix]);
     const onRowDoubleClick = (e, rowIndex, rowData) => {
         if (!rowData.can_have_children) {
             return;
         }
-        snackActions.info('Fetching contents from database...');
+        snackActions.info('从数据库获取内容中...');
         props.onRowDoubleClick({...rowData, group: props.selectedFolderData.group});
         setSortData({"sortKey": null, "sortType":null, "sortDirection": "ASC"});
     };
@@ -311,7 +309,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     };
     const contextMenuOptions = [
         {
-            name: 'Filter Column', type: "item",
+            name: '筛选列', type: "item",
             icon: <FontAwesomeIcon icon={faFilter} style={{paddingRight: "5px"}} />,
             click: ({event, columnIndex}) => {
                 if(event){
@@ -319,7 +317,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                     event.preventDefault();
                 }
                 if(columns[columnIndex].disableFilterMenu){
-                    snackActions.warning("Can't filter that column");
+                    snackActions.warning("无法筛选该列");
                     return;
                 }
                 setSelectedColumn(columns[columnIndex]);
@@ -327,7 +325,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             },
         },
         {
-            name: "Reorder Columns and Adjust Visibility", type: "item", icon: null,
+            name: "重新排序列并调整可见性", type: "item", icon: null,
             click: ({event, columnIndex}) => {
                 if(event){
                     event.stopPropagation();
@@ -363,42 +361,42 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             type: "item", disabled: true
         },
         {
-            name: "Copy to Clipboard", icon: null, click: () => {}, type: "menu",
+            name: "复制到剪贴板", icon: null, click: () => {}, type: "menu",
             menuItems: [
                 {
-                    name: 'Name', type: "item",
+                    name: '名称', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(element.name_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Full Path', type: "item",
+                    name: '完整路径', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(element.full_path_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Metadata', type: "item",
+                    name: '元数据', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(JSON.stringify(element?.metadata, null, 2))){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
             ]
         },
         {
-            name: 'View Metadata', type: "item",
+            name: '查看元数据', type: "item",
             icon: <VisibilityIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -408,7 +406,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             },
         },
         {
-            name: 'Edit Comment', type: "item",
+            name: '编辑注释', type: "item",
             icon: <EditIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -420,25 +418,25 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     ]
     async function optionsB (callback_id, callback_display_id, element) {
         let downloadCommand = await props.getLoadedCommandForUIFeature(callback_id, element.can_have_children ?  props.baseUIFeature + ":download_folder" : props.baseUIFeature + ":download");
-        let downloadDisplay = "Download (Unsupported)";
+        let downloadDisplay = "下载（不支持）";
         if(element.can_have_children){
-            downloadDisplay = "Download Folder (Unsupported)";
+            downloadDisplay = "下载文件夹（不支持）";
         }
         if(downloadCommand !== undefined){
-            downloadDisplay = `Download (${downloadCommand.command.cmd})`;
+            downloadDisplay = `下载（${downloadCommand.command.cmd}）`;
             if(element.can_have_children){
-                downloadDisplay = `Download Folder (${downloadCommand.command.cmd})`;
+                downloadDisplay = `下载文件夹（${downloadCommand.command.cmd}）`;
             }
         }
         let listCommand = await props.getLoadedCommandForUIFeature(callback_id, props.baseUIFeature + ":list");
-        let listDisplay = "List (Unsupported)";
+        let listDisplay = "列出（不支持）";
         if(listCommand !== undefined){
-            listDisplay = `List (${listCommand.command.cmd})`;
+            listDisplay = `列出（${listCommand.command.cmd}）`;
         }
         let removeCommand = await props.getLoadedCommandForUIFeature(callback_id, props.baseUIFeature + ":remove");
-        let removeDisplay = "Remove (Unsupported)";
+        let removeDisplay = "删除（不支持）";
         if(removeCommand !== undefined){
-            removeDisplay = `Remove (${removeCommand.command.cmd})`;
+            removeDisplay = `删除（${removeCommand.command.cmd}）`;
         }
         return [
             {
@@ -494,9 +492,9 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
     }
     async function optionsC (callback_id, callback_display_id, element, action_name, ui_feature, icon, color, openDialog, getConfirmation) {
         let command = await props.getLoadedCommandForUIFeature(callback_id, ui_feature);
-        let commandDisplay = `${action_name} (Unsupported)`;
+        let commandDisplay = `${action_name}（不支持）`;
         if(command !== undefined){
-            commandDisplay = `${action_name} (${command.command.cmd})`;
+            commandDisplay = `${action_name}（${command.command.cmd}）`;
         }
         return  {
                 name: commandDisplay, type: "item",
@@ -516,14 +514,14 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             }
     }
     async function onRowContextClick({rowDataStatic}) {
-        // based on row, return updated options array?
+        // 根据行数据返回更新的选项数组
         if(selectedRows.length > 1){
             let downloadCommand = await props.getLoadedCommandForUIFeature(rowDataStatic.callback.id, rowDataStatic.can_have_children ?  props.baseUIFeature + ":download_folder" : props.baseUIFeature + ":download");
             let listCommand = await props.getLoadedCommandForUIFeature(rowDataStatic.callback.id, props.baseUIFeature + ":list");
             let removeCommand = await props.getLoadedCommandForUIFeature(rowDataStatic.callback.id, props.baseUIFeature + ":remove");
             return [
                 {
-                    name: `Download All Selected`, type: "item",
+                    name: `下载所有选中项`, type: "item",
                     disabled: downloadCommand === undefined,
                     icon: <GetAppIcon color="success" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
@@ -544,7 +542,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                     },
                 },
                 {
-                    name: `Remove All Selected`, type: "item",
+                    name: `删除所有选中项`, type: "item",
                     disabled: removeCommand === undefined,
                     icon: <DeleteIcon color="error" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
@@ -566,7 +564,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                     },
                 },
                 {
-                    name: `List All Selected`, type: "item",
+                    name: `列出所有选中项`, type: "item",
                     disabled: listCommand === undefined,
                     icon: <ListIcon color="warning" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
@@ -601,14 +599,14 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             }
             if(extraOptions.length > 0){
                 options.push({
-                    name: `Custom Actions`, icon: null, click: () => {}, type: "menu",
+                    name: `自定义操作`, icon: null, click: () => {}, type: "menu",
                     menuItems: extraOptions
                 })
             }
         }
         if(rowDataStatic.callback.display_id !== props.tabInfo.displayID){
             options.push({
-                name: `Original Callback: ${rowDataStatic.callback.display_id}`, icon: null, click: () => {}, type: "menu",
+                name: `原始回调：${rowDataStatic.callback.display_id}`, icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     ...(await optionsB(rowDataStatic.callback.id, rowDataStatic.callback.display_id, rowDataStatic))
                 ]
@@ -617,7 +615,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
         return options;
     }
     React.useEffect( () => {
-        // on startup, want to see if `callbacks_table_columns` exists in storage and load it if possible
+        // 启动时检查存储中是否存在自定义浏览器表格列设置并加载
         try {
             const storageItem = GetMythicSetting({setting_name: `${props.treeConfig.name}_browser_table_columns`, default_value: [...props.treeConfig.table.visible]});
             if(storageItem !== null){
@@ -633,7 +631,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                 }
             }
         }catch(error){
-            console.log("Failed to load custom browser_table_columns", error);
+            console.log("加载自定义浏览器表格列失败", error);
         }
         try {
             const storageItemOptions = GetMythicSetting({setting_name: `${props.treeConfig.name}_browser_filter_options`, default_value: {}});
@@ -641,7 +639,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                 setFilterOptions(storageItemOptions);
             }
         }catch(error){
-            console.log("Failed to load custom browser_table_filter_options", error);
+            console.log("加载自定义浏览器表格筛选选项失败", error);
         }
         try {
             const storageColumnOrder = GetMythicSetting({setting_name: `${props.treeConfig.name}_browser_column_order`, default_value: columns.map(c => c.name)});
@@ -660,7 +658,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                 }
             }
         }catch(error){
-            console.log("Failed to load custom browser_table_filter_options", error);
+            console.log("加载自定义浏览器表格列顺序失败", error);
         }
         setLoading(false);
     }, []);
@@ -675,7 +673,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
             }
         }
         if(newVisible.length === 0){
-            snackActions.error("Can't update to show no fields");
+            snackActions.error("无法更新为不显示任何字段");
             return;
         }
         updateSetting({setting_name: `${props.treeConfig.name}_browser_column_order`, value: newOrder.map(c => c.name)});
@@ -696,7 +694,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         left: "35%",
                         top: "40%"
                     }}>
-                        {"Loading Saved Browser Customizations..."}
+                        {"正在加载保存的浏览器自定义设置..."}
                     </div>
                 </div>
             </div>
@@ -728,7 +726,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                             }}
                             innerDialog={
                                 <MythicModifyStringDialog
-                                    title='Edit Comment'
+                                    title='编辑注释'
                                     onSubmit={onSubmitUpdatedComment}
                                     value={commentDataRef.current?.value}
                                     onClose={() => {
@@ -748,9 +746,9 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                             }}
                             innerDialog={
                                 <MythicViewJSONAsTableDialog
-                                    title={'View Metadata for ' + permissionDataRef.current?.name}
-                                    leftColumn='Attribute'
-                                    rightColumn='Value'
+                                    title={'查看 ' + permissionDataRef.current?.name + ' 的元数据'}
+                                    leftColumn='属性'
+                                    rightColumn='值'
                                     value={permissionDataRef.current?.metadata}
                                     onClose={() => {
                                         setViewPermissionsDialogOpen(false);
@@ -786,8 +784,8 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"Only PARTIAL data has been collected for this path.  "}<br/>
-                        {"Task this callback to list the contents"}
+                        {"此路径仅收集了部分数据。  "}<br/>
+                        {"为此回调创建列出内容的任务"}
                         <IconButton style={{margin: 0, padding: 0, marginRight: "10px"}}
                                     onClick={props.onListFilesButtonFromTableWithNoEntries}>
                             <RefreshIcon color={"info"} fontSize={"large"}
@@ -807,9 +805,9 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"Some data exists for this path, but isn't loaded into the UI.  "}
+                        {"此路径存在一些数据，但未加载到UI中。  "}
                         <br/>
-                        {"Click the folder icon to fetch data from the database."}
+                        {"点击文件夹图标从数据库获取数据。"}
                     </div>
                 </div>
             }
@@ -824,9 +822,9 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"No data has been collected for this path.  "}
+                        {"此路径未收集任何数据。  "}
                         <div style={{display: "flex", alignItems: "center"}}>
-                            {"Task this callback to list the contents"}
+                            {"为此回调创建列出内容的任务"}
                             <IconButton style={{margin: 0, padding: 0, marginRight: "10px"}} onClick={props.onListFilesButtonFromTableWithNoEntries} >
                                 <RefreshIcon color={"info"} fontSize={"large"}
                                              style={{ display: "inline-block",}} />
@@ -845,7 +843,7 @@ export const CallbacksTabsCustomFileBasedBrowserTable = (props) => {
                               }}
                               innerDialog={
                               <MythicModifyStringDialog
-                                  title='Filter Column'
+                                  title='筛选列'
                                   onSubmit={onSubmitFilterOptions}
                                   value={filterOptions[selectedColumn.key]}
                                   onClose={() => {
@@ -890,11 +888,11 @@ const FileBrowserTableRowNameCell = ({cellData,  rowData, treeRootData, selected
                 {cellData}
             </pre>
             {treeRootData[selectedFolderData.host][rowData.full_path_text]?.success === true ? (
-                <MythicStyledTooltip title='Successfully listed contents of folder' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
+                <MythicStyledTooltip title='文件夹内容已成功列出' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
                     <CheckCircleOutlineIcon color="success" fontSize='small' />
                 </MythicStyledTooltip>
             ) : treeRootData[selectedFolderData.host][rowData.full_path_text]?.success === false ? (
-                <MythicStyledTooltip title='Failed to list contents of folder' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
+                <MythicStyledTooltip title='列出文件夹内容失败' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
                     <ErrorIcon fontSize='small' color="error" />
                 </MythicStyledTooltip>
             ) : null}
@@ -910,7 +908,6 @@ const FileBrowserTagsCell = ({rowData, cellData, treeRootData, selectedFolderDat
     )
 }
 const FileBrowserTableRowStringCell = ({ cellData, rowData }) => {
-    //console.log(rowData, cellData)
     return (
         <>
         {cellData}
@@ -928,7 +925,7 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
         if(view_utc_time !== undefined){
             view_utc = view_utc_time
         }
-        // handle Unix epoch timestamps
+        // 处理Unix时间戳
         if (view_utc) {
             let init_date = new Date(cellDataInt);
             return init_date.toDateString() + " " + init_date.toTimeString().substring(0, 8) + " UTC";
@@ -937,16 +934,14 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
             timezoneDate.setTime(timezoneDate.getTime() - (timezoneDate.getTimezoneOffset() *60*1000));
             return timezoneDate.toLocaleDateString() + " " + timezoneDate.toLocaleString([], {hour12: true, hour: "2-digit", minute: "2-digit"});
         }
-        //const dateData = new Date(cellDataInt).toISOString();
-        //return toLocalTime(dateData.slice(0, 10) + " " + dateData.slice(11,-1), view_utc_time);
     }catch(error){
         try{
             let cellDataInt = parseInt(cellData)
-            // handle windows FILETIME values
+            // 处理Windows FILETIME值
             const dateData = new Date( ((cellDataInt / 10000000) - 11644473600) * 1000).toISOString();
             return toLocalTime(dateData.slice(0, 10) + " " + dateData.slice(11,-1), view_utc_time);
         }catch(error2){
-            console.log("error with timestamp: ", cellData);
+            console.log("时间戳错误：", cellData);
             return String(cellData);
         }
         
@@ -956,7 +951,7 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
 export const TableRowSizeCell = ({ cellData, rowData }) => {
     const getStringSize = () => {
         try {
-            // process for getting human readable string from bytes: https://stackoverflow.com/a/18650828
+            // 将字节转换为人类可读的字符串：https://stackoverflow.com/a/18650828
             let bytes = parseInt(cellData);
             if (cellData === '' || cellData === undefined) return '';
             if (bytes === 0) return '0 B';

@@ -24,20 +24,19 @@ export function TableFilterDialog({filterOptions, onSubmit, onClose, selectedCol
   
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Filter "{selectedColumn.name}" Entries</DialogTitle>
+        <DialogTitle id="form-dialog-title">筛选 "{selectedColumn.name}" 条目</DialogTitle>
         <DialogContent style={{paddingBottom: 0}} dividers={true}>
-            Show only rows that include the following case insensitive text:
+            仅显示包含以下不区分大小写文本的行:
             <MythicTextField autoFocus onChange={onChange} value={description} onEnter={onCommitSubmit}/>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={onClose} color="primary">
-            Close
+            关闭
           </Button>
           <Button variant="contained" onClick={onCommitSubmit} color="success">
-            Filter
+            筛选
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

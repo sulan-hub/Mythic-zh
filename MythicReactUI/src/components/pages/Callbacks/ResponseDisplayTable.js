@@ -1,3 +1,4 @@
+
 import React, {useEffect, useRef} from 'react';
 import {Button} from '@mui/material';
 import {MythicViewJSONAsTableDialog, MythicDialog, MythicModifyStringDialog} from '../../MythicComponents/MythicDialog';
@@ -26,9 +27,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 const onCopyToClipboard = (data) => {
   let result = copyStringToClipboard(data);
   if(result){
-    snackActions.success("Copied text!");
+    snackActions.success("已复制文本！");
   }else{
-    snackActions.error("Failed to copy text");
+    snackActions.error("复制文本失败");
   }
 }
 export const getIconName = (iconName) => {
@@ -116,7 +117,7 @@ const doubleClickRow = () => {
 const ResponseDisplayTableStringCellCopy = ({cellData}) => {
   return (
       cellData?.copyIcon &&
-      <MythicStyledTooltip title={"Copy to clipboard"}>
+      <MythicStyledTooltip title={"复制到剪贴板"}>
         <IconButton onClick={() => onCopyToClipboard(cellData["plaintext"])} size="small">
           <FontAwesomeIcon icon={faCopy} />
         </IconButton>
@@ -166,7 +167,7 @@ const ResponseDisplayTableNumberCell = ({cellData, rowData}) => {
   return (
     <div style={{...(cellData?.cellStyle || null), height: "100%"}}>
       {cellData?.copyIcon? 
-        <MythicStyledTooltip title={"Copy to clipboard"}>
+        <MythicStyledTooltip title={"复制到剪贴板"}>
             <IconButton onClick={() => onCopyToClipboard(cellData["plaintext"])} size="small">
                 <FontAwesomeIcon icon={faCopy} />
             </IconButton>
@@ -199,18 +200,18 @@ const ResponseDisplayTableNumberCell = ({cellData, rowData}) => {
 }
 export const getStringSize = ({cellData}) => {
   try{
-      // process for getting human readable string from bytes: https://stackoverflow.com/a/18650828
+      // 将字节数转换为人类可读字符串的方法：https://stackoverflow.com/a/18650828
       let bytes = parseInt(cellData["plaintext"]);
       if (cellData["plaintext"] === ''){
         return ""
       }
       if (bytes === 0){
-        return "0 Bytes";
+        return "0 字节";
       }
       const decimals = 2;
       const k = 1024;
       const dm = decimals < 0 ? 0 : decimals;
-      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+      const sizes = ['字节', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
       const i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
@@ -303,7 +304,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
       case "dictionary":
         return (
             <React.Fragment>
-              <MythicStyledTooltip title={cellData?.button?.hoverText || "View Data"} >
+              <MythicStyledTooltip title={cellData?.button?.hoverText || "查看数据"} >
                 <Button size="small" color="info"
                         onClick={() => setOpenButton(true)} disabled={cellData?.button?.disabled || false}
                         startIcon={cellData?.button?.startIcon ? <FontAwesomeIcon icon={getIconName(cellData?.button?.startIcon)} style={{color: cellData?.button?.disabled ? "unset" :  getIconColor(theme, cellData?.button?.startIconColor)}}/> : null}
@@ -322,7 +323,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
       case "string":
         return (
             <React.Fragment>
-              <MythicStyledTooltip title={cellData?.button?.hoverText || "View Data"} >
+              <MythicStyledTooltip title={cellData?.button?.hoverText || "查看数据"} >
                 <Button size="small" color="info"
                         onClick={() => setOpenButton(true)} disabled={cellData?.button?.disabled || false}
                         startIcon={cellData?.button?.startIcon ? <FontAwesomeIcon icon={getIconName(cellData?.button?.startIcon)} style={{color: cellData?.button?.disabled ? "unset" :  getIconColor(theme, cellData?.button?.startIconColor)}}/> : null}
@@ -339,7 +340,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
       case "table":
         return (
             <React.Fragment>
-              <MythicStyledTooltip title={cellData?.button?.hoverText || "View Data"} >
+              <MythicStyledTooltip title={cellData?.button?.hoverText || "查看数据"} >
                 <Button size="small" color="info"
                         onClick={() => setOpenButton(true)} disabled={cellData?.button?.disabled || false}
                         startIcon={cellData?.button?.startIcon ? <FontAwesomeIcon icon={getIconName(cellData?.button?.startIcon)} style={{color: cellData?.button?.disabled ? "unset" :  getIconColor(theme, cellData?.button?.startIconColor || "")}}/> : null}
@@ -358,11 +359,11 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
       case "task":
         return (
             <React.Fragment>
-              <MythicStyledTooltip title={cellData?.button?.hoverText || "Submit Task"}>
+              <MythicStyledTooltip title={cellData?.button?.hoverText || "提交任务"}>
                 <Button size="small" onClick={() => setOpenTaskingButton(true)} disabled={cellData?.button?.disabled || false}  color="warning"
                         startIcon={cellData?.button?.startIcon ? <FontAwesomeIcon icon={getIconName(cellData?.button?.startIcon)} style={{color: cellData?.button?.disabled ? "unset" : getIconColor(theme, cellData?.button?.startIconColor || "")}}/> : undefined}
                         style={{...actionCellButtonStyle}}
-                >{cellData?.button?.name ? cellData?.button?.name : cellData?.button?.startIcon ? undefined : "Submit Task"}</Button>
+                >{cellData?.button?.name ? cellData?.button?.name : cellData?.button?.startIcon ? undefined : "提交任务"}</Button>
               </MythicStyledTooltip>
               {openTaskingButton &&
                   <TaskFromUIButton ui_feature={cellData?.button?.ui_feature || " "}
@@ -370,7 +371,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
                                     parameters={cellData?.button?.parameters || ""}
                                     openDialog={cellData?.button?.openDialog || false}
                                     getConfirmation={cellData?.button?.getConfirmation || false}
-                                    acceptText={cellData?.button?.acceptText || "confirm"}
+                                    acceptText={cellData?.button?.acceptText || "确认"}
                                     selectCallback={cellData?.button?.selectCallback || false}
                                     onTasked={() => setOpenTaskingButton(false)}/>
               }
@@ -385,7 +386,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
                                     parameters={taskingData.parameters}
                                     openDialog={taskingData?.openDialog || false}
                                     getConfirmation={taskingData?.getConfirmation || false}
-                                    acceptText={taskingData?.acceptText || "confirm"}
+                                    acceptText={taskingData?.acceptText || "确认"}
                                     selectCallback={taskingData?.selectCallback || false}
                                     onTasked={finishedTasking}/>
               }
@@ -426,7 +427,7 @@ const ResponseDisplayTableActionCellButton = ({cellData, callback_id}) => {
                               disabled={option.disabled}
                               onClick={(event) => handleMenuItemClick(event, index)}
                           >
-                            <MythicStyledTooltip title={option?.hoverText || (option.type === "task" ? "Task an Agent" : "Display Data")}>
+                            <MythicStyledTooltip title={option?.hoverText || (option.type === "task" ? "向代理下达任务" : "显示数据")}>
                               {option?.startIcon ? <FontAwesomeIcon icon={getIconName(option?.startIcon)} style={{color: getIconColor(theme, cellData?.button?.startIconColor || ""), marginRight: "5px"}}/> : null}
                               {option.name}
                             </MythicStyledTooltip>
@@ -512,7 +513,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
           try{
             return parseInt(a[sortData.sortKey]["plaintext"]) > parseInt(b[sortData.sortKey]["plaintext"]) ? 1 : -1;
           }catch(error){
-            console.log("failed to parse ints for sorting", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
+            console.log("按整数排序失败", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
             return a[sortData.sortKey]["plaintext"] > b[sortData.sortKey]["plaintext"] ? 1: -1;
           }
         }
@@ -530,7 +531,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
           try{
             return (new Date(a[sortData.sortKey]["plaintext"])) > (new Date(b[sortData.sortKey]["plaintext"])) ? 1: -1
           }catch(error){
-            console.log("failed to parse dates for sorting", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
+            console.log("按日期排序失败", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
             return a[sortData.sortKey]["plaintext"] > b[sortData.sortKey]["plaintext"] ? 1: -1;
           }
         }
@@ -548,7 +549,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
           try{
             return a[sortData.sortKey]["plaintext"].localeCompare(b[sortData.sortKey]["plaintext"]);
           }catch(error){
-            console.log("failed to localeCompare strings for sorting", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
+            console.log("按字符串排序失败", a[sortData.sortKey]["plaintext"], b[sortData.sortKey]["plaintext"]);
             return a[sortData.sortKey]["plaintext"] > b[sortData.sortKey]["plaintext"] ? 1: -1;
           }
         }
@@ -600,14 +601,14 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
   }
   const rowContextMenuOptions = [
     {
-        name: 'Copy Row as JSON', icon: null,
+        name: '复制行数据为 JSON', icon: null,
         click: ({event, columnIndex, rowIndex, data}) => {
             const filteredData = filterOutButtonsFromRowData(data);
             onCopyToClipboard(JSON.stringify(filteredData, null, 2));
         }, type: "item"
     },
     {
-      name: 'Copy Row as CSV', icon: null,
+      name: '复制行数据为 CSV', icon: null,
       click: ({event, columnIndex, rowIndex, data}) => {
           const filteredData = filterOutButtonsFromRowData(data);
           let outputHeaders = "";
@@ -629,7 +630,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
       type: "item",
   },
     {
-    name: 'Copy Row as TSV', icon: null,
+    name: '复制行数据为 TSV', icon: null,
     click: ({event, columnIndex, rowIndex, data}) => {
       const filteredData = filterOutButtonsFromRowData(data);
       let outputHeaders = "";
@@ -651,11 +652,11 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
     type: "item",
 },
     {
-      name: 'Copy Cell', icon: null,
+      name: '复制单元格', icon: null,
       click: ({event, columnIndex, rowIndex, data}) => {
         if(table.headers !== undefined && table.headers[columnIndex] !== undefined){
           let field = table.headers[columnIndex];
-          if(field.plaintext !== undefined){ // column name
+          if(field.plaintext !== undefined){ // 列名
             if(data[field.plaintext].plaintext !== undefined){
               onCopyToClipboard(data[field.plaintext].plaintext);
             }
@@ -666,12 +667,12 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
 ];
   const contextMenuOptions = [
     {
-      name: 'Filter Column', type: "item", icon: null,
+      name: '筛选列', type: "item", icon: null,
       click: ({event, columnIndex}) => {
         event.preventDefault();
         event.stopPropagation();
         if(table.headers[columnIndex].disableFilterMenu){
-          snackActions.warning("Can't filter that column");
+          snackActions.warning("无法筛选该列");
           return;
         }
         setSelectedColumn({
@@ -682,7 +683,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
       }
     },
     {
-      name: "Copy Table as JSON", type: "item", icon: null,
+      name: "复制表格为 JSON", type: "item", icon: null,
       click: ({event, columnIndex}) => {
         event.preventDefault();
         event.stopPropagation();
@@ -691,7 +692,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
       }
     },
     {
-      name: "Copy Table as CSV", type: "item", icon: null,
+      name: "复制表格为 CSV", type: "item", icon: null,
       click: ({event, columnIndex}) => {
         event.preventDefault();
         event.stopPropagation();
@@ -722,7 +723,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
       }
     },
     {
-      name: "Copy Table as TSV", type: "item", icon: null,
+      name: "复制表格为 TSV", type: "item", icon: null,
       click: ({event, columnIndex}) => {
         event.preventDefault();
         event.stopPropagation();
@@ -753,7 +754,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
       }
     },
     {
-      name: "Copy Table as PrettyPrint Text", type: "item", icon: null,
+      name: "复制表格为格式化文本", type: "item", icon: null,
       click: ({event, columnIndex}) => {
         event.preventDefault();
         event.stopPropagation();
@@ -833,7 +834,7 @@ export const ResponseDisplayTable = ({table, callback_id, expand, task}) =>{
                               onClose={()=>{setOpenContextMenu(false);}}
                               innerDialog={
                                   <MythicModifyStringDialog
-                                      title='Filter Column'
+                                      title='筛选列'
                                       onSubmit={onSubmitFilterOptions}
                                       value={filterOptions[selectedColumn.key]}
                                       onClose={() => {

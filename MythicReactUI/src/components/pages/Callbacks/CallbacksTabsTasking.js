@@ -17,7 +17,7 @@ import {getSkewedNow} from "../../utilities/Time";
 
 
 export function CallbacksTabsTaskingLabel(props){
-    const [description, setDescription] = React.useState(props.tabInfo.payloadDescription !== props.tabInfo.callbackDescription ? props.tabInfo.callbackDescription : "Callback: " + props.tabInfo.displayID)
+    const [description, setDescription] = React.useState(props.tabInfo.payloadDescription !== props.tabInfo.callbackDescription ? props.tabInfo.callbackDescription : "回调: " + props.tabInfo.displayID)
     const [openEditDescriptionDialog, setOpenEditDescriptionDialog] = React.useState(false);
     useEffect( () => {
         if(props.tabInfo.customDescription !== "" && props.tabInfo.customDescription !== undefined){
@@ -25,7 +25,7 @@ export function CallbacksTabsTaskingLabel(props){
         }else if(props.tabInfo.payloadDescription !== props.tabInfo.callbackDescription){
             setDescription(props.tabInfo.callbackDescription);
         }else{
-            setDescription("Callback: " + props.tabInfo.displayID);
+            setDescription("回调: " + props.tabInfo.displayID);
         }
     }, [props.tabInfo.payloadDescription, props.tabInfo.customDescription]);
     useEffect( () => {
@@ -40,7 +40,7 @@ export function CallbacksTabsTaskingLabel(props){
     }
     const contextMenuOptions = props.contextMenuOptions.concat([
         {
-            name: 'Set Tab Description', 
+            name: '设置标签注释', 
             click: ({event}) => {
                 setOpenEditDescriptionDialog(true);
             }
@@ -52,7 +52,7 @@ export function CallbacksTabsTaskingLabel(props){
             {openEditDescriptionDialog &&
                 <MythicDialog fullWidth={true} open={openEditDescriptionDialog}  onClose={() => {setOpenEditDescriptionDialog(false);}}
                     innerDialog={
-                        <MythicModifyStringDialog title={"Edit Tab's Description - Displays as one line"} onClose={() => {setOpenEditDescriptionDialog(false);}} value={description} onSubmit={editDescriptionSubmit} />
+                        <MythicModifyStringDialog title={"编辑标签描述 - 显示为单行"} onClose={() => {setOpenEditDescriptionDialog(false);}} value={description} onSubmit={editDescriptionSubmit} />
                     }
                 />
             }
@@ -60,7 +60,7 @@ export function CallbacksTabsTaskingLabel(props){
     )
 }
 
-// this is to listen for the latest tasking
+// 监听最新的任务
 const fetchLimit = 30;
 const getTaskingQuery = gql`
 ${taskingDataFragment}
@@ -114,7 +114,7 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
                 snackActions.error(data.createTask.error);
             }else{
                 newlyIssuedTasks.current.push(data.createTask.id);
-                //snackActions.success("Task created", {autoClose: 1000});
+                //snackActions.success("任务已创建", {autoClose: 1000});
             }
         },
         onError: data => {
@@ -178,12 +178,12 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
         if(index !== value && fetched){
             setNewDataForTab((prev) => {return {...prev, [tabInfo.tabID]: true}});
         }
-        //console.log("new subscription data in CallbacksTabsTasking", subscriptionData);
+        //console.log("CallbacksTabsTasking 中的新订阅数据", subscriptionData);
         const oldLength = taskingDataRef.current.task.length;
         const mergedData = data.data.task.reduce( (prev, cur) => {
             const index = prev.findIndex(element => element.id === cur.id);
             if(index > -1){
-                // need to update an element
+                // 需要更新元素
                 const updated = prev.map( (element) => {
                     if(element.id === cur.id){
                         return cur;
@@ -227,7 +227,7 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
             const mergedData = data.task.reduce( (prev, cur) => {
                 const index = prev.findIndex(element => element.id === cur.id);
                 if(index > -1){
-                    // need to update an element
+                    // 需要更新元素
                     const updated = prev.map( (element) => {
                         if(element.id === cur.id){
                             return cur;
@@ -284,7 +284,7 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
             newTaskingLocation = "browserscript_modified";
         }
         if(cmd.commandparameters.length === 0){
-            // if there are no parameters, just send whatever the user types along
+            // 如果没有参数，直接发送用户输入的内容
             onCreateTask({callback_id: tabInfo.displayID,
                 command: cmd.cmd,
                 params: params,
@@ -293,14 +293,14 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
                 payload_type: cmd.payloadtype?.name,
             });
         }else{
-            // check if there's a "file" component that needs to be displayed
+            // 检查是否有需要显示的"文件"组件
             const fileParamExists = cmd.commandparameters.find(param => {
                 if(param.parameter_type === "File" && cmdGroupNames.includes(param.parameter_group_name)){
                     if(!(param.cli_name in parsed || param.name in parsed || param.display_name in parsed)){
                         return true;
                     }
                     if(param.cli_name in parsed && uuidValidate(parsed[param.cli_name])){
-                        return false; // no need for a popup, already have a valid file specified
+                        return false; // 无需弹出窗口，已指定有效文件
                     } else if(param.name in parsed && uuidValidate(parsed[param.name])){
                         return false;
                     } else if(param.display_name in parsed && uuidValidate(parsed[param.display_name])){
@@ -309,21 +309,21 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
                 }
 
             });
-            //console.log("missing File for group? ", fileParamExists, cmdGroupNames);
+            //console.log("组缺少文件？", fileParamExists, cmdGroupNames);
             let missingRequiredPrams = false;
             if(cmdGroupNames.length === 1){
                 const missingParams = cmd.commandparameters.filter(param => param.required && param.parameter_group_name === cmdGroupNames[0] && !(param.cli_name in parsed || param.name in parsed || param.display_name in parsed));
                 if(missingParams.length > 0){
                     missingRequiredPrams = true;
-                    console.log("missing required params", missingParams,parsed);
+                    console.log("缺少必需参数", missingParams,parsed);
                 }
             }else if(cmdGroupNames > 1 && !force_parsed_popup){
-                // need to force a popup because the tasking is ambiguous
-                console.log("command is ambiguous");
+                // 需要强制弹出窗口，因为任务不明确
+                console.log("命令不明确");
                 force_parsed_popup = true;
             }
             if(fileParamExists || force_parsed_popup || missingRequiredPrams){
-                //need to do a popup
+                //需要弹出窗口
                 if(cmdGroupNames.length > 0){
                     setCommandInfo({...cmd, "parsedParameters": parsed, groupName: cmdGroupNames[0]});
                 }else{
@@ -386,7 +386,7 @@ export const CallbacksTabsTaskingPanel = ({tabInfo, index, value, onCloseTab, pa
             {loadingMore && <LinearProgress color="primary" thickness={2} style={{paddingTop: "5px"}}/>}
             <div style={{overflowY: "auto", flexGrow: 1, width: "100%"}} id={`taskingPanel${tabInfo.callbackID}`}>
                 {!fetchedAllTasks &&
-                    <MythicStyledTooltip tooltipStyle={{marginLeft: "50%"}} title="Fetch Older Tasks">
+                    <MythicStyledTooltip tooltipStyle={{marginLeft: "50%"}} title="获取更早的任务">
                         <IconButton
                             onClick={loadMoreTasks}
                             variant="contained"

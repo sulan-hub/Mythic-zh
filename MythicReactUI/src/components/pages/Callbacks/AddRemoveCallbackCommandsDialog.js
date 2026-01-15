@@ -82,8 +82,8 @@ export function AddRemoveCallbackCommandsDialog(props) {
     const [left, setLeft] = React.useState([]);
     const [originalRight, setOriginalRight] = React.useState([]);
     const [right, setRight] = React.useState([]);
-    const leftTitle = "Commands Not Included";
-    const rightTitle = "Commands Included";
+    const leftTitle = "未包含的命令";
+    const rightTitle = "已包含的命令";
 
     useQuery(getCommandsQuery, {variables: {callback_id: props.callback_id},
       fetchPolicy: "no-cache",
@@ -172,7 +172,7 @@ export function AddRemoveCallbackCommandsDialog(props) {
     };
 
     const setFinalTags = () => {
-      // things to add are in the `right` now but weren't for `originalRight`
+      // 现在在 `right` 中但不在 `originalRight` 中的是需要添加的
       const commandsToAdd = right.filter( (command) => {
         return originalRight.filter(orig => orig.command.cmd === command.cmd && orig.command.payloadtype.name === command.payloadtype.name).length === 0;
       });
@@ -184,10 +184,10 @@ export function AddRemoveCallbackCommandsDialog(props) {
     }
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Add or Remove Commands for Callback {props.display_id} </DialogTitle>
+        <DialogTitle id="form-dialog-title">为回调 {props.display_id} 添加或移除命令</DialogTitle>
         <DialogContent dividers={true} style={{height: "100%", display: "flex", flexDirection: "column", position: "relative",  maxHeight: "100%"}}>
-          This will add or remove commands associated with this callback from Mythic's perspective. 
-          This does NOT add or remove commands within the payload itself that's beaconing out to Mythic.
+          这将从 Mythic 的角度添加或移除与此回调关联的命令。
+          这并不会在信标到 Mythic 的载荷本身中添加或移除命令。
           <div style={{display: "flex", flexDirection: "row", overflowY: "auto", flexGrow: 1, minHeight: 0}}>
             <div  style={{paddingLeft: 0, flexGrow: 1,  marginLeft: 0, marginRight: "10px", position: "relative",  overflowY: "auto", display: "flex", flexDirection: "column" }}>
               <CustomList title={leftTitle} items={left} handleToggle={handleToggle}/>
@@ -199,7 +199,7 @@ export function AddRemoveCallbackCommandsDialog(props) {
                 className={classes.button}
                 onClick={handleAllRight}
                 disabled={left.length === 0}
-                aria-label="move all right"
+                aria-label="全部移到右侧"
               >
                 &gt;&gt;
               </StyledButton>
@@ -208,7 +208,7 @@ export function AddRemoveCallbackCommandsDialog(props) {
                 size="small"
                 className={classes.button}
                 onClick={handleCheckedRight}
-                aria-label="move selected right"
+                aria-label="移动选中项到右侧"
               >
                 &gt;
               </StyledButton>
@@ -217,7 +217,7 @@ export function AddRemoveCallbackCommandsDialog(props) {
                 size="small"
                 className={classes.button}
                 onClick={handleCheckedLeft}
-                aria-label="move selected left"
+                aria-label="移动选中项到左侧"
               >
                 &lt;
               </StyledButton>
@@ -227,7 +227,7 @@ export function AddRemoveCallbackCommandsDialog(props) {
                 className={classes.button}
                 onClick={handleAllLeft}
                 disabled={right.length === 0}
-                aria-label="move all left"
+                aria-label="全部移到左侧"
               >
                 &lt;&lt;
               </StyledButton>
@@ -240,13 +240,12 @@ export function AddRemoveCallbackCommandsDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           <Button onClick={setFinalTags} variant="contained" color="success">
-            Submit
+            提交
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

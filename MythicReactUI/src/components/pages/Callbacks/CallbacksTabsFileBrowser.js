@@ -144,13 +144,13 @@ export const getAllParentNodes = (node) => {
     return newNodes;
 }
 export function CallbacksTabsFileBrowserLabel(props) {
-    const [description, setDescription] = React.useState('File Browser: ' + props.tabInfo.displayID);
+    const [description, setDescription] = React.useState('文件浏览器: ' + props.tabInfo.displayID);
     const [openEditDescriptionDialog, setOpenEditDescriptionDialog] = React.useState(false);
     useEffect(() => {
         if (props.tabInfo.customDescription !== '' && props.tabInfo.customDescription !== undefined) {
             setDescription(props.tabInfo.customDescription);
         } else {
-            setDescription('File Browser: ' + props.tabInfo.displayID);
+            setDescription('文件浏览器: ' + props.tabInfo.displayID);
         }
     }, [props.tabInfo.payloadDescription, props.tabInfo.customDescription]);
     useEffect( () => {
@@ -166,7 +166,7 @@ export function CallbacksTabsFileBrowserLabel(props) {
 
     const contextMenuOptions = props.contextMenuOptions.concat([
         {
-            name: 'Set Tab Description', 
+            name: '设置标签注释', 
             click: ({event}) => {
                 setOpenEditDescriptionDialog(true);
             }
@@ -184,7 +184,7 @@ export function CallbacksTabsFileBrowserLabel(props) {
                     }}
                     innerDialog={
                         <MythicModifyStringDialog
-                            title={"Edit Tab's Description - Displays as one line"}
+                            title={"编辑标签描述 - 显示为单行"}
                             onClose={() => {
                                 setOpenEditDescriptionDialog(false);
                             }}
@@ -200,13 +200,13 @@ export function CallbacksTabsFileBrowserLabel(props) {
 export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNewDataForTab, baseUIFeature }) => {
     const fromNow = React.useRef(getSkewedNow());
     const [backdropOpen, setBackdropOpen] = React.useState(false);
-    const treeRootDataRef = React.useRef({}); // hold all of the actual data
-    // hold the simple adjacency matrix for parent/child relationships
+    const treeRootDataRef = React.useRef({}); // 保存所有实际数据
+    // 保存父/子关系的简单邻接矩阵
     const [treeAdjMtx, setTreeAdjMtx] = React.useState({});
     const [selectedFolderData, setSelectedFolderData] = React.useState({
         full_path_text: '',
         host: tabInfo.host,
-        group: "Default",
+        group: "默认",
         parent_path_text: ""
     });
     const [showDeletedFiles, setShowDeletedFiles] = React.useState(false);
@@ -227,11 +227,11 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
     const loadingCommandsRef = React.useRef(false);
     useQuery(rootFileQuery, {
         onCompleted: (data) => {
-           // use an adjacency matrix but only for full_path_text -> children, not both directions
-           // create the top level data in the treeRootDataRef
-           let defaultGroup = "Default";
+           // 使用邻接矩阵，但仅用于 full_path_text -> 子节点，不是双向的
+           // 在 treeRootDataRef 中创建顶级数据
+           let defaultGroup = "默认";
            for(let i = 0; i < data.mythictree.length; i++){
-               let currentGroups = data.mythictree[i]?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+               let currentGroups = data.mythictree[i]?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                try{
                    if(data.mythictree[i]?.['callback']?.['id'] === tabInfo.callbackID){
                        if(!currentGroups.includes(defaultGroup, 0)){
@@ -246,7 +246,7 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                         treeRootDataRef.current[currentGroups[j]] = {};
                     }
                     if( treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] === undefined) {
-                        // new host discovered
+                        // 发现新主机
                         treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] = {};
                     }
                     if(treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]] === undefined){
@@ -262,26 +262,25 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                     }
                 }
            }
-           // create the top level data in the adjacency matrix
+           // 在邻接矩阵中创建顶级数据
            const newMatrix = data.mythictree.reduce( (prev, cur) => {
-               let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+               let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                for(let j = 0; j < currentGroups.length; j++) {
                    if (prev[currentGroups[j]] === undefined) {
                        prev[currentGroups[j]] = {};
                    }
                    if (prev[currentGroups[j]][cur["host"]] === undefined) {
-                       // the current host isn't tracked in the adjacency matrix, so add it
+                       // 当前主机未在邻接矩阵中跟踪，所以添加它
                        prev[currentGroups[j]][cur["host"]] = {}
                    }
                    if (prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] === undefined) {
-                       // the current parent's path isn't tracked, so add it and ourselves as children
+                       // 当前父路径未跟踪，所以添加它并将我们自己作为子节点
                        prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] = {};
                    }
                    prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]][cur["full_path_text"]] = 1;
                }
                 return prev;
            }, {...treeAdjMtx});
-           //console.log(treeRootDataRef.current);
            setTreeAdjMtx(newMatrix);
             setSelectedFolderData({
                 full_path_text: '',
@@ -297,17 +296,17 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
         fetchPolicy: "no-cache",
         onData: ({data}) => {
             for(let i = 0; i < data.data.mythictree_stream.length; i++){
-                let currentGroups = data.data.mythictree_stream[i]?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+                let currentGroups = data.data.mythictree_stream[i]?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                 for(let j = 0; j < currentGroups.length; j++) {
                     if (treeRootDataRef.current[currentGroups[j]] === undefined) {
                         treeRootDataRef.current[currentGroups[j]] = {};
                     }
                     if (treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]] === undefined) {
-                        // new host discovered
+                        // 发现新主机
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]] = {};
                     }
                     if(treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]] === undefined){
-                        // first time we're seeing this file data, just add it
+                        // 第一次看到这个文件数据，直接添加
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]] = {...data.data.mythictree_stream[i]};
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]].filemeta = treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]].filemeta.map(f => {
                             return {...f, filename_text: b64DecodeUnicode(f.filename_text)}
@@ -318,7 +317,7 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                                 group: currentGroups[j], fromHistory: selectedFolderData.fromHistory});
                         }
                     } else {
-                        // we need to merge data in because we already have some info
+                        // 我们需要合并数据，因为我们已经有一些信息
                         let existingData = treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]];
                         if(existingData.task_id < data.data.mythictree_stream[i].task_id){
                             existingData.deleted = data.data.mythictree_stream[i].deleted;
@@ -334,7 +333,7 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                             if(Array.isArray(existingData.metadata.permissions) && Array.isArray(data.data.mythictree_stream[i].metadata.permissions)){
                                 existingData.metadata.permissions = [...existingData.metadata.permissions, ...data.data.mythictree_stream[i].metadata.permissions];
                             } else if(Array.isArray(existingData.metadata.permissions) !== Array.isArray(data.data.mythictree_stream[i].metadata.permissions)) {
-                                // had array/dict and got mismatched array/dict, so just take newer one
+                                // 有数组/字典，收到不匹配的数组/字典，所以只取较新的
                                 existingData.metadata.permissions = data.data.mythictree_stream[i].metadata.permissions;
                             } else {
                                 existingData.metadata.permissions = {...existingData.metadata.permissions, ...data.data.mythictree_stream[i].metadata.permissions};
@@ -354,17 +353,17 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                 }
             }
             const newMatrix = data.data.mythictree_stream.reduce( (prev, cur) => {
-                let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+                let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                 for(let j = 0; j < currentGroups.length; j++) {
                     if (prev[currentGroups[j]] === undefined) {
                         prev[currentGroups[j]] = {};
                     }
                     if (prev[currentGroups[j]][cur["host"]] === undefined) {
-                        // the current host isn't tracked in the adjacency matrix, so add it
+                        // 当前主机未在邻接矩阵中跟踪，所以添加它
                         prev[currentGroups[j]][cur["host"]] = {}
                     }
                     if (prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] === undefined) {
-                        // the current parent's path isn't tracked, so add it and ourselves as children
+                        // 当前父路径未跟踪，所以添加它并将我们自己作为子节点
                         prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] = {};
                     }
                     prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]][cur["full_path_text"]] = 1;
@@ -430,22 +429,21 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
         fetchPolicy: 'no-cache',
         notifyOnNetworkStatusChange: true,
         onCompleted: (data) => {
-            //console.log("getFolderData", data)
             let mythictree = [...data.parents, ...data.children];
             snackActions.dismiss();
-            // add in all of the raw data
+            // 添加所有原始数据
             for(let i = 0; i < mythictree.length; i++){
-                let currentGroups = mythictree[i]?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+                let currentGroups = mythictree[i]?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                 for(let j = 0; j < currentGroups.length; j++){
                     if(treeRootDataRef.current[currentGroups[j]] === undefined){
                         treeRootDataRef.current[currentGroups[j]] = {};
                     }
                     if( treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]] === undefined) {
-                        // new host discovered
+                        // 发现新主机
                         treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]] = {};
                     }
                     if(treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]][mythictree[i]["full_path_text"]] === undefined){
-                        // first time we're seeing this file data, just add it
+                        // 第一次看到这个文件数据，直接添加
                         treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]][mythictree[i]["full_path_text"]] = {...mythictree[i]};
                         treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]][mythictree[i]["full_path_text"]].filemeta = treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]][mythictree[i]["full_path_text"]].filemeta.map(f => {
                             return {...f, filename_text: b64DecodeUnicode(f.filename_text)}
@@ -456,7 +454,7 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                                 group: currentGroups[j], fromHistory: selectedFolderData.fromHistory});
                         }
                     } else {
-                        // we need to merge data in because we already have some info
+                        // 我们需要合并数据，因为我们已经有一些信息
                         let existingData = treeRootDataRef.current[currentGroups[j]][mythictree[i]["host"]][mythictree[i]["full_path_text"]];
                         if(existingData.task_id < mythictree[i].task_id){
                             existingData.deleted = mythictree[i].deleted;
@@ -468,12 +466,11 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                         existingData.comment += mythictree[i].comment;
                         existingData.tags = [...existingData.tags, ...mythictree[i].tags];
                         existingData.has_children = mythictree[i].has_children || existingData.has_children;
-                        //console.log("updating permissions", "existing", existingData.metadata.permissions, "new", mythictree[i].metadata)
                         if(mythictree[i].metadata.permissions !== undefined && mythictree[i].metadata.permissions !== null){
                             if(Array.isArray(existingData.metadata.permissions) && Array.isArray(mythictree[i].metadata.permissions)){
                                 existingData.metadata.permissions = [...existingData.metadata.permissions, ...mythictree[i].metadata.permissions];
                             } else if(Array.isArray(existingData.metadata.permissions) !== Array.isArray(mythictree[i].metadata.permissions)) {
-                                // had array/dict and got mismatched array/dict, so just take newer one
+                                // 有数组/字典，收到不匹配的数组/字典，所以只取较新的
                                 existingData.metadata.permissions = mythictree[i].metadata.permissions;
                             } else {
                                 existingData.metadata.permissions = {...existingData.metadata.permissions, ...mythictree[i].metadata.permissions};
@@ -494,32 +491,29 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                     }
                 }
             }
-            // create the top level data in the adjacency matrix
+            // 在邻接矩阵中创建顶级数据
             const newMatrix = mythictree.reduce( (prev, cur) => {
-                let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
+                let currentGroups = cur?.["callback"]?.["mythictree_groups"] || ["未知回连"];
                 for(let j = 0; j < currentGroups.length; j++) {
                     if (prev[currentGroups[j]] === undefined) {
                         prev[currentGroups[j]] = {};
                     }
                     if (prev[currentGroups[j]][cur["host"]] === undefined) {
-                        // the current host isn't tracked in the adjacency matrix, so add it
+                        // 当前主机未在邻接矩阵中跟踪，所以添加它
                         prev[currentGroups[j]][cur["host"]] = {}
                     }
                     if (prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] === undefined) {
-                        // the current parent's path isn't tracked, so add it and ourselves as children
+                        // 当前父路径未跟踪，所以添加它并将我们自己作为子节点
                         prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]] = {};
                     }
                     prev[currentGroups[j]][cur["host"]][cur["parent_path_text"]][cur["full_path_text"]] = 1;
                 }
                 return prev;
             }, {...treeAdjMtx});
-            //console.log(treeRootDataRef.current);
             setTreeAdjMtx(newMatrix);
-            //console.log("just set treeAdjMtx, about to close backdrop")
             setBackdropOpen(false);
             if(data.self.length > 0){
-                //setSelectedFolderData({...selectedFolderData, task_id: data.self[0].task_id, success: data.self[0].success});
-                // this path exists, let's see if we have data for it and if the user wants us to auto-issue an ls for the path
+                // 此路径存在，让我们看看是否有数据，以及用户是否希望我们自动为此路径发出 ls 命令
                 let newAllData = Object.keys(newMatrix[selectedFolderData.group]?.[selectedFolderData.host]?.[data.self[0].full_path_text] || {});
                 if(autoTaskLsOnEmptyDirectoriesRef.current){
                     if(newAllData.length === 0 && data.self[0].full_path_text !== "" && data.self[0].success === null){
@@ -527,9 +521,9 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
                     }
                 }
             } else {
-                // we couldn't find the path specified, so we must not have data for it, so check if the user wants us to auto issue an ls
+                // 找不到指定的路径，所以一定没有数据，检查用户是否希望我们自动发出 ls
                 if(autoTaskLsOnEmptyDirectoriesRef.current){
-                    // don't want to auto ls when we get to the root/host object in the view
+                    // 到达视图中的根/主机对象时不想自动发出 ls
                     if(selectedFolderData.full_path_text !== ""){
                         onListFilesButtonFromTableWithNoEntries()
                     }
@@ -538,7 +532,6 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
         },
     });
     const onSetTableData = useCallback((nodeData) => {
-        //console.log("setTableData", nodeData);
         setSelectedFolderData(nodeData);
     }, []);
     const fetchFolderData = useCallback((nodeData, fromHistory) => {
@@ -581,7 +574,7 @@ export const CallbacksTabsFileBrowserPanel = ({ index, value, tabInfo, me, setNe
     };
     const onListFilesButtonFromTableWithNoEntries = () => {
         taskingData.current = ({
-            "token": taskingTableTopTypedDataRef.current.token === "Default Token" ? 0 : taskingTableTopTypedDataRef.current.token,
+            "token": taskingTableTopTypedDataRef.current.token === "默认令牌" ? 0 : taskingTableTopTypedDataRef.current.token,
             "parameters": {
                 path: taskingTableTopTypedDataRef.current.path,
                 full_path: taskingTableTopTypedDataRef.current.path,
@@ -770,7 +763,7 @@ const FileBrowserTableTop = ({
     });
     const [updateMythicSetting] = useSetMythicSetting();
     const [fullPath, setFullPath] = React.useState('');
-    const selectedToken = React.useRef("Default Token");
+    const selectedToken = React.useRef("默认令牌");
     const [tokenOptions, setTokenOptions] = React.useState([]);
     const [placeHolder, setPlaceHolder] = React.useState(selectedFolderData.host);
     const [showDeletedFiles, setLocalShowDeletedFiles] = React.useState(false);
@@ -784,8 +777,8 @@ const FileBrowserTableTop = ({
     };
     const changeSelectedToken = (token) => {
         onChangeSelectedToken(token);
-        if(token === "Default Token"){
-            selectedToken.current = "Default Token";
+        if(token === "默认令牌"){
+            selectedToken.current = "默认令牌";
             taskingTableTopTypedDataRef.current.token = selectedToken;
             return;
         }
@@ -800,7 +793,7 @@ const FileBrowserTableTop = ({
         onData: ({data}) => {
             setTokenOptions(data.data.callbacktoken);
             if(data.data.callbacktoken.length === 0) {
-                onChangeSelectedToken("Default Token");
+                onChangeSelectedToken("默认令牌");
             }
         }
     });
@@ -825,17 +818,17 @@ const FileBrowserTableTop = ({
         }
         if(selectedFolderData.id !== ""){
             if(history[0]?.full_path_text !== selectedFolderData.full_path_text){
-                // always add newest things to the bottom of the stack
+                // 始终将最新内容添加到堆栈底部
                 setHistory([selectedFolderData, ...history]);
                 if(history.length > 20){
-                    // pop off from the top (the oldest) if we get more than 50
+                    // 如果超过50个，从顶部弹出最旧的
                     setHistory([selectedFolderData, ...history.splice(history.length-1, 1)])
                 }
             }
         }
     }, [selectedFolderData, history])
     const moveIndexToPreviousListing = () => {
-        // we're getting closer to the end of the historyRef.current, the oldest listing
+        // 我们越来越接近 historyRef.current 的末尾，即最旧的列表
         if(historyIndex >= history.length -1){
             return
         }
@@ -843,8 +836,7 @@ const FileBrowserTableTop = ({
         fetchFolderData(history[historyIndex + 1], true);
     }
     const moveIndexToNextListing = () => {
-        // we're getting close to index 0, the newest listing
-        //console.log(historyIndex, history);
+        // 我们越来越接近索引0，即最新的列表
         if(historyIndex <= 0){
             return
         }
@@ -881,9 +873,9 @@ const FileBrowserTableTop = ({
     const onToggleAutoTaskLsOnEmptyDirectories = () => {
         updateMythicSetting({setting_name: "autoTaskLsOnEmptyDirectories", value: !autoTaskLsOnEmptyDirectories});
         if(autoTaskLsOnEmptyDirectories){
-            snackActions.info("No longer auto issuing listings for empty paths");
+            snackActions.info("不再自动为空路径发出列表命令");
         } else {
-            snackActions.success("Now starting to auto issue listings for empty paths");
+            snackActions.success("现在开始自动为空路径发出列表命令");
         }
     }
     const goToDirectory = () => {
@@ -921,14 +913,14 @@ const FileBrowserTableTop = ({
                     InputProps={{
                         endAdornment: (
                             <React.Fragment>
-                                <MythicStyledTooltip title={`Task current callback (${tabInfo["displayID"]}) to list contents`}>
+                                <MythicStyledTooltip title={`任务当前回连 (${tabInfo["displayID"]}) 列出内容`}>
                                     <IconButton style={{ padding: '3px' }}
                                                 onClick={onLocalListFilesButton}
                                                 size="large">
                                         <RefreshIcon color='info' />
                                     </IconButton>
                                 </MythicStyledTooltip>
-                                <MythicStyledTooltip title={`Upload file to folder via current callback (${tabInfo["displayID"]})`}>
+                                <MythicStyledTooltip title={`通过当前回连 (${tabInfo["displayID"]}) 上传文件到文件夹`}>
                                     <IconButton style={{ padding: '3px' }}
                                                 onClick={onLocalUploadFileButton}
                                                 size="large">
@@ -936,7 +928,7 @@ const FileBrowserTableTop = ({
                                     </IconButton>
                                 </MythicStyledTooltip>
                                 {autoTaskLsOnEmptyDirectories ? (
-                                    <MythicStyledTooltip title={"Currently tasking listing on empty directories, click to toggle off"} >
+                                    <MythicStyledTooltip title={"当前正在为空目录自动任务列表，点击切换关闭"} >
                                         <IconButton style={{padding: "3px"}}
                                                     onClick={onToggleAutoTaskLsOnEmptyDirectories}
                                                     size={"large"}>
@@ -944,7 +936,7 @@ const FileBrowserTableTop = ({
                                         </IconButton>
                                     </MythicStyledTooltip>
                                 ) : (
-                                    <MythicStyledTooltip title={"Currently not tasking listing on empty directories, click to toggle on"} >
+                                    <MythicStyledTooltip title={"当前未为空目录自动任务列表，点击切换开启"} >
                                         <IconButton style={{padding: "3px"}}
                                                     onClick={onToggleAutoTaskLsOnEmptyDirectories}
                                                     size={"large"}>
@@ -952,7 +944,7 @@ const FileBrowserTableTop = ({
                                         </IconButton>
                                     </MythicStyledTooltip>
                                 )}
-                                <MythicStyledTooltip title={showDeletedFiles ? 'Hide Deleted Files' : 'Show Deleted Files'}>
+                                <MythicStyledTooltip title={showDeletedFiles ? '隐藏已删除文件' : '显示已删除文件'}>
                                     <IconButton
                                         style={{ padding: '3px' }}
                                         onClick={onLocalToggleShowDeletedFiles}
@@ -976,7 +968,7 @@ const FileBrowserTableTop = ({
                                     <CallbacksTabsTaskingInputTokenSelect width={"100%"}
                                         options={tokenOptions} changeSelectedToken={changeSelectedToken}/>
                                 }
-                                <MythicStyledTooltip title={`Move back to previous listing`}>
+                                <MythicStyledTooltip title={`移动到上一个列表`}>
                                     <IconButton style={{ padding: '3px' }}
                                                 disabled={historyIndex >= history.length -1 }
                                                 onClick={moveIndexToPreviousListing}
@@ -985,7 +977,7 @@ const FileBrowserTableTop = ({
                                         <ArrowBackIcon />
                                     </IconButton>
                                 </MythicStyledTooltip>
-                                <MythicStyledTooltip title={`Move to next listing`}>
+                                <MythicStyledTooltip title={`移动到下一个列表`}>
                                     <IconButton style={{ padding: '3px' }}
                                                 disabled={historyIndex <= 0}
                                                 onClick={moveIndexToNextListing}
@@ -994,7 +986,7 @@ const FileBrowserTableTop = ({
                                         <ArrowForwardIcon  />
                                     </IconButton>
                                 </MythicStyledTooltip>
-                                <MythicStyledTooltip title={"Move up a directory"} >
+                                <MythicStyledTooltip title={"向上移动目录"} >
                                     <IconButton style={{padding: "0 0 0 0"}}
                                                 onClick={onLocalMoveUpDirectoryButton}
                                                 disabled={!selectedFolderData?.parent_path_text || selectedFolderData?.parent_path_text?.length === 0 || selectedFolderData.root || fullPath === ""}

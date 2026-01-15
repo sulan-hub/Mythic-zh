@@ -36,7 +36,7 @@ export const ResponseDisplayPlaintext = (props) =>{
   }
   useEffect( () => {
       if(props.plaintext.length > MaxRenderSize){
-          snackActions.warning("Response too large (> 2MB), truncating the render. Download task output to view entire response.");
+          snackActions.warning("响应过大（> 2MB），截断渲染。请下载任务输出以查看完整响应。");
           setPlaintextView(props.plaintext.substring(0, MaxRenderSize));
       } else {
           try{
@@ -64,14 +64,14 @@ export const ResponseDisplayPlaintext = (props) =>{
             setPlaintextView(tmp);
             setMode("json");
         }catch(error){
-            snackActions.warning("Failed to reformat as JSON")
+            snackActions.warning("无法重新格式化为JSON")
         }
     }
     const onChangeShowOptions = (e) => {
         setShowOptions(!showOptions);
     }
     const scrollContent = (node, isAppearing) => {
-        // only auto-scroll if you issued the task
+        // 只有您发出任务时才自动滚动
         if(props?.task?.operator?.username === (me?.user?.username || "")){
             let el = document.getElementById(`taskingPanel${props.task.callback_id}`);
             if(props.expand || props.displayType === "console"){
@@ -99,7 +99,7 @@ export const ResponseDisplayPlaintext = (props) =>{
               <div style={{display: "inline-flex", flexDirection: "row", alignItems: "center"}}>
                   <FormControl sx={{ display: "inline-block", marginLeft: "10px" }} size="small">
                       <TextField
-                          label={"Syntax"}
+                          label={"语法高亮"}
                           select
                           margin={"dense"}
                           size={"small"}
@@ -114,19 +114,19 @@ export const ResponseDisplayPlaintext = (props) =>{
                           }
                       </TextField>
                   </FormControl>
-                  <MythicStyledTooltip title={wrapText ?  "Unwrap Text" : "Wrap Text"} >
+                  <MythicStyledTooltip title={wrapText ?  "取消换行" : "换行"} >
                       <IconButton onClick={toggleWrapText} style={{}}>
                           <WrapTextIcon color={wrapText ? "success" : "secondary"}
                                         style={{cursor: "pointer"}}
                           />
                       </IconButton>
                   </MythicStyledTooltip>
-                  <MythicStyledTooltip title={"Auto format JSON"} >
+                  <MythicStyledTooltip title={"自动格式化JSON"} >
                       <IconButton onClick={formatJSON} style={{}}>
                           <CodeIcon color={"info"} style={{cursor: "pointer"}} />
                       </IconButton>
                   </MythicStyledTooltip>
-                  <MythicStyledTooltip title={renderColors ? "Render Plaintext" : "Render Colors"} >
+                  <MythicStyledTooltip title={renderColors ? "渲染纯文本" : "渲染颜色"} >
                       <IconButton onClick={() => {setRenderColors(!renderColors)}}>
                           <PaletteIcon color={renderColors ? "success" : "secondary"} style={{cursor: "pointer"}} />
                       </IconButton>

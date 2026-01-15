@@ -76,7 +76,6 @@ const getClassnames = (entry) => {
     if(entry.bg_truecolor || entry.fg_truecolor){
         console.log(entry);
     }
-    //console.log(entry);
     return classnames.join(" ");
 }
 const handleTerminalCodes = (response) => {
@@ -108,7 +107,6 @@ export const GetOutputFormatAll = ({data, myTask, taskID,  useASNIColor, message
     React.useEffect( () => {
         const elements = data.map( d => {
             if(d.response !== undefined) {
-                // we're looking at response output
                 if(d.is_error){
                     return (<pre id={"response" + d.timestamp + d.id} style={{display: "inline",backgroundColor: "#311717", color: "white", margin: "0 0 0 0",
                         wordBreak: wrapText ? "break-all" : "",
@@ -119,7 +117,6 @@ export const GetOutputFormatAll = ({data, myTask, taskID,  useASNIColor, message
                     if(useASNIColor){
                         let removedTerminalCodes = handleTerminalCodes(d.response);
                         let ansiJSON = Anser.ansiToJson(removedTerminalCodes, { use_classes: true });
-                        //console.log(ansiJSON)
                         return (
                             ansiJSON.map( (a, i) => (
                                 <pre id={"response" + d.timestamp + d.id} style={{display: "inline", margin: "0 0 0 0",
@@ -137,7 +134,6 @@ export const GetOutputFormatAll = ({data, myTask, taskID,  useASNIColor, message
 
                 }
             } else {
-                // we're looking at tasking
                 return(
                     <pre id={"task" + d.timestamp + d.id} key={d.timestamp + d.id} style={{display: "inline",margin: "0 0 0 0",
                         wordBreak: wrapText ? "break-all" : "", whiteSpace: "pre-wrap"}}>
@@ -155,10 +151,7 @@ export const GetOutputFormatAll = ({data, myTask, taskID,  useASNIColor, message
             if(el && el.scrollHeight - el.scrollTop - el.clientHeight < 500){
                 if(!search){
                     messagesEndRef?.current?.scrollIntoView({ behavior: "auto", block: "nearest" });
-                    //console.log("scrolling");
                 }
-            } else {
-               // console.log("not scrolled down enough")
             }
         }
     }, [dataElement]);
@@ -170,11 +163,11 @@ export const GetOutputFormatAll = ({data, myTask, taskID,  useASNIColor, message
 
 
 const InteractiveMessageTypes = [
-    {"name": "None", "value": -1, "text": "None"},
+    {"name": "无", "value": -1, "text": "无"},
     {"name": "Tab", "value": 13, "text": "^I"},
-    {"name": "Backspace", "value": 12, "text": "^H"},
-    {"name": "Exit", "value": 3, "text": "exit"},
-    {"name": "Escape", "value": 4, "text": "^["},
+    {"name": "退格", "value": 12, "text": "^H"},
+    {"name": "退出", "value": 3, "text": "exit"},
+    {"name": "转义", "value": 4, "text": "^["},
     {"name": "Ctrl+A", "value": 5, "text": "^A"},
     {"name": "Ctrl+B", "value": 6, "text": "^B"},
     {"name": "Ctrl+C", "value": 7, "text": "^C"},
@@ -195,7 +188,7 @@ const InteractiveMessageTypes = [
     {"name": "Ctrl+Z", "value": 24, "text": "^Z"},
 ]
 const EnterOptions = [
-    {"value": "", "name": "None"},
+    {"value": "", "name": "无"},
     {"value": "\n", "name": "LF"},
     {"value": "\r", "name": "CR"},
     {"value": "\r\n", "name": "CRLF"}
@@ -247,7 +240,6 @@ export const ResponseDisplayInteractive = (props) =>{
       }
     })
     const subscriptionDataCallback = React.useCallback( ({data}) => {
-        // we still have some room to view more, but only room for fetchLimit - totalFetched.current
         if(props.task.id !== taskIDRef.current){
             const newResponses = data.data.response_stream;
             const newerResponses = newResponses.map( (r) => { return {...r, response: b64DecodeUnicode(r.response)}});
@@ -325,8 +317,6 @@ export const ResponseDisplayInteractive = (props) =>{
             if(page.current === currentPage){
                 const pageCount = Math.max(1, Math.ceil(allData.length / pageSize.current));
                 if(page.current === pageCount -1){
-                    // we just streamed more data and we're on the latest page, increase pageSize
-                    //pageSize.current += Math.abs(allData.length - totalCount);
                     currentPage += 1;
                 }
             }
@@ -346,17 +336,6 @@ export const ResponseDisplayInteractive = (props) =>{
     }, []);
     useEffect( () =>{
         onSubmitPageChange(page.current);
-        /*
-        let allData = [...rawResponses, ...taskData];
-        allData.sort( (a,b) => {
-            let aDate = new Date(a.timestamp);
-            let bDate = new Date(b.timestamp);
-            return aDate < bDate ? -1 : bDate < aDate ? 1 : 0;
-        });
-        setAllOutput(allData);
-        setTotalCount(allData.length);
-
-         */
     }, [rawResponses, taskData]);
     const toggleANSIColor = () => {
         setUseANSIColor(!useASNIColor);
@@ -381,7 +360,6 @@ export const ResponseDisplayInteractive = (props) =>{
         }
     }, [loadingTasks]);
     setTimeout(() => {
-        // close the backdrop after 2 seconds in case there's no data to fetch
         setBackdropOpen(false);
     }, 2000);
   return (
@@ -404,7 +382,7 @@ export const ResponseDisplayInteractive = (props) =>{
                   display: "flex", flexDirection: "column"}}>
                   <CircularProgress color="inherit" />
                   <Typography variant={"h5"}>
-                      Fetching Interactive Task Data....
+                      正在获取交互式任务数据....
                   </Typography>
               </div>
           </Backdrop>
@@ -475,7 +453,7 @@ const InteractiveTaskingBar = ({
                 event.preventDefault();
                 event.stopPropagation();
                 if(taskOptions.length === 0){
-                    snackActions.warning("No previous tasks")
+                    snackActions.warning("没有历史任务")
                     return;
                 }
                 let newIndex = (taskOptionsIndex + 1);
@@ -488,7 +466,7 @@ const InteractiveTaskingBar = ({
                 event.preventDefault();
                 event.stopPropagation();
                 if(taskData.length === 0){
-                    snackActions.warning("No next tasks")
+                    snackActions.warning("没有后续任务")
                     return;
                 }
                 let newIndex = (taskOptionsIndex -1);
@@ -524,11 +502,9 @@ const InteractiveTaskingBar = ({
             let ctrlSequence = selectedControlOption.text;
             let enterOption = selectedEnterOption.value;
             let originalParams = inputText + ctrlSequence + enterOption;
-            // if we're looking at a tab, never send enter along with it
             if (selectedControlOption.value === 8){
                 originalParams = inputText + ctrlSequence;
                 enterOption = "";
-            // if we're looking at escape, never send enter along with it
             } else if(selectedControlOption.value === 4){
                 originalParams = ctrlSequence + inputText;
                 enterOption = "";
@@ -545,7 +521,6 @@ const InteractiveTaskingBar = ({
                     interactive_task_type: selectedControlOption.value,
                 }})
         }else {
-            // no control option selected, just send data along as input
             createTask({variables: {
                     callback_id: task.callback.display_id,
                     command: task.command.cmd,
@@ -580,7 +555,7 @@ const InteractiveTaskingBar = ({
             paddingTop: "5px",
             width: "100%"}}>
             <FormControl style={{width: "10rem", marginTop: "2px"}} >
-                <InputLabel id="control-label" style={{}}>Controls</InputLabel>
+                <InputLabel id="control-label" style={{}}>控制</InputLabel>
                 <Select
                     labelId="control-label"
                     id="control-select"
@@ -595,7 +570,7 @@ const InteractiveTaskingBar = ({
             </FormControl>
 
             <MythicTextField autoFocus={true} maxRows={5} multiline={true} onChange={onInputChange} onEnter={submitTask}
-                             value={inputText} variant={"standard"} placeholder={">_ type here..."} inline={true}
+                             value={inputText} variant={"standard"} placeholder={">_ 在此输入..."} inline={true}
                              debounceDelay={50}
                              marginBottom={"0px"} InputProps={{style: { width: "100%"}}}/>
             <FormControl style={{width: "7rem"}} >
@@ -613,7 +588,7 @@ const InteractiveTaskingBar = ({
                     ) )}
                 </Select>
             </FormControl>
-            <MythicStyledTooltip title={useASNIColor ?  "Disable ANSI Color" : "Enable ANSI Color"} >
+            <MythicStyledTooltip title={useASNIColor ?  "禁用ANSI颜色" : "启用ANSI颜色"} >
                 <IconButton onClick={toggleANSIColor} style={{paddingLeft: 0, paddingRight: 0}} disableRipple={true} disableFocusRipple={true}>
                     <PaletteIcon color={useASNIColor ? "success" : "secondary"}
                                  style={{cursor: "pointer"}}
@@ -621,7 +596,7 @@ const InteractiveTaskingBar = ({
                 </IconButton>
 
             </MythicStyledTooltip>
-            <MythicStyledTooltip title={showTaskStatus ?  "Hide Task Status" : "Show Task Status"} >
+            <MythicStyledTooltip title={showTaskStatus ?  "隐藏任务状态" : "显示任务状态"} >
                 <IconButton onClick={toggleShowTaskStatus} style={{paddingLeft: 0, paddingRight: 0}} disableRipple={true} disableFocusRipple={true}>
                     <CheckCircleOutlineIcon color={showTaskStatus ? "success" : "secondary"}
                                             style={{cursor: "pointer",}}
@@ -629,7 +604,7 @@ const InteractiveTaskingBar = ({
                 </IconButton>
 
             </MythicStyledTooltip>
-            <MythicStyledTooltip title={wrapText ?  "Unwrap Text" : "Wrap Text"} >
+            <MythicStyledTooltip title={wrapText ?  "取消文本换行" : "文本换行"} >
                 <IconButton onClick={toggleWrapText} style={{paddingLeft: 0, paddingRight: 0}} disableRipple={true} disableFocusRipple={true}>
                     <WrapTextIcon color={wrapText ? "success" : "secondary"}
                                   style={{cursor: "pointer"}}
@@ -654,7 +629,7 @@ const InteractivePaginationBar = ({totalCount, currentPage, onSubmitPageChange, 
                         boundaryCount={2} onChange={onChangePage} style={{margin: "10px"}}
                         showFirstButton showLastButton siblingCount={2}
             />
-            <Typography style={{paddingLeft: "10px"}}>Total: {totalCount}</Typography>
+            <Typography style={{paddingLeft: "10px"}}>总计: {totalCount}</Typography>
         </div>
     )
 }

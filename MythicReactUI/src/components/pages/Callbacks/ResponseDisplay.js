@@ -76,7 +76,7 @@ export function b64DecodeUnicode(str) {
     for (let i = 0; i < length; i++) {
         bytes[i] = text.charCodeAt(i);
     }
-    const decoder = new TextDecoder(); // default is utf-8
+    const decoder = new TextDecoder(); // 默认是utf-8
     return decoder.decode(bytes);
   }catch(error){
     try{
@@ -85,7 +85,7 @@ export function b64DecodeUnicode(str) {
       try{
         return window.atob(str);
       }catch(error3){
-        console.log("Failed to base64 decode response", error, error2)
+        console.log("base64解码响应失败", error, error2)
         return str;
       }
     }
@@ -118,7 +118,7 @@ const NonInteractiveResponseDisplay = (props) => {
           seenResponseIDs.current.push(r.id);
         }
       })
-      // set raw responses to be what we just manually fetched
+      // 将原始响应设置为手动获取的内容
       const responseArray = data.response.map( r =>{ return {...r, response: b64DecodeUnicode(r.response)}});
       setRawResponses(responseArray);
 
@@ -126,14 +126,14 @@ const NonInteractiveResponseDisplay = (props) => {
         return prev + cur.response;
       }, b64DecodeUnicode(""));
       setOutput(responses);
-      // update maxID
+      // 更新最大ID
       if(!props.selectAllOutput){
         setTotalCount(data.response_aggregate.aggregate.count);
       }
       setOpenBackdrop(false);
     },
     onError: (data) => {
-      snackActions.error("Failed to fetch more responses: " + data)
+      snackActions.error("获取更多响应失败: " + data)
     }
   });
   const [fetchAllResponses] = useLazyQuery(getAllResponsesLazyQuery, {
@@ -166,8 +166,8 @@ const NonInteractiveResponseDisplay = (props) => {
           fetchAllResponses({variables: {task_id: props.task.id, search: "%" + search.current + "%"}})
         }
       }else if(togglingAllOutputToPaginated.current){
-        // going from select all output to not select all output
-        // don't fetch this on first load
+        // 从"选择所有输出"切换到不选择所有输出
+        // 首次加载时不获取此数据
         onSubmitPageChange(1);
         togglingAllOutputToPaginated.current = false;
       }
@@ -181,14 +181,14 @@ const NonInteractiveResponseDisplay = (props) => {
     //onSubmitPageChange(1);
   }, [props.task.id]);
   setTimeout(() => {
-    // close the backdrop after 2 seconds in case there's no data to fetch
+    // 2秒后关闭遮罩层，以防没有数据要获取
     setOpenBackdrop(false);
   }, 1000);
   const subscriptionDataCallback =  ({data}) => {
     //console.log("fetchLimit", fetchLimit, "totalCount", totalCount);
       if(rawResponses.length >= initialResponseStreamLimit && initialResponseStreamLimit > 0 && !props.selectAllOutput){
-        // we won't display it
-        console.log("got more than we can see currently", totalCount);
+        // 我们不会显示它
+        console.log("获取到的数据超过当前可见范围", totalCount);
         setOpenBackdrop(false);
         let newTotal = totalCount;
         data.data.response_stream.forEach( (r) => {
@@ -200,7 +200,7 @@ const NonInteractiveResponseDisplay = (props) => {
         setTotalCount(newTotal);
         return;
       }
-      // we still have some room to view more, but only room for initialResponseStreamLimit - totalFetched.current
+      // 我们仍然有空间查看更多，但只有 initialResponseStreamLimit - totalFetched.current 的空间
       let newTotal = totalCount;
       const newerResponses = data.data.response_stream.reduce( (prev, cur) => {
         if(!seenResponseIDs.current.includes(cur.id)){
@@ -214,12 +214,12 @@ const NonInteractiveResponseDisplay = (props) => {
         }
         return [...prev, {...cur, response: b64DecodeUnicode(cur.response)}]
       }, rawResponses);
-      // sort them to make sure we're still in order
+      // 排序确保顺序正确
       newerResponses.sort( (a,b) => a.id > b.id ? 1 : -1);
       setTotalCount(newTotal);
-      // newerResponses is everything we've seen plus everything new
+      // newerResponses 是我们见过的所有内容加上所有新内容
       if(initialResponseStreamLimit > 0 && !props.selectAllOutput){
-        // take just the responses that make up our stream limit
+        // 只取构成流限制的响应
         const finalRawResponses = newerResponses.slice(0, initialResponseStreamLimit);
         const outputResponses = finalRawResponses.reduce( (prev, cur) => {
           return prev + cur.response;
@@ -340,7 +340,7 @@ export const NonInteractiveResponseDisplayConsole = (props) => {
       setOutput(responses);
       setRawResponses(responseArray);
     } else {
-      // we still have some room to view more, but only room for initialResponseStreamLimit - totalFetched.current
+      // 我们仍然有空间查看更多，但只有 initialResponseStreamLimit - totalFetched.current 的空间
       const newerResponses = data.data.response_stream.reduce( (prev, cur) => {
         let prevIndex = prev.findIndex( (v,i,a) => v.id === cur.id);
         if(prevIndex >= 0){
@@ -349,7 +349,7 @@ export const NonInteractiveResponseDisplayConsole = (props) => {
         }
         return [...prev, {...cur, response: b64DecodeUnicode(cur.response)}]
       }, rawResponses);
-      // sort them to make sure we're still in order
+      // 排序确保顺序正确
       newerResponses.sort( (a,b) => a.id > b.id ? 1 : -1);
       setRawResponses(newerResponses);
       const outputResponses = newerResponses.reduce( (prev, cur) => {
@@ -401,7 +401,7 @@ export const PaginationBar = ({selectAllOutput, totalCount, onSubmitPageChange, 
     }
   }, [totalCount, maxCount, search, selectAllOutput]);
   const pageCount = Math.max(1, Math.ceil(localTotalCount / pageSize));
-  // don't bother people with pagination information if they haven't even started paginating
+  // 如果用户甚至还没有开始分页，不要用分页信息打扰他们
   if(pageCount < 2 || pageCount === Infinity || isNaN(pageCount)){
     return (<div id={'scrolltotaskbottom' + task.id}></div>)
   }
@@ -410,7 +410,7 @@ export const PaginationBar = ({selectAllOutput, totalCount, onSubmitPageChange, 
         <Pagination count={pageCount} page={currentPage} variant="contained" color="primary" showFirstButton showLastButton
                     boundaryCount={4} onChange={onChangePage} style={{margin: "10px"}} siblingCount={2}
         />
-        <Typography style={{paddingLeft: "10px"}}>Total Results: {localTotalCount}</Typography>
+        <Typography style={{paddingLeft: "10px"}}>总结果数: {localTotalCount}</Typography>
     </div>
   )
 }
@@ -423,11 +423,11 @@ export const SearchBar = ({onSubmitSearch}) => {
   }
   return (
     <div style={{marginTop: "10px"}}>
-      <MythicTextField value={search} autoFocus onEnter={onSubmitLocalSearch} onChange={(n,v,e) => setSearch(v)} placeholder="Search All Output of This Task" name="Search..."
+      <MythicTextField value={search} autoFocus onEnter={onSubmitLocalSearch} onChange={(n,v,e) => setSearch(v)} placeholder="搜索此任务的所有输出" name="搜索..."
         InputProps={{
           endAdornment: 
           <React.Fragment>
-              <MythicStyledTooltip title="Search">
+              <MythicStyledTooltip title="搜索">
                   <IconButton onClick={onSubmitLocalSearch} size="large"><SearchIcon style={{color: theme.palette.info.main}}/></IconButton>
               </MythicStyledTooltip>
           </React.Fragment>,
@@ -493,7 +493,7 @@ const ResponseDisplayComponent = ({rawResponses, viewBrowserScript, output, comm
         const rawResponseData = rawResponses.map(c => c.response);
         let res = script.current(task, rawResponseData);
         if(Object.keys(res).length === 0){
-          // if we run the browser script and there's no data, just display plaintext
+          // 如果我们运行浏览器脚本但没有数据，只显示纯文本
           setViewBrowserScript(false);
           return;
         }
@@ -527,7 +527,7 @@ const ResponseDisplayComponent = ({rawResponses, viewBrowserScript, output, comm
       setLoadingBrowserScript(false);
     },
     onError: (data) => {
-      console.log("error loading scripts", data);
+      console.log("加载脚本错误", data);
     }
   });
   useEffect( () => {

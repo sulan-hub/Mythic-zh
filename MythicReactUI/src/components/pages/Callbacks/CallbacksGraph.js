@@ -1,48 +1,48 @@
-import React, {useEffect, useState, useMemo, useContext} from 'react';
-import {DrawC2PathElementsFlowWithProvider} from './C2PathDialog';
-import {Button} from '@mui/material';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
+import { DrawC2PathElementsFlowWithProvider } from './C2PathDialog';
+import { Button } from '@mui/material';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import MenuItem from '@mui/material/MenuItem';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import {useMutation } from '@apollo/client';
-import {hideCallbackMutation, removeEdgeMutation, addEdgeMutation} from './CallbackMutations';
+import { useMutation } from '@apollo/client';
+import { hideCallbackMutation, removeEdgeMutation, addEdgeMutation } from './CallbackMutations';
 import { MythicDialog } from '../../MythicComponents/MythicDialog';
-import {MythicSelectFromListDialog} from '../../MythicComponents/MythicSelectFromListDialog';
-import {ManuallyAddEdgeDialog} from './ManuallyAddEdgeDialog';
-import {gql, useLazyQuery } from '@apollo/client';
-import {snackActions} from '../../utilities/Snackbar';
-import {TaskParametersDialog} from './TaskParametersDialog';
-import {createTaskingMutation} from './CallbackMutations';
-import {useTheme} from '@mui/material/styles';
+import { MythicSelectFromListDialog } from '../../MythicComponents/MythicSelectFromListDialog';
+import { ManuallyAddEdgeDialog } from './ManuallyAddEdgeDialog';
+import { gql, useLazyQuery } from '@apollo/client';
+import { snackActions } from '../../utilities/Snackbar';
+import { TaskParametersDialog } from './TaskParametersDialog';
+import { createTaskingMutation } from './CallbackMutations';
+import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {CallbackGraphEdgesContext, CallbacksContext, OnOpenTabContext} from './CallbacksTop';
-import {Dropdown, DropdownMenuItem} from "../../MythicComponents/MythicNestedMenus";
-import {GetMythicSetting} from "../../MythicComponents/MythicSavedUserSetting";
-import {operatorSettingDefaults} from "../../../cache";
+import { CallbackGraphEdgesContext, CallbacksContext, OnOpenTabContext } from './CallbacksTop';
+import { Dropdown, DropdownMenuItem } from "../../MythicComponents/MythicNestedMenus";
+import { GetMythicSetting } from "../../MythicComponents/MythicSavedUserSetting";
+import { operatorSettingDefaults } from "../../../cache";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 1;
 const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
     },
-  },
 };
 
 function getStyles(name, selectedOptions, theme) {
     return {
-      fontWeight:
-      selectedOptions.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
+        fontWeight:
+            selectedOptions.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
     };
-  }
+}
 
 export const loadedLinkCommandsQuery = gql`
 query loadedLinkCommandsQuery ($callback_id: Int!){
@@ -58,7 +58,7 @@ query loadedLinkCommandsQuery ($callback_id: Int!){
 }
 `;
 
-const GraphViewOptions = ({viewConfig, setViewConfig}) => {
+const GraphViewOptions = ({ viewConfig, setViewConfig }) => {
     const theme = useTheme();
     const dropdownAnchorRef = React.useRef(null);
     const [dropdownOpen, setDropdownOpen] = React.useState(false);
@@ -79,11 +79,11 @@ const GraphViewOptions = ({viewConfig, setViewConfig}) => {
     const handleGroupByChange = (event) => {
         setSelectedGroupBy(event.target.value);
     }
-    useEffect( () => {
-        setViewConfig({...viewConfig, label_components: selectedComponentOptions})
+    useEffect(() => {
+        setViewConfig({ ...viewConfig, label_components: selectedComponentOptions })
     }, [selectedComponentOptions])
-    useEffect( () => {
-        setViewConfig({...viewConfig, group_by: selectedGroupBy});
+    useEffect(() => {
+        setViewConfig({ ...viewConfig, group_by: selectedGroupBy });
     }, [selectedGroupBy])
     const handleDropdownToggle = (evt) => {
         evt.stopPropagation();
@@ -94,31 +94,41 @@ const GraphViewOptions = ({viewConfig, setViewConfig}) => {
         setDropdownOpen(false);
     };
     const options = [
-        {name: showConfiguration ? "Hide Grouping Options": "Show Grouping Options", click: () => {
+        {
+            name: showConfiguration ? "Hide Grouping Options" : "显示分组选项", click: () => {
                 setShowConfiguration(!showConfiguration);
-            }},
-        {name: viewConfig["include_disconnected"] ? 'Show Only Active Edges' : "Show All Edges", click: () => {
-                const view = {...viewConfig, include_disconnected: !viewConfig["include_disconnected"]};
+            }
+        },
+        {
+            name: viewConfig["include_disconnected"] ? '仅显示活动边' : "显示所有边", click: () => {
+                const view = { ...viewConfig, include_disconnected: !viewConfig["include_disconnected"] };
                 setViewConfig(view);
-            }},
-        {name: viewConfig["show_all_nodes"] ? 'Hide inactive callbacks' : 'Show All Callbacks', click: () => {
-                const view = {...viewConfig, show_all_nodes: !viewConfig["show_all_nodes"]};
+            }
+        },
+        {
+            name: viewConfig["show_all_nodes"] ? '隐藏非活跃回连' : '显示所有回连', click: () => {
+                const view = { ...viewConfig, show_all_nodes: !viewConfig["show_all_nodes"] };
                 setViewConfig(view);
-            }},
-        {name: viewConfig["rankDir"] === "LR" ? 'Change Layout to Top-Bottom' : "Change Layout to Left-Right", click: () => {
-                if(viewConfig["rankDir"] === "LR"){
-                    const view = {...viewConfig, rankDir: "TB"};
+            }
+        },
+        {
+            name: viewConfig["rankDir"] === "LR" ? '将布局更改为上下' : "将布局更改为左右", click: () => {
+                if (viewConfig["rankDir"] === "LR") {
+                    const view = { ...viewConfig, rankDir: "TB" };
                     setViewConfig(view);
-                }else{
-                    const view = {...viewConfig, rankDir: "LR"};
+                } else {
+                    const view = { ...viewConfig, rankDir: "LR" };
                     setViewConfig(view);
                 }
-            }},
-        {name: viewConfig["packet_flow_view"] ? "View Connection Directions" : "View Egress Routes" , click: () => {
-                const view = {...viewConfig, packet_flow_view: !viewConfig["packet_flow_view"]};
+            }
+        },
+        {
+            name: viewConfig["packet_flow_view"] ? "查看连接方向" : "查看出口路由", click: () => {
+                const view = { ...viewConfig, packet_flow_view: !viewConfig["packet_flow_view"] };
                 setViewConfig(view);
-            }},
-        ];
+            }
+        },
+    ];
     const handleClose = (event) => {
         if (dropdownAnchorRef.current && dropdownAnchorRef.current.contains(event.target)) {
             return;
@@ -127,16 +137,16 @@ const GraphViewOptions = ({viewConfig, setViewConfig}) => {
     };
     return (
         <div >
-            <ButtonGroup variant="contained" ref={dropdownAnchorRef} aria-label="split button" style={{marginTop: "0px", marginLeft: "25px"}} color="primary">
+            <ButtonGroup variant="contained" ref={dropdownAnchorRef} aria-label="split button" style={{ marginTop: "0px", marginLeft: "25px" }} color="primary">
                 <Button size="small" color="primary" aria-controls={dropdownOpen ? 'split-button-menu' : undefined}
-                        aria-expanded={dropdownOpen ? 'true' : undefined}
-                        aria-haspopup="menu"
-                        onClick={handleDropdownToggle}>
-                    Configure Graph View <ArrowDropDownIcon />
+                    aria-expanded={dropdownOpen ? 'true' : undefined}
+                    aria-haspopup="menu"
+                    onClick={handleDropdownToggle}>
+                    配置图表视图 <ArrowDropDownIcon />
                 </Button>
             </ButtonGroup>
             {showConfiguration &&
-                <FormControl sx={{ width: 200,  backgroundColor: theme.palette.background.paper}} >
+                <FormControl sx={{ width: 200, backgroundColor: theme.palette.background.paper }} >
                     <InputLabel id="demo-chip-label">Group Callbacks By</InputLabel>
                     <Select
                         labelId="demo-chip-label"
@@ -157,7 +167,7 @@ const GraphViewOptions = ({viewConfig, setViewConfig}) => {
                 </FormControl>
             }
             {showConfiguration &&
-                <FormControl sx={{minWidth: 300, backgroundColor: theme.palette.background.paper}}>
+                <FormControl sx={{ minWidth: 300, backgroundColor: theme.palette.background.paper }}>
                     <InputLabel id="demo-multiple-chip-label">Display Properties per Callback</InputLabel>
                     <Select
                         labelId="demo-multiple-chip-label"
@@ -188,21 +198,21 @@ const GraphViewOptions = ({viewConfig, setViewConfig}) => {
                     externallyOpen={dropdownOpen}
                     menu={
                         options.map((option, index) => (
-                                <DropdownMenuItem
-                                    key={option.name}
-                                    disabled={option.disabled}
-                                    onClick={(event) => handleMenuItemClick(event, option.click)}
-                                >
-                                    {option.name}
-                                </DropdownMenuItem>
-                            ))
+                            <DropdownMenuItem
+                                key={option.name}
+                                disabled={option.disabled}
+                                onClick={(event) => handleMenuItemClick(event, option.click)}
+                            >
+                                {option.name}
+                            </DropdownMenuItem>
+                        ))
                     }
                 />
             </ClickAwayListener>
         </div>
     )
 }
-export function CallbacksGraph({onOpenTab}){
+export function CallbacksGraph({ onOpenTab }) {
     const callbacks = useContext(CallbacksContext);
     const callbackgraphedges = useContext(CallbackGraphEdgesContext);
     //used for creating a task to do a link command
@@ -217,41 +227,43 @@ export function CallbacksGraph({onOpenTab}){
     const [manuallyAddEdgeDialogOpen, setManuallyAddEdgeDialogOpen] = useState(false);
     const [edgeOptions, setEdgeOptions] = useState([]); // used for manuallyRemoveEdgeDialog
     const [addEdgeSource, setAddEdgeSource] = useState(null); // used for manuallyAddEdgeDialog
-    const [getLinkCommands] = useLazyQuery(loadedLinkCommandsQuery, {fetchPolicy: "network-only",
+    const [getLinkCommands] = useLazyQuery(loadedLinkCommandsQuery, {
+        fetchPolicy: "network-only",
         onCompleted: data => {
-            const updatedCommands = data.loadedcommands.map( c => {return {command: {...c.command, parsedParameters: {}}}})
-            if(updatedCommands.length === 1){
+            const updatedCommands = data.loadedcommands.map(c => { return { command: { ...c.command, parsedParameters: {} } } })
+            if (updatedCommands.length === 1) {
                 //no need for a popup, there's only one possible command
                 setSelectedLinkCommand(updatedCommands[0].command);
                 setOpenParametersDialog(true);
-            }else if(updatedCommands.length === 0){
+            } else if (updatedCommands.length === 0) {
                 //no possible command can be used, do a notification
-                snackActions.warning("No commands loaded support the ui feature 'graph_view:link'");
-            }else{
-                const cmds = updatedCommands.map( (cmd) => { return {...cmd, display: cmd.command.cmd} } );
+                snackActions.warning("没有加载支持 UI 功能 'graph_view:link' 的命令");
+            } else {
+                const cmds = updatedCommands.map((cmd) => { return { ...cmd, display: cmd.command.cmd } });
                 setLinkCommands(cmds);
                 setSelectedLinkCommand(cmds[0].command);
                 setOpenSelectLinkCommandDialog(true);
             }
-        }});
+        }
+    });
     const onSubmitSelectedLinkCommand = (cmd) => {
         setSelectedLinkCommand(cmd.command);
         //console.log(cmd);
         setOpenParametersDialog(true);
     }
     const [createTask] = useMutation(createTaskingMutation, {
-        update: (cache, {data}) => {
-            if(data.createTask.status === "error"){
+        update: (cache, { data }) => {
+            if (data.createTask.status === "error") {
                 snackActions.error(data.createTask.error);
-            }else{
+            } else {
                 snackActions.success("task created");
             }
-            
+
         }
     });
     const submitParametersDialog = (cmd, parameters, files) => {
         setOpenParametersDialog(false);
-        createTask({variables: {callback_id: selectedCallback.id, command: cmd, params: parameters, files}});
+        createTask({ variables: { callback_id: selectedCallback.id, command: cmd, params: parameters, files } });
     }
     const [viewConfig, setViewConfig] = React.useState({
         rankDir: "TB",
@@ -262,7 +274,7 @@ export function CallbacksGraph({onOpenTab}){
         group_by: "None"
     });
     const [hideCallback] = useMutation(hideCallbackMutation, {
-        update: (cache, {data}) => {
+        update: (cache, { data }) => {
             //console.log(data);
         },
         onError: (error) => {
@@ -271,9 +283,9 @@ export function CallbacksGraph({onOpenTab}){
             //setContextMenuOpen(false);
         },
         onCompleted: (data) => {
-            if(data.updateCallback.status === "success"){
+            if (data.updateCallback.status === "success") {
                 snackActions.success("Successfully hid callback")
-            }else{
+            } else {
                 snackActions.error(data.updateCallback.error)
             }
 
@@ -281,7 +293,7 @@ export function CallbacksGraph({onOpenTab}){
         }
     });
     const [manuallyRemoveEdge] = useMutation(removeEdgeMutation, {
-        update: (cache, {data}) => {
+        update: (cache, { data }) => {
             //console.log(data);
             snackActions.success("Successfully removed edge, updating graph...");
         },
@@ -290,7 +302,7 @@ export function CallbacksGraph({onOpenTab}){
         }
     });
     const [manuallyAddEdge] = useMutation(addEdgeMutation, {
-        update: (cache, {data}) => {
+        update: (cache, { data }) => {
             //console.log(data);
             snackActions.success("Successfully added edge, updating graph...");
         },
@@ -299,87 +311,89 @@ export function CallbacksGraph({onOpenTab}){
         }
     });
     const onSubmitManuallyRemoveEdge = (edge) => {
-        if(edge === ""){
+        if (edge === "") {
             snackActions.warning("No edge selected");
             return;
         }
-        manuallyRemoveEdge({variables: {edge_id: edge.id}});
+        manuallyRemoveEdge({ variables: { edge_id: edge.id } });
     }
     const onSubmitManuallyAddEdge = (source_id, profile, destination) => {
-        if(profile === "" || destination === ""){
+        if (profile === "" || destination === "") {
             snackActions.warning("Profile or Destination Callback not provided");
             return;
         }
-        manuallyAddEdge({variables: {source_id: source_id, c2profile: profile.name, destination_id: destination.display_id}});
+        manuallyAddEdge({ variables: { source_id: source_id, c2profile: profile.name, destination_id: destination.display_id } });
     }
-    const contextMenu = useMemo(() => {return [
-	        {
-		        title: 'Hide Callback',
-		        onClick: function(node) {
-		            hideCallback({variables: {callback_display_id: node.display_id}});
-		        }
-	        },
-	        {
-		        title: 'Interact',
-                onClick: function(node){
-		            onOpenTab({tabType: "interact", tabID: node.callback_id + "interact", callbackID: node.callback_id});
-	            }
+    const contextMenu = useMemo(() => {
+        return [
+            {
+                title: '隐藏回调',
+                onClick: function (node) {
+                    hideCallback({ variables: { callback_display_id: node.display_id } });
+                }
             },
             {
-	            title: "Manually Remove Edge",
-                onClick: function(node){
-	                const opts = callbackgraphedges.reduce( (prev, e) => {
-                        if(e.source.id === node.id || e.destination.id === node.id){
-                            if(e.end_timestamp === null){
-                                if(e.source.id === e.destination.id){
-                                    return [...prev, {...e, "display": e.source.display_id + " --> " + e.c2profile.name + " --> Mythic"}];
+                title: '互动',
+                onClick: function (node) {
+                    onOpenTab({ tabType: "interact", tabID: node.callback_id + "interact", callbackID: node.callback_id });
+                }
+            },
+            {
+                title: "手动移除边缘",
+                onClick: function (node) {
+                    const opts = callbackgraphedges.reduce((prev, e) => {
+                        if (e.source.id === node.id || e.destination.id === node.id) {
+                            if (e.end_timestamp === null) {
+                                if (e.source.id === e.destination.id) {
+                                    return [...prev, { ...e, "display": e.source.display_id + " --> " + e.c2profile.name + " --> Mythic" }];
                                 } else {
-                                    return [...prev, {...e, "display": e.source.display_id + " --> " + e.c2profile.name + " --> " + e.destination.display_id}];
+                                    return [...prev, { ...e, "display": e.source.display_id + " --> " + e.c2profile.name + " --> " + e.destination.display_id }];
                                 }
 
-                            }else{
+                            } else {
                                 return [...prev];
                             }
                         } else {
                             return [...prev];
                         }
-	                }, []);
-	                setEdgeOptions(opts);
-	                setManuallyRemoveEdgeDialogOpen(true);
+                    }, []);
+                    setEdgeOptions(opts);
+                    setManuallyRemoveEdgeDialogOpen(true);
                 }
             },
             {
-                title: "Manually Add Edge",
-                onClick: function(node){
+                title: "手动添加边",
+                onClick: function (node) {
                     setAddEdgeSource(node);
                     setManuallyAddEdgeDialogOpen(true);
                 }
-	        },
-	        {
-	            title: "Task Callback for Edge",
-                onClick: function(node){
-	                setLinkCommands([]);
+            },
+            {
+                title: "Edge 的任务回调",
+                onClick: function (node) {
+                    setLinkCommands([]);
                     setSelectedLinkCommand(null);
                     setSelectedCallback(null);
-	                getLinkCommands({variables: {callback_id: node.id} });
-	                setSelectedCallback(node);
+                    getLinkCommands({ variables: { callback_id: node.id } });
+                    setSelectedCallback(node);
                 }
             },
-        ]}, [getLinkCommands, hideCallback, viewConfig, onOpenTab]);
-    React.useEffect( () => {
+        ]
+    }, [getLinkCommands, hideCallback, viewConfig, onOpenTab]);
+    React.useEffect(() => {
         try {
-            const storageItemOptions = GetMythicSetting({setting_name: "callbacks_table_filter_options", default_value: operatorSettingDefaults.callbacks_table_filters});
-            if(storageItemOptions !== null){
+            const storageItemOptions = GetMythicSetting({ setting_name: "callbacks_table_filter_options", default_value: operatorSettingDefaults.callbacks_table_filters });
+            if (storageItemOptions !== null) {
                 setFilterOptions(storageItemOptions);
             }
-        }catch(error){
+        } catch (error) {
             console.log("Failed to load callbacks_table_filter_options", error);
         }
         setLoadingSettings(false);
     }, []);
-    if(loadingSettings){
-        return (<div style={{width: '100%', height: '100%', position: "relative",}}>
-            <div style={{overflowY: "hidden", flexGrow: 1}}>
+    if (loadingSettings) {
+        return (<div style={{ width: '100%', height: '100%', position: "relative", }}>
+            <div style={{ overflowY: "hidden", flexGrow: 1 }}>
                 <div style={{
                     position: "absolute",
                     left: "35%",
@@ -391,42 +405,43 @@ export function CallbacksGraph({onOpenTab}){
         </div>)
     }
     return (
-        <div style={{maxWidth: "100%", "overflow": "hidden", height: "100%"}}>
+        <div style={{ maxWidth: "100%", "overflow": "hidden", height: "100%" }}>
 
             {manuallyRemoveEdgeDialogOpen &&
                 <MythicDialog fullWidth={true} maxWidth="sm" open={manuallyRemoveEdgeDialogOpen}
-                              onClose={() => {
-                                  setManuallyRemoveEdgeDialogOpen(false);
-                              }}
-                              innerDialog={<MythicSelectFromListDialog onClose={() => {
-                                  setManuallyRemoveEdgeDialogOpen(false);}} identifier="id" display="display"
-                                        onSubmit={onSubmitManuallyRemoveEdge} options={edgeOptions} title={"Manually Remove Edge"} action={"remove"} />}
+                    onClose={() => {
+                        setManuallyRemoveEdgeDialogOpen(false);
+                    }}
+                    innerDialog={<MythicSelectFromListDialog onClose={() => {
+                        setManuallyRemoveEdgeDialogOpen(false);
+                    }} identifier="id" display="display"
+                        onSubmit={onSubmitManuallyRemoveEdge} options={edgeOptions} title={"Manually Remove Edge"} action={"remove"} />}
                 />
             }
             {manuallyAddEdgeDialogOpen &&
                 <MythicDialog fullWidth={true} maxWidth="sm" open={manuallyAddEdgeDialogOpen}
-                    onClose={()=>{setManuallyAddEdgeDialogOpen(false);}} 
-                    innerDialog={<ManuallyAddEdgeDialog onClose={()=>{setManuallyAddEdgeDialogOpen(false);}}
-                                        onSubmit={onSubmitManuallyAddEdge} source={addEdgeSource} />}
+                    onClose={() => { setManuallyAddEdgeDialogOpen(false); }}
+                    innerDialog={<ManuallyAddEdgeDialog onClose={() => { setManuallyAddEdgeDialogOpen(false); }}
+                        onSubmit={onSubmitManuallyAddEdge} source={addEdgeSource} />}
                 />
             }
             {openParametersDialog &&
-                <MythicDialog fullWidth={true} maxWidth="lg" open={openParametersDialog} 
-                    onClose={()=>{setOpenParametersDialog(false);}} 
-                    innerDialog={<TaskParametersDialog command={selectedLinkCommand} callback={selectedCallback} onSubmit={submitParametersDialog} onClose={()=>{setOpenParametersDialog(false);}} />}
+                <MythicDialog fullWidth={true} maxWidth="lg" open={openParametersDialog}
+                    onClose={() => { setOpenParametersDialog(false); }}
+                    innerDialog={<TaskParametersDialog command={selectedLinkCommand} callback={selectedCallback} onSubmit={submitParametersDialog} onClose={() => { setOpenParametersDialog(false); }} />}
                 />
             }
             {openSelectLinkCommandDialog &&
                 <MythicDialog fullWidth={true} maxWidth="sm" open={openSelectLinkCommandDialog}
-                    onClose={()=>{setOpenSelectLinkCommandDialog(false);}} 
-                    innerDialog={<MythicSelectFromListDialog onClose={()=>{setOpenSelectLinkCommandDialog(false);}}
-                                        onSubmit={onSubmitSelectedLinkCommand} options={linkCommands} title={"Select Link Command"} 
-                                        action={"select"} display={"display"} identifier={"display"}/>}
+                    onClose={() => { setOpenSelectLinkCommandDialog(false); }}
+                    innerDialog={<MythicSelectFromListDialog onClose={() => { setOpenSelectLinkCommandDialog(false); }}
+                        onSubmit={onSubmitSelectedLinkCommand} options={linkCommands} title={"Select Link Command"}
+                        action={"select"} display={"display"} identifier={"display"} />}
                 />
             }
             <DrawC2PathElementsFlowWithProvider providedNodes={callbacks} edges={callbackgraphedges} view_config={viewConfig}
-                                                    filterOptions={filterOptions}
-                                                    panel={<GraphViewOptions setViewConfig={setViewConfig} viewConfig={viewConfig} />} contextMenu={contextMenu}/>
+                filterOptions={filterOptions}
+                panel={<GraphViewOptions setViewConfig={setViewConfig} viewConfig={viewConfig} />} contextMenu={contextMenu} />
         </div>
     );
 }

@@ -53,9 +53,7 @@ export const ResponseDisplayGraph = ({graph, task, expand}) =>{
     const dictionaryData = React.useRef(null);
     const [showGraph, setShowGraph] = React.useState(graph.nodes.length < 50);
     const scrollContent = (node, isAppearing) => {
-        // only auto-scroll if you issued the task
         document.getElementById(`scrolltotaskbottom${task.id}`)?.scrollIntoView({
-            //behavior: "smooth",
             block: "end",
             inline: "nearest"
         })
@@ -68,7 +66,7 @@ export const ResponseDisplayGraph = ({graph, task, expand}) =>{
     });
     const contextMenu = React.useMemo(() => {return [
         {
-            title: 'View All Data',
+            title: '查看所有数据',
             onClick: function(node) {
                 dictionaryData.current = node.data;
                 setViewAllDataDialogOpen(true);
@@ -80,10 +78,10 @@ export const ResponseDisplayGraph = ({graph, task, expand}) =>{
             <>
                 <div style={{display: "flex", width: "100%", height: "100%", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
                     <Typography variant={"h4"} >
-                        {`Graph Hidden by Default Due to Size: Nodes (${graph.nodes.length}), Edges (${graph.edges.length}) `}
+                        {`由于图形大小，默认隐藏图形: 节点数 (${graph.nodes.length}), 边数 (${graph.edges.length}) `}
                     </Typography>
                     <Button variant={"contained"} color={"error"} onClick={() => {setShowGraph(!showGraph)}}>
-                        {"Show Graph"}
+                        {"显示图形"}
                     </Button>
                 </div>
             </>
@@ -94,7 +92,7 @@ export const ResponseDisplayGraph = ({graph, task, expand}) =>{
             <>
                 <div style={{display: "flex", width: "100%", height: "100%", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
                     <Typography variant={"h4"} >
-                        {`Empty Graph`}
+                        {`空图形`}
                     </Typography>
                 </div>
             </>
@@ -105,9 +103,9 @@ export const ResponseDisplayGraph = ({graph, task, expand}) =>{
         {viewAllDataDialog &&
             <MythicDialog fullWidth={true} maxWidth="lg" open={viewAllDataDialog}
                           onClose={()=>{setViewAllDataDialogOpen(false);}}
-                          innerDialog={<MythicViewJSONAsTableDialog title={"Viewing all data for node"}
-                                                                    leftColumn={"Properties"}
-                                                                    rightColumn={"Values"}
+                          innerDialog={<MythicViewJSONAsTableDialog title={"查看节点所有数据"}
+                                                                    leftColumn={"属性"}
+                                                                    rightColumn={"值"}
                                                                     value={dictionaryData.current}
                                                                     onClose={()=>{setViewAllDataDialogOpen(false);}} />}
             />

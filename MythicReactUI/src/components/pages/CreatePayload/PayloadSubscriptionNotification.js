@@ -109,9 +109,9 @@ const SnackMessage = (props) => {
         <div style={{display: "flex", flexDirection: "column"}}>
             <Typography variant="subtitle2" className={classes.typography}>
                     {props.payloadData.build_phase === "success" ? (
-                        "Payload successfully built!"
+                        "载荷构建成功！"
                     ) : (
-                        "Payload Building..."
+                        "正在构建载荷..."
                     )}
                     
             </Typography>

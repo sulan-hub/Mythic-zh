@@ -14,7 +14,7 @@ const getLoadedCommandsBasedOnInput = ({cmd, ui_feature}) => {
     } else if(ui_feature !== undefined && ui_feature !== ""){
         filter_string = "{command: {supported_ui_features: {_contains: $ui_feature}}}";
     } else {
-        console.log("invalid command and ui_feature", "cmd", cmd, "ui_feature", ui_feature)
+        console.log("无效的命令和UI功能", "cmd", cmd, "ui_feature", ui_feature)
         filter_string = "{command: {id: {_eq: 0}}}"
     }
     return gql`
@@ -102,11 +102,11 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
     const [callbackData, setCallbackData] = React.useState({});
     const renderValue = (value) => {
         if(value === "Default Token"){
-          return "Default Token";
+          return "默认令牌";
         }
         if(value.User === null){
           if(value.description === null){
-            return value.token_id + " - No Description";
+            return value.token_id + " - 无描述";
           }else{
             return value.token_id + " - " + value.description;
           }
@@ -123,11 +123,11 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
         onCompleted: (data) => {
             setCallbackData(data);
             if(data.callback_by_pk === null){
-                snackActions.warning("Unknown callback");
+                snackActions.warning("未知回调");
                 onTasked({tasked: false});
                 return;
             }else if(!data.callback_by_pk.active){
-                snackActions.warning("Callback isn't active");
+                snackActions.warning("回调未激活");
                 onTasked({tasked: false});
                 return;
             }
@@ -135,7 +135,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
                 if(typeof(parameters) === "string"){
                     return [...prev, {...cur.command, "parsedParameters": {}}];
                 }else{
-                    console.log("adding in parsed parameters", parameters);
+                    console.log("添加解析后的参数", parameters);
                     return [...prev, {...cur.command, "parsedParameters": parameters}];
                 }
                 
@@ -148,9 +148,9 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
             setFileBrowserCommands(availableCommands);
             if(availableCommands.length === 0){
                 if(ui_feature !== undefined){
-                    snackActions.warning("No commands currently loaded that support the " + ui_feature + " feature");
+                    snackActions.warning("当前没有加载支持" + ui_feature + "功能的命令");
                 } else {
-                    snackActions.warning("No commands currently loaded that by the name " + cmd);
+                    snackActions.warning("当前没有加载名为" + cmd + "的命令");
                 }
                 
                 onTasked({tasked: false});
@@ -173,7 +173,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
                 return [...prev, {...cur.callback, display: `${cur.callback.display_id} - ${cur.callback.payload.payloadtype.name} - ${cur.callback.user} - ${cur.callback.host} - ${cur.callback.description}`}]
             }, []);
             if(callbackOpts.length === 0){
-                snackActions.warning("No commands currently loaded that support the " + ui_feature + " feature");
+                snackActions.warning("当前没有加载支持" + ui_feature + "功能的命令");
                 onTasked({tasked: false});
                 return;
             }
@@ -192,9 +192,9 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
             }else {
                 if(callback_ids === undefined){
                     console.log(data)
-                    snackActions.success("Issued \"" + selectedCommand["cmd"] + "\" to Callback " + callbackData.callback_by_pk.display_id);
+                    snackActions.success("已向回调" + callbackData.callback_by_pk.display_id + "发布命令\"" + selectedCommand["cmd"] + "\"");
                 } else {
-                    snackActions.success("Issued \"" + selectedCommand["cmd"] + "\" to " + callback_ids.length + " callbacks.\nThis might take a while to process.");
+                    snackActions.success("已向" + callback_ids.length + "个回调发布命令\"" + selectedCommand["cmd"] + "\"。\n处理可能需要一段时间。");
                 }
 
                 onTasked({tasked: true, variables: savedFinalVariables.current});
@@ -283,7 +283,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
     }, []);
     useEffect( () => {
         if(selectedCallbackToken === "" || selectedCallbackToken === "Default Token"){
-            // we selected the default token to use
+            // 我们选择了默认令牌
             if(callback_ids){
                 createTask({variables: {...taskingVariables, callback_ids: callback_ids}});
             } else {
@@ -367,7 +367,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
                 <MythicDialog fullWidth={true} maxWidth="md" open={openSelectCommandDialog}
                         onClose={()=>{setOpenSelectCommandDialog(false);onTasked({tasked: false});}} 
                         innerDialog={<MythicSelectFromListDialog onClose={()=>{setOpenSelectCommandDialog(false);onTasked({tasked: false});}}
-                                            onSubmit={onSubmitSelectedCommand} options={fileBrowserCommands} title={"Select Command"} 
+                                            onSubmit={onSubmitSelectedCommand} options={fileBrowserCommands} title={"选择命令"} 
                                             action={"select"} identifier={"id"} display={"display"} dontCloseOnSubmit={true} />}
                     />
             }
@@ -375,7 +375,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
                 <MythicDialog fullWidth={true} maxWidth="md" open={openSelectCallback}
                               onClose={()=>{setOpenSelectCallback(false);onTasked({tasked: false});}}
                               innerDialog={<MythicSelectFromListDialog onClose={()=>{setOpenSelectCallback(false);onTasked({tasked: false});}}
-                                                                       onSubmit={onSubmitSelectedCallback} options={callbackOptions} title={"Select Callback"}
+                                                                       onSubmit={onSubmitSelectedCallback} options={callbackOptions} title={"选择回调"}
                                                                        action={"select"} identifier={"id"} display={"display"} dontCloseOnSubmit={true} />}
                 />
             }
@@ -391,7 +391,7 @@ export const TaskFromUIButton = ({callback_id, callback_ids, cmd, ui_feature, pa
                 <MythicDialog fullWidth={true} maxWidth="lg" open={openCallbackTokenSelectDialog}
                     onClose={()=>{setOpenCallbackTokenSelectDialog(false);onTasked({tasked: false});}}
                     innerDialog={<MythicSelectFromListDialog onClose={()=>{setOpenCallbackTokenSelectDialog(false);onTasked({tasked: false});}}
-                                        onSubmit={onSubmitSelectedToken} dontCloseOnSubmit={true} options={callbackTokenOptions} title={"Select Token"} 
+                                        onSubmit={onSubmitSelectedToken} dontCloseOnSubmit={true} options={callbackTokenOptions} title={"选择令牌"} 
                                         action={"select"} identifier={"id"} display={"display"}/>}
                 />
             }

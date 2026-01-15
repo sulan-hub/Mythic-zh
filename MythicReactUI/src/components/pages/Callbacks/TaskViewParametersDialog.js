@@ -37,25 +37,25 @@ export function TaskViewParametersDialog(props) {
     const { loading, error } = useQuery(getParametersQuery, {
         variables: {task_id: props.task_id},
         onCompleted: data => {
-            let workingComment = "Original Parameters:\n" + data.task_by_pk.original_params;
-            workingComment += "\n\nMythic Parsed Parameters: \n\tUse this for eventing (create_task->action_data->params_dictionary) and scripting (mythic.issue_task->parameters)\n"
+            let workingComment = "原始参数:\n" + data.task_by_pk.original_params;
+            workingComment += "\n\nMythic解析后的参数: \n\t用于事件处理 (create_task->action_data->params_dictionary) 和脚本编写 (mythic.issue_task->parameters)\n"
             workingComment += data.task_by_pk.mythic_parsed_params;
-            workingComment += "\n\nAgent Parameters:\n" + data.task_by_pk.params;
-            workingComment += "\n\nDisplay Parameters:\n" + data.task_by_pk.display_params;
-            workingComment += "\n\nTasking Location:\n" + data.task_by_pk.tasking_location;
-            workingComment += "\n\nParameter Group:\n" + data.task_by_pk.parameter_group_name;
+            workingComment += "\n\n代理参数:\n" + data.task_by_pk.params;
+            workingComment += "\n\n显示参数:\n" + data.task_by_pk.display_params;
+            workingComment += "\n\n任务发起位置:\n" + data.task_by_pk.tasking_location;
+            workingComment += "\n\n参数组:\n" + data.task_by_pk.parameter_group_name;
             if(data.task_by_pk.command){
               if(data.task_by_pk.command.cmd !== data.task_by_pk.command_name){
-                workingComment += "\n\nOriginal Command: " + data.task_by_pk.command.cmd;
-                workingComment += "\nIssued Command: " + data.task_by_pk.command_name;
+                workingComment += "\n\n原始命令: " + data.task_by_pk.command.cmd;
+                workingComment += "\n已发起命令: " + data.task_by_pk.command_name;
               }
-              workingComment += "\n\nPayload Type:\n" + data.task_by_pk.command.payloadtype.name;
+              workingComment += "\n\n载荷类型:\n" + data.task_by_pk.command.payloadtype.name;
             }
-            workingComment += "\n\n--------IMPORTANT TIMESTAMPS--------\n\n";
-            workingComment += "Task Submitted by Operator : " + toLocalTime(data.task_by_pk.status_timestamp_preprocessing, meState()?.user?.view_utc_time) + "\n";
-            workingComment += "Task Picked up by Agent    : " + toLocalTime(data.task_by_pk.status_timestamp_processing, meState()?.user?.view_utc_time) + "\n";
-            workingComment += "First message from Task    : " + toLocalTime(data.task_by_pk.status_timestamp_processed, meState()?.user?.view_utc_time) + "\n";
-            workingComment += "Last message from Task     : " + toLocalTime(data.task_by_pk.timestamp, meState()?.user?.view_utc_time) + "\n";
+            workingComment += "\n\n--------重要时间戳--------\n\n";
+            workingComment += "操作员提交任务时间    : " + toLocalTime(data.task_by_pk.status_timestamp_preprocessing, meState()?.user?.view_utc_time) + "\n";
+            workingComment += "代理接收任务时间      : " + toLocalTime(data.task_by_pk.status_timestamp_processing, meState()?.user?.view_utc_time) + "\n";
+            workingComment += "任务首次消息时间      : " + toLocalTime(data.task_by_pk.status_timestamp_processed, meState()?.user?.view_utc_time) + "\n";
+            workingComment += "任务最后消息时间      : " + toLocalTime(data.task_by_pk.timestamp, meState()?.user?.view_utc_time) + "\n";
             setComment(workingComment);
         },
         fetchPolicy: "network-only"
@@ -65,11 +65,11 @@ export function TaskViewParametersDialog(props) {
     }
     if (error) {
      console.error(error);
-     return <div>Error!</div>;
+     return <div>错误!</div>;
     }
   return (
     <React.Fragment>
-        <MythicModifyStringDialog title={`View Task Parameters And Timestamps`}
+        <MythicModifyStringDialog title={`查看任务参数和时间戳`}
                                   onClose={props.onClose}
                                   maxRows={40}
                                   wrap={true}
@@ -77,4 +77,3 @@ export function TaskViewParametersDialog(props) {
   </React.Fragment>
   );
 }
-

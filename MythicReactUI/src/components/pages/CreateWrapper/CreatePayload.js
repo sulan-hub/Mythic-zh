@@ -9,7 +9,7 @@ import {Step5Build} from './Step5Build';
 import { snackActions } from '../../utilities/Snackbar';
 
 function getSteps(){
-    return ['Select Target OS', 'Payload Type', 'Select Payload', 'Build']
+    return ['选择目标操作系统', 'Payload Type', 'Select Payload', 'Build']
 }
 
 export function CreatePayloadWrapper(props){
@@ -72,7 +72,7 @@ export function CreatePayloadWrapper(props){
         <div style={{display: "flex", flexDirection: "column", height: "100%", width: "100%"}}>
             <div style={{display: "flex", flexDirection: "row", width: "100%", alignItems: "center"}}>
                 <Typography variant="h5" style={{marginLeft: "10px", width: "25%"}}>
-                    Payload Creation
+                    创建载荷
                 </Typography>
                 <Stepper activeStep={activeStep} alternativeLabel style={{marginTop: "10px", width: "100%"}}>
                     {steps.map((label, index) => (

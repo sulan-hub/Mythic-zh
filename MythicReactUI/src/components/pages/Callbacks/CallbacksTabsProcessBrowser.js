@@ -103,11 +103,11 @@ query loadedCommandUIFeatures($callback_id: Int!){
 }
 `;
 export function CallbacksTabsProcessBrowserLabel(props){
-    const [description, setDescription] = React.useState("Processes: " + props.tabInfo.displayID)
+    const [description, setDescription] = React.useState("进程: " + props.tabInfo.displayID)
     const [openEditDescriptionDialog, setOpenEditDescriptionDialog] = React.useState(false);
     const contextMenuOptions = props.contextMenuOptions.concat([
         {
-            name: 'Set Tab Description', 
+            name: '设置标签注释', 
             click: ({event}) => {
                 setOpenEditDescriptionDialog(true);
             }
@@ -117,7 +117,7 @@ export function CallbacksTabsProcessBrowserLabel(props){
         if(props.tabInfo.customDescription !== "" && props.tabInfo.customDescription !== undefined){
             setDescription(props.tabInfo.customDescription);
         }else{
-            setDescription("Processes: " + props.tabInfo.displayID);
+            setDescription("进程: " + props.tabInfo.displayID);
         }
     }, [props.tabInfo.customDescription])
     useEffect( () => {
@@ -136,7 +136,7 @@ export function CallbacksTabsProcessBrowserLabel(props){
             {openEditDescriptionDialog &&
                 <MythicDialog fullWidth={true} open={openEditDescriptionDialog}  onClose={() => {setOpenEditDescriptionDialog(false);}}
                     innerDialog={
-                        <MythicModifyStringDialog title={"Edit Tab's Description - Displays as one line"} onClose={() => {setOpenEditDescriptionDialog(false);}} value={description} onSubmit={editDescriptionSubmit} />
+                        <MythicModifyStringDialog title={"编辑标签描述 - 显示为单行"} onClose={() => {setOpenEditDescriptionDialog(false);}} value={description} onSubmit={editDescriptionSubmit} />
                     }
                 />
             }
@@ -147,8 +147,8 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
     const fromNow = React.useRef((new Date()));
     const [backdropOpen, setBackdropOpen] = React.useState(false);
     const [expandOrCollapseAll, setExpandOrCollapseAll] = React.useState(false);
-    const treeRootDataRef = React.useRef({}); // hold all the actual data
-    const [treeAdjMtx, setTreeAdjMtx] = React.useState({}); // hold the simple adjacency matrix for parent/child relationships
+    const treeRootDataRef = React.useRef({}); // 保存所有实际数据
+    const [treeAdjMtx, setTreeAdjMtx] = React.useState({}); // 保存简单的父/子关系邻接矩阵
     const [openTaskingButton, setOpenTaskingButton] = React.useState(false);
     const taskingData = React.useRef({"parameters": "", "ui_feature": "process_browser:list"});
     const mountedRef = React.useRef(true);
@@ -175,7 +175,7 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
     }
     useQuery(rootQuery, {
         onCompleted: (data) => {
-           // use an adjacency matrix but only for full_path_text -> children, not both directions
+           // 使用邻接矩阵，但仅用于 full_path_text -> 子节点，而不是双向
             let defaultGroup = "Default";
             for(let i = 0; i < data.mythictree.length; i++){
                 let currentGroups = data.mythictree[i]?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
@@ -193,17 +193,17 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
                         treeRootDataRef.current[currentGroups[j]] = {};
                     }
                     if( treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] === undefined) {
-                        // new host discovered
+                        // 发现新主机
                         treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] = {};
                     }
                     treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]] = {...data.mythictree[i]}
                     treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]].callbacks = [data.mythictree[i].callback]
                 }
             }
-            // create the top level data in the adjacency matrix
+            // 在邻接矩阵中创建顶层数据
             const newMatrix = getNewMatrix();
            setTreeAdjMtx(newMatrix);
-           // first see if we can find a group that matches our host, if not, then we can do first of each
+           // 首先查看是否能找到与主机匹配的组，如果没有，则使用每个组的第一个
            let groups = Object.keys(newMatrix).sort();
            if(groups.length > 0){
                if(groups.includes(defaultGroup)){
@@ -261,16 +261,16 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
                         treeRootDataRef.current[currentGroups[j]] = {};
                     }
                     if (treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]] === undefined) {
-                        // new host discovered
+                        // 发现新主机
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]] = {};
                     }
                     if(treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]] === undefined){
-                        // first time we're seeing this file data, just add it
+                        // 第一次看到此文件数据，直接添加
                         if(data.data.mythictree_stream[i].deleted){continue}
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]] = {...data.data.mythictree_stream[i]};
                         treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]].callbacks = [data.data.mythictree_stream[i].callback]
                     } else {
-                        // we need to merge data in because we already have some info
+                        // 需要合并数据，因为我们已经有一些信息
                         if(data.data.mythictree_stream[i].deleted){
                             delete treeRootDataRef.current[currentGroups[j]][data.data.mythictree_stream[i]["host"]][data.data.mythictree_stream[i]["full_path_text"]];
                             continue;
@@ -297,7 +297,7 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
     });
     const getHostProcessesQuerySuccess = (data) => {
         snackActions.dismiss();
-        // add in all of the raw data
+        // 添加所有原始数据
         for(let i = 0; i < data.mythictree.length; i++){
             let currentGroups = data.mythictree[i]?.["callback"]?.["mythictree_groups"] || ["Unknown Callbacks"];
             for(let j = 0; j < currentGroups.length; j++){
@@ -305,15 +305,15 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
                     treeRootDataRef.current[currentGroups[j]] = {};
                 }
                 if( treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] === undefined) {
-                    // new host discovered
+                    // 发现新主机
                     treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]] = {};
                 }
                 if(treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]] === undefined){
-                    // first time we're seeing this file data, just add it
+                    // 第一次看到此文件数据，直接添加
                     treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]] = {...data.mythictree[i]};
                     treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]].callbacks = [data.mythictree[i].callback];
                 } else {
-                    // we need to merge data in because we already have some info
+                    // 需要合并数据，因为我们已经有一些信息
                     if(data.mythictree[i].deleted){
                         delete treeRootDataRef.current[currentGroups[j]][data.mythictree[i]["host"]][data.mythictree[i]["full_path_text"]];
                         continue;
@@ -331,11 +331,11 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
                 }
             }
         }
-        // create the top level data in the adjacency matrix
+        // 在邻接矩阵中创建顶层数据
         const newMatrix = getNewMatrix();
         //console.log(treeRootDataRef.current);
         setTreeAdjMtx(newMatrix);
-        //console.log("just set treeAdjMtx, about to close backdrop")
+        //console.log("刚刚设置了 treeAdjMtx，即将关闭 backdrop")
         setBackdropOpen(false);
     }
     const getHostProcessesQuery = useMythicLazyQuery(treeHostQuery, {
@@ -416,7 +416,7 @@ export const CallbacksTabsProcessBrowserPanel = ({index, value, tabInfo, me, set
                             display: "flex", flexDirection: "column"}}>
                             <CircularProgress color="inherit" />
                             <Typography variant={"h5"}>
-                                Gathering Processes from database for {selectedHost}...
+                                正在从数据库为 {selectedHost} 收集进程...
                             </Typography>
                         </div>
                     </Backdrop>
@@ -498,7 +498,7 @@ const ProcessBrowserTableTop = ({
         <Grid container spacing={0} style={{paddingTop: "10px"}}>
             <Grid size={12}>
                 <FormControl style={{width: "30%"}}>
-                    <InputLabel ref={inputGroupRef}>Available Groups</InputLabel>
+                    <InputLabel ref={inputGroupRef}>可用组</InputLabel>
                     <Select
                         labelId="demo-dialog-select-label"
                         id="demo-dialog-select"
@@ -507,7 +507,7 @@ const ProcessBrowserTableTop = ({
                         input={<Input style={{width: "100%"}}/>}
                         endAdornment={
                             <React.Fragment>
-                                <MythicStyledTooltip title="View Callbacks associated with this group">
+                                <MythicStyledTooltip title="查看与此组关联的回调">
                                     <IconButton style={{padding: "3px", paddingRight: "25px"}} onClick={() => {setOpenViewGroupDialog(true);}} size="large"><WidgetsIcon style={{color: theme.palette.info.main}}/></IconButton>
                                 </MythicStyledTooltip>
                             </React.Fragment>
@@ -519,7 +519,7 @@ const ProcessBrowserTableTop = ({
                     </Select>
                 </FormControl>
                 <FormControl style={{width: "70%"}}>
-                  <InputLabel ref={inputRef}>Available Hosts</InputLabel>
+                  <InputLabel ref={inputRef}>可用主机</InputLabel>
                   <Select
                     labelId="demo-dialog-select-label"
                     id="demo-dialog-select"
@@ -528,10 +528,10 @@ const ProcessBrowserTableTop = ({
                     input={<Input style={{width: "100%"}}/>}
                     endAdornment={
                 <React.Fragment>
-                    <MythicStyledTooltip title="Task Callback to List Processes">
+                    <MythicStyledTooltip title="任务回调以列出进程">
                         <IconButton style={{padding: "3px"}} onClick={onLocalListFilesButton} size="large"><RefreshIcon style={{color: theme.palette.info.main}}/></IconButton>
                     </MythicStyledTooltip>
-                    <MythicStyledTooltip title={expandOrCollapseAll ? "Collapse all processes" : "Expand all processes"} >
+                    <MythicStyledTooltip title={expandOrCollapseAll ? "折叠所有进程" : "展开所有进程"} >
                         <IconButton style={{padding: "3px"}}
                                     onClick={onLocalExpandOrCollapseAllButton} size={"large"}>
                             <ExpandIcon color={expandOrCollapseAll ? "info" : "success"} />

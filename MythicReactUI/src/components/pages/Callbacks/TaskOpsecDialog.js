@@ -48,20 +48,20 @@ export function TaskOpsecDialog(props) {
         onCompleted: data => {
             setOpsecData(data.task_by_pk);
             if(props.view === "pre"){
-                let message = "OPSEC PreCheck Message";
+                let message = "OPSEC预检查消息";
                 if(data.task_by_pk.opsec_pre_bypass_user !== null){
-                    message += " (bypassed by " + data.task_by_pk.opsec_pre_bypass_user.username + ")";
+                    message += " (已被" + data.task_by_pk.opsec_pre_bypass_user.username + "绕过)";
                 } else if(data.task_by_pk.opsec_pre_blocked && !data.task_by_pk.opsec_pre_bypassed){
-                    message += " (required bypass role: " + data.task_by_pk.opsec_pre_bypass_role + ")";
+                    message += " (需要绕过角色: " + data.task_by_pk.opsec_pre_bypass_role + ")";
                 }
                 message += ":\n\n" + data.task_by_pk.opsec_pre_message + "\n";
                 setOpsecMessage(message);
             } else {
-                let message = "OPSEC PostCheck Message";
+                let message = "OPSEC后检查消息";
                 if(data.task_by_pk.opsec_post_bypass_user !== null){
-                    message += " (bypassed by " + data.task_by_pk.opsec_post_bypass_user.username + ")";
+                    message += " (已被" + data.task_by_pk.opsec_post_bypass_user.username + "绕过)";
                 } else if(data.task_by_pk.opsec_post_blocked && !data.task_by_pk.opsec_post_bypassed) {
-                    message += " (required bypass role: " + data.task_by_pk.opsec_post_bypass_role + ")";
+                    message += " (需要绕过角色: " + data.task_by_pk.opsec_post_bypass_role + ")";
                 }
                 message += ":\n\n" + data.task_by_pk.opsec_post_message + "\n";
                 setOpsecMessage(message);
@@ -74,7 +74,7 @@ export function TaskOpsecDialog(props) {
     const [updateOpsecRequest] = useMutation(updateOpsecRequestMutation, {
         update: (cache, {data}) => {
             if(data.requestOpsecBypass.status === "success"){
-                snackActions.success("Bypass processed successfully");
+                snackActions.success("绕过请求处理成功");
             }else{
                 snackActions.warning(data.requestOpsecBypass.error);
             }
@@ -82,7 +82,7 @@ export function TaskOpsecDialog(props) {
     });
     if (error) {
      console.error(error);
-     return <div>Error! {error.message}</div>;
+     return <div>错误! {error.message}</div>;
     }
     const requestAvailable = (opsecData.opsec_pre_blocked === true && !opsecData.opsec_pre_bypassed) || (opsecData.opsec_post_blocked === true && !opsecData.opsec_post_bypassed);
     const onRequestSubmit = () => {
@@ -93,16 +93,15 @@ export function TaskOpsecDialog(props) {
   
   return (
     <React.Fragment>
-            <MythicModifyStringDialog title={`Request OPSEC Bypass`}
+            <MythicModifyStringDialog title={`请求OPSEC绕过`}
                                       onClose={props.onClose}
                                       maxRows={40}
                                       wrap={true}
                                       value={opsecMessage}
                                       onSubmit={requestAvailable ? onRequestSubmit : undefined}
-                                      onSubmitText={"Submit Bypass Request"}
+                                      onSubmitText={"提交绕过请求"}
                                       dontCloseOnSubmit={true}
             />
   </React.Fragment>
   );
 }
-

@@ -434,7 +434,7 @@ export function Step1SelectOS(props){
                 }}>
                     <div style={{width: "100%", margin: "5px", border: "1px solid grey", borderRadius: "5px", padding: "10px"}}>
                         <Typography variant={"p"} style={{fontWeight: 600}}>
-                            1. Select Operating System
+                            1. 选择操作系统
                         </Typography>
                         <Select
                             value={os}
@@ -449,18 +449,18 @@ export function Step1SelectOS(props){
                             }
                         </Select>
                         <Typography style={{fontWeight: 600}}>
-                            Compatible Payload Types
+                            兼容的有效载荷类型
                         </Typography>
                         {payloadtypesPerOS[os]?.join(", ")}
                         <Typography style={{fontWeight: 600}}>
-                            Compatible C2 Profiles
+                            兼容的C2配置文件
                         </Typography>
                         {C2PerOS[os]?.join(", ")}
                     </div>
                     <div style={{width: "100%", margin: "5px", border: "1px solid grey", borderRadius: "5px", padding: "10px"}}>
                         <div style={{width: "100%", display: "flex", alignItems: "flex-start", marginBottom: "10px", flexDirection: "column"}}>
                             <Typography style={{fontWeight: 600}} variant={"p"}>
-                                2. Select Payload Type
+                                2. 选择载荷类型
                             </Typography>
                             <Select
                                 style={{width: "100%"}}
@@ -480,7 +480,7 @@ export function Step1SelectOS(props){
                             <MythicAgentSVGIcon payload_type={selectedPayloadType} style={{width: "80px", padding: "5px", objectFit: "unset"}} />
                             <Typography variant="body2" component="p" style={{whiteSpace: "pre-wrap"}}>
                                 <b>Version: </b>{payloadtypeData[selectedPayloadType]?.semver}<br/>
-                                <b>Description: </b>{payloadtypeData[selectedPayloadType]?.note}<br/>
+                                <b>描述: </b>{payloadtypeData[selectedPayloadType]?.note}<br/>
                                 <b>C2: </b>{payloadtypeData[selectedPayloadType]?.payloadtypec2profiles.map(c => c.c2profile.name).join(", ")}
                             </Typography>
                         </div>
@@ -547,11 +547,11 @@ export const StartFromExistingPayloadOrStartFresh = (
             {/* Header section - fixed */}
             <div style={{flexShrink: 0}}>
                 <Typography variant={"p"} style={{fontWeight: 600}}>
-                    3. Continue from Existing Payload or
+                    3. 从现有载荷继续或
                     <Button size="small" color={"primary"} variant={"contained"} style={{marginLeft: "10px", color: "white", marginBottom: "5px"}}
                             onClick={onStartFresh}
                             startIcon={<AddCircleIcon color={"success"} style={{backgroundColor: "white", borderRadius: "10px"}}/>} >
-                        Start Fresh
+                        开始新的载荷
                     </Button>
                 </Typography>
 
@@ -674,7 +674,7 @@ export const ConfigureBuildParameters = (
             {/* Header section - fixed */}
             <div style={{flexShrink: 0}}>
                 <Typography variant={"p"} style={{fontWeight: 600}}>
-                    3.5. Configure Payload Build Parameters
+                    3.5. 配置载荷构建参数
                 </Typography>
             </div>
             <div style={{
@@ -697,7 +697,7 @@ export const ConfigureBuildParameters = (
                     overflow: "auto"
                 }}>
                     <Typography textAlign="center" variant={"h7"} style={{fontWeight: 600, width: "100%"}}>
-                        Configuration Summary
+                        载荷构建参数摘要
                     </Typography>
                     <ConfigurationSummary buildParameters={payloadTypeParameters} os={os} />
                 </div>

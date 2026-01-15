@@ -40,24 +40,23 @@ export function ResponseDisplayScreenshotModal({onClose, images, startIndex}) {
                     onClick={handleNext}
                     disabled={activeStep === maxSteps - 1}
                 >
-                    Next
+                    下一个
                     {<KeyboardArrowRight />}
                 </Button>
             }
             backButton={
                 <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
                     {<KeyboardArrowLeft />}
-                    Back
+                    上一个
                 </Button>
             }
         />
 
         <DialogActions >
           <Button variant="contained" onClick={onClose} color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
   </>
   );
 }
-

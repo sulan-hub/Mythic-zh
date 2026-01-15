@@ -79,7 +79,7 @@ export function ManuallyAddEdgeDialog(props) {
     };
     const handleSubmit = () => {
         if(selectedDestination === ""){
-            snackActions.error("Must select a valid destination");
+            snackActions.error("必须选择一个有效的目标");
             return;
         }
         props.onSubmit(props.source.display_id, selectedProfile, selectedDestination.callback);
@@ -104,16 +104,16 @@ export function ManuallyAddEdgeDialog(props) {
     }
     if (error) {
      console.error(error);
-     return <div>Error! {error.message}</div>;
+     return <div>错误! {error.message}</div>;
     }
   return (
     <Root>
-        <DialogTitle >Manually Add Edge From Callback {props.source.display_id}</DialogTitle>
+        <DialogTitle >从回连 {props.source.display_id} 手动添加连接边</DialogTitle>
         <DialogContent dividers={true}>
             <React.Fragment>
-                Manually add an edge from Callback {props.source.display_id} to another callback via a P2P C2 Profile.<br/>
+                通过P2P C2配置文件，从回连 {props.source.display_id} 手动添加一条连接到另一个回连。<br/>
                 <FormControl className={classes.formControl}>
-                  <InputLabel ref={inputRefC2}>Profile</InputLabel>
+                  <InputLabel ref={inputRefC2}>配置文件</InputLabel>
                   <Select
                     labelId="demo-dialog-select-label-profile"
                     id="demo-dialog-select"
@@ -123,7 +123,7 @@ export function ManuallyAddEdgeDialog(props) {
                     input={<Input />}
                   >
                     <MenuItem value="">
-                      <em>None</em>
+                      <em>无</em>
                     </MenuItem>
                     {profileOptions.map( (opt) => (
                         <MenuItem value={opt} key={"profile:" + opt.id}>{opt.name}</MenuItem>
@@ -131,7 +131,7 @@ export function ManuallyAddEdgeDialog(props) {
                   </Select>
                 </FormControl><br/>
                 <FormControl className={classes.formControl}>
-                  <InputLabel ref={inputRefDestination}>Destination</InputLabel>
+                  <InputLabel ref={inputRefDestination}>目标</InputLabel>
                   <Select
                     labelId="demo-dialog-select-label-destination"
                     id="demo-dialog-select-destination"
@@ -140,7 +140,7 @@ export function ManuallyAddEdgeDialog(props) {
                     input={<Input />}
                   >
                     <MenuItem value="">
-                      <em>None</em>
+                      <em>无</em>
                     </MenuItem>
                     {callbackOptions.map( (opt) => (
                         <MenuItem value={opt} key={"callback:" + opt.callback.id}>{opt.callback.display_id} ({opt.callback.description})</MenuItem>
@@ -151,13 +151,12 @@ export function ManuallyAddEdgeDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           <Button disabled={selectedDestination === ""} onClick={handleSubmit} variant="contained" color="success">
-            Add
+            添加
           </Button>
         </DialogActions>
   </Root>
   );
 }
-

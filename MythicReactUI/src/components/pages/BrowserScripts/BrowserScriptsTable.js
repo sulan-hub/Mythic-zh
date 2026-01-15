@@ -22,17 +22,17 @@ export function BrowserScriptsTable(props){
         <div style={{display: "flex", flexDirection: "column", height: "100%"}}>
             <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main}} variant={"elevation"}>
                 <Typography variant="h5" style={{textAlign: "left", display: "inline-block", marginLeft: "20px"}}>
-                    Browser Scripts
+                    浏览器脚本
                 </Typography>
                 <Button size="small" onClick={() => setOpenNewScriptDialog(true)} style={{float: "right", marginRight: "30px", color: "white"}}
                         startIcon={<AddCircleIcon color={"success"} style={{backgroundColor: "white", borderRadius: "10px"}}/>} >
-                    New Script
+                    新建脚本
                 </Button>
                 {openNewScriptDialog ? (   
                     <MythicDialog fullWidth={true} maxWidth="xl" open={openNewScriptDialog}
                         onClose={()=>{setOpenNewScriptDialog(false);}} 
                         innerDialog={
-                            <EditScriptDialog me={props.me} onClose={()=>{setOpenNewScriptDialog(false);}} title="Create New Browser Script" new={true} onSubmitEdit={props.onSubmitNew} />
+                            <EditScriptDialog me={props.me} onClose={()=>{setOpenNewScriptDialog(false);}} title="创建新浏览器脚本" new={true} onSubmitEdit={props.onSubmitNew} />
                         } />    
                     ) : null
                 }
@@ -41,12 +41,12 @@ export function BrowserScriptsTable(props){
             <Table stickyHeader={true} size="small" style={{"tableLayout": "fixed", "maxWidth": "100%", "overflow": "scroll"}}>
                 <TableHead>
                     <TableRow>
-                        <TableCell style={{width: "3rem"}}>Edit</TableCell>
-                        <TableCell style={{width: "5rem"}}>Active</TableCell>
-                        <TableCell style={{width: "5rem"}}>Payload</TableCell>
-                        <TableCell style={{width: "20rem"}}>Command</TableCell>
-                        <TableCell style={{width: "12rem"}}> Author</TableCell>
-                        <TableCell style={{textAlign: "left"}}>User Modified?</TableCell>
+                        <TableCell style={{width: "3rem"}}>编辑</TableCell>
+                        <TableCell style={{width: "5rem"}}>激活</TableCell>
+                        <TableCell style={{width: "5rem"}}>载荷类型</TableCell>
+                        <TableCell style={{width: "20rem"}}>命令</TableCell>
+                        <TableCell style={{width: "12rem"}}> 作者</TableCell>
+                        <TableCell style={{textAlign: "left"}}>用户修改?</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -66,4 +66,3 @@ export function BrowserScriptsTable(props){
         
     )
 }
-

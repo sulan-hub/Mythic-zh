@@ -42,7 +42,7 @@ export function BrowserScriptsTableRow(props){
                 </TableCell>
                 <TableCell>{props.command.cmd}</TableCell>
                 <TableCell>{props.author}</TableCell>
-                <TableCell>{props.user_modified ? "User Modified" : "" } </TableCell>
+                <TableCell>{props.user_modified ? "用户已修改" : "" } </TableCell>
 
                 {openEdit &&
                     <MythicDialog fullWidth={true} maxWidth="xl" open={openEdit} 
@@ -56,4 +56,3 @@ export function BrowserScriptsTableRow(props){
         </React.Fragment>
         )
 }
-

@@ -240,7 +240,7 @@ export function Step1SelectOS(props){
                 }}>
                     <div style={{width: "100%", margin: "5px", border: "1px solid grey", borderRadius: "5px", padding: "10px"}}>
                         <Typography variant={"p"} style={{fontWeight: 600}}>
-                            1. Select Operating System
+                            1. 选择操作系统
                         </Typography>
                         <Select
                             value={os}
@@ -255,14 +255,14 @@ export function Step1SelectOS(props){
                             }
                         </Select>
                         <Typography style={{fontWeight: 600}}>
-                            Compatible Payload Types
+                            兼容的有效载荷类型
                         </Typography>
                         {payloadtypesPerOS[os]?.join(", ")}
                     </div>
                     <div style={{width: "100%", margin: "5px", border: "1px solid grey", borderRadius: "5px", padding: "10px"}}>
                         <div style={{width: "100%", display: "flex", alignItems: "flex-start", marginBottom: "10px", flexDirection: "column"}}>
                             <Typography style={{fontWeight: 600}} variant={"p"}>
-                                2. Select Payload Type
+                                2. 选择载荷类型
                             </Typography>
                             <Select
                                 style={{width: "100%"}}
@@ -282,7 +282,7 @@ export function Step1SelectOS(props){
                             <MythicAgentSVGIcon payload_type={selectedPayloadType} style={{width: "80px", padding: "5px", objectFit: "unset"}} />
                             <Typography variant="body2" component="p" style={{whiteSpace: "pre-wrap"}}>
                                 <b>Version: </b>{payloadtypeData[selectedPayloadType]?.semver}<br/>
-                                <b>Description: </b>{payloadtypeData[selectedPayloadType]?.note}<br/>
+                                <b>描述: </b>{payloadtypeData[selectedPayloadType]?.note}<br/>
                             </Typography>
                         </div>
                     </div>

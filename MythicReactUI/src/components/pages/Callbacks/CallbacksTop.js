@@ -320,7 +320,7 @@ export function CallbacksTop(props){
             const updated = data.data.callback_stream.reduce( (prev, cur) => {
                 let existingIndex = prev.findIndex( (element, i, array) => element.id === cur.id);
                 if(existingIndex === -1){
-                    // cur isn't in our current list of callbacks
+                    // cur 不在我们当前的回连列表中
                     if(cur.active){return [...prev, cur]}
                 }
                 if(!cur.active){
@@ -346,7 +346,7 @@ export function CallbacksTop(props){
             const updated = data.callback.reduce( (prev, cur) => {
                 let existingIndex = prev.findIndex( (element, i, array) => element.id === cur.id);
                 if(existingIndex === -1){
-                    // cur isn't in our current list of callbacks
+                    // cur 不在我们当前的回连列表中
                     if(cur.active){return [...prev, cur]}
                 }
                 if(!cur.active){
@@ -375,7 +375,7 @@ export function CallbacksTop(props){
             const updated = data.data.callbackgraphedge_stream.reduce( (prev, cur) => {
                 let existingIndex = prev.findIndex( (element, i, array) => element.id === cur.id);
                 if(existingIndex === -1){
-                    // cur isn't in our current list of callbacks
+                    // cur 不在我们当前的边列表中
                     return [...prev, cur]
                 }
                 prev[existingIndex] = {...prev[existingIndex], ...cur};

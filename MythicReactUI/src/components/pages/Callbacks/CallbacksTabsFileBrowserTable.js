@@ -83,20 +83,20 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     const [selectedColumn, setSelectedColumn] = React.useState({});
     const [sortData, setSortData] = React.useState({"sortKey": null, "sortDirection": null, "sortType": null})
     const [columnVisibility, setColumnVisibility] = React.useState({
-        "visible": ["Info", "Name", "Size", "Last Modify"],
-        "hidden": ["Tags", "Comment"]
+        "visible": ["信息", "名称", "大小", "最后修改"],
+        "hidden": ["标签", "注释"]
     });
     const [openAdjustColumnsDialog, setOpenAdjustColumnsDialog] = React.useState(false);
     const [selectedRows, setSelectedRows] = React.useState([]);
     const columns = React.useMemo(
         () =>
             [
-                { name: 'Info', width: 65, disableDoubleClick: true, disableSort: true, disableFilterMenu: true },
-                { name: 'Name', type: 'string', key: 'name_text', fillWidth: true },
-                { name: "Size", type: "size", key: "size", inMetadata: true, width: 100},
-                { name: "Last Modify", type: "date", key: "modify_time", inMetadata: true, width: 250},
-                { name: 'Tags', type: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
-                { name: 'Comment', type: 'string', key: 'comment', width: 200 },
+                { name: '信息', width: 65, disableDoubleClick: true, disableSort: true, disableFilterMenu: true },
+                { name: '名称', type: 'string', key: 'name_text', fillWidth: true },
+                { name: "大小", type: "size", key: "size", inMetadata: true, width: 100},
+                { name: "最后修改", type: "date", key: "modify_time", inMetadata: true, width: 250},
+                { name: '标签', type: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
+                { name: '注释', type: 'string', key: 'comment', width: 200 },
             ].reduce( (prev, cur) => {
                 if(columnVisibility.visible.includes(cur.name)){
                     if(filterOptions[cur.key] && String(filterOptions[cur.key]).length > 0){
@@ -134,7 +134,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                         return parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a]?.metadata[sortData.sortKey]) >
                         parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b]?.metadata[sortData.sortKey]) ? 1 : -1;
                     }catch(error) {
-                        console.log("failed to parse data for sorting", error);
+                        console.log("排序数据解析失败", error);
                         return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a]?.metadata[sortData.sortKey] >
                         props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b]?.metadata[sortData.sortKey] ? 1 : -1
                     }
@@ -154,7 +154,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                         }
                         return parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey]) > parseInt(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey]) ? 1 : -1;
                     } catch (error) {
-                        console.log("failed to parse data for sorting", error);
+                        console.log("排序数据解析失败", error);
                         return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey] > props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey] ? 1 : -1;
                     }
                 }
@@ -177,7 +177,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                     }
                     return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey].localeCompare(props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey]);
                 }catch(error){
-                    console.log("failed to parse data for sorting", error);
+                    console.log("排序数据解析失败", error);
                     return props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][a][sortData.sortKey] > props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][b][sortData.sortKey] ? 1 : -1
                 }
 
@@ -209,14 +209,14 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     }
     const gridData = React.useMemo(
         () =>
-            // row is just the name
+            // 行数据仅为名称
             sortedData.reduce((prev, row) => {
                 if(filterRow(row)){
                     return [...prev];
                 }else{
                     return [...prev, columns.map( c => {
                         switch(c.name){
-                            case "Info":
+                            case "信息":
                                 return  <FileBrowserTableRowActionCell 
                                             treeRootData={props.treeRootData[props.selectedFolderData.group]}
                                             selectedFolderData={props.selectedFolderData} 
@@ -225,27 +225,27 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                                             me={props.me}
                                             tabInfo={props.tabInfo}
                                             onTaskRowAction={props.onTaskRowAction} />;
-                            case "Name":
+                            case "名称":
                                 return <FileBrowserTableRowNameCell 
                                             treeRootData={props.treeRootData[props.selectedFolderData.group]}
                                             selectedFolderData={props.selectedFolderData} 
                                             cellData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]?.name_text}
                                             rowData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]} />;
-                            case "Size":
+                            case "大小":
                                 return <TableRowSizeCell cellData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]?.metadata?.size}
                                                          rowData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row] }/>
-                            case "Tags":
+                            case "标签":
                                 return <FileBrowserTagsCell 
                                             rowData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]}
                                             treeRootData={props.treeRootData[props.selectedFolderData.group]}
                                             cellData={row}
                                             selectedFolderData={props.selectedFolderData} 
                                             me={props.me} />
-                            case "Last Modify":
+                            case "最后修改":
                                 return <TableRowDateCell cellData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]?.metadata?.modify_time}
                                                          rowData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]}
                                                          view_utc_time={props.me?.user?.view_utc_time} />
-                            case "Comment":
+                            case "注释":
                                 return <FileBrowserTableRowStringCell cellData={row.comment} rowData={props.treeRootData[props.selectedFolderData.group][props.selectedFolderData.host][row]} />
                         }
                     })];
@@ -271,7 +271,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     }
     const displayFormat = getDisplayFormat();
     useEffect(() => {
-        // when the folder changes, we need to aggregate all of the entries
+        // 当文件夹变更时，我们需要聚合所有条目
         //console.log(props.selectedFolderData, props.treeAdjMatrix, props.treeRootData)
         let desiredPath = props.selectedFolderData.full_path_text;
         if(props.selectedFolderData.id === props.selectedFolderData.host){
@@ -279,13 +279,13 @@ export const CallbacksTabsFileBrowserTable = (props) => {
         }
         let newAllData = Object.keys(props.treeAdjMatrix[props.selectedFolderData.group]?.[props.selectedFolderData.host]?.[desiredPath] || {});
         setAllData(newAllData);
-        //console.log("just set all data")
+        //console.log("刚刚设置了所有数据")
     }, [props.selectedFolderData, props.treeAdjMatrix]);
     const onRowDoubleClick = (e, rowIndex, rowData) => {
         if (!rowData.can_have_children) {
             return;
         }
-        snackActions.info('Fetching contents from database...');
+        snackActions.info('正在从数据库获取内容...');
         props.onRowDoubleClick({...rowData, group: props.selectedFolderData.group});
         setSortData({"sortKey": null, "sortType":null, "sortDirection": "ASC"});
     };
@@ -309,14 +309,14 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     };
     const contextMenuOptions = [
         {
-            name: 'Filter Column', type: "item", icon: null,
+            name: '筛选列', type: "item", icon: null,
             click: ({event, columnIndex}) => {
                 if(event){
                     event.stopPropagation();
                     event.preventDefault();
                 }
                 if(columns[columnIndex].disableFilterMenu){
-                    snackActions.warning("Can't filter that column");
+                    snackActions.warning("无法筛选该列");
                     return;
                 }
                 setSelectedColumn(columns[columnIndex]);
@@ -324,7 +324,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
             }
         },
         {
-            name: "Show/Hide Columns",type: "item", icon: null,
+            name: "显示/隐藏列",type: "item", icon: null,
             click: ({event, columnIndex}) => {
                 if(event){
                     event.stopPropagation();
@@ -363,35 +363,35 @@ export const CallbacksTabsFileBrowserTable = (props) => {
             type: "item", disabled: true
         },
         {
-            name: "Copy to Clipboard", icon: null, click: () => {}, type: "menu",
+            name: "复制到剪贴板", icon: null, click: () => {}, type: "menu",
             menuItems: [
                 {
-                    name: 'Name', type: "item",
+                    name: '名称', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(element.name_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Full Path', type: "item",
+                    name: '完整路径', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(element.full_path_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Metadata', type: "item",
+                    name: '元数据', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(JSON.stringify(element?.metadata?.permissions, null, 2))){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
@@ -400,25 +400,25 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     ]
     async function optionsB (callback_id, callback_display_id, element) {
         let downloadCommand = await props.getLoadedCommandForUIFeature(callback_id, element.can_have_children ?  props.baseUIFeature + ":download_folder" : props.baseUIFeature + ":download");
-        let downloadDisplay = "Download (Unsupported)";
+        let downloadDisplay = "下载 (不支持)";
         if(element.can_have_children){
-            downloadDisplay = "Download Folder (Unsupported)";
+            downloadDisplay = "下载文件夹 (不支持)";
         }
         if(downloadCommand !== undefined){
-            downloadDisplay = `Download (${downloadCommand.command.cmd})`;
+            downloadDisplay = `下载 (${downloadCommand.command.cmd})`;
             if(element.can_have_children){
-                downloadDisplay = `Download Folder (${downloadCommand.command.cmd})`;
+                downloadDisplay = `下载文件夹 (${downloadCommand.command.cmd})`;
             }
         }
         let listCommand = await props.getLoadedCommandForUIFeature(callback_id, props.baseUIFeature + ":list");
-        let listDisplay = "List (Unsupported)";
+        let listDisplay = "列出 (不支持)";
         if(listCommand !== undefined){
-            listDisplay = `List (${listCommand.command.cmd})`;
+            listDisplay = `列出 (${listCommand.command.cmd})`;
         }
         let removeCommand = await props.getLoadedCommandForUIFeature(callback_id, props.baseUIFeature + ":remove");
-        let removeDisplay = "Remove (Unsupported)";
+        let removeDisplay = "删除 (不支持)";
         if(removeCommand !== undefined){
-            removeDisplay = `Remove (${removeCommand.command.cmd})`;
+            removeDisplay = `删除 (${removeCommand.command.cmd})`;
         }
         return [
             {
@@ -472,11 +472,11 @@ export const CallbacksTabsFileBrowserTable = (props) => {
     }
 
     async function onRowContextClick({rowDataStatic}) {
-        // based on row, return updated options array?
+        // 基于行数据，返回更新后的选项数组？
         if(selectedRows.length > 1){
             return [
                 {
-                    name: `Download All Selected`, type: "item",
+                    name: `下载所有选中项`, type: "item",
                     icon: <GetAppIcon color="success" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
@@ -496,7 +496,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                     },
                 },
                 {
-                    name: `Remove All Selected`, type: "item",
+                    name: `删除所有选中项`, type: "item",
                     icon: <DeleteIcon color="error" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
@@ -517,7 +517,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                     },
                 },
                 {
-                    name: `List All Selected`, type: "item",
+                    name: `列出所有选中项`, type: "item",
                     icon: <ListIcon color="warning" style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
@@ -542,7 +542,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
         options.push(...(await optionsB(props.tabInfo.callbackID, props.tabInfo.displayID, rowDataStatic)));
         if(rowDataStatic.callback.display_id !== props.tabInfo.displayID){
             options.push({
-                name: `Original Callback: ${rowDataStatic.callback.display_id}`, icon: null, click: () => {}, type: "menu",
+                name: `原始回连: ${rowDataStatic.callback.display_id}`, icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     ...(await optionsB(rowDataStatic.callback.id, rowDataStatic.callback.display_id, rowDataStatic))
                 ]
@@ -577,8 +577,8 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"Only PARTIAL data has been collected for this path.  "}<br/>
-                        {"Task this callback to list the contents"}
+                        {"此路径仅收集了部分数据。  "}<br/>
+                        {"为此回连下发任务以列出内容"}
                         <IconButton style={{margin: 0, padding: 0, marginRight: "10px"}}
                                     onClick={props.onListFilesButtonFromTableWithNoEntries}>
                             <RefreshIcon color={"info"} fontSize={"large"}
@@ -598,9 +598,9 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"Some data exists for this path, but isn't loaded into the UI.  "}
+                        {"此路径存在一些数据，但尚未加载到UI中。  "}
                         <br/>
-                        {"Click the folder icon to fetch data from the database."}
+                        {"点击文件夹图标从数据库获取数据。"}
                     </div>
                 </div>
             }
@@ -615,9 +615,9 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                         padding: "5px",
                         backgroundColor: "rgba(37,37,37,0.92)", color: "white",
                     }}>
-                        {"No data has been collected for this path.  "}
+                        {"此路径尚未收集任何数据。  "}
                         <div style={{display: "flex", alignItems: "center"}}>
-                            {"Task this callback to list the contents"}
+                            {"为此回连下发任务以列出内容"}
                             <IconButton style={{margin: 0, padding: 0, marginRight: "10px"}} onClick={props.onListFilesButtonFromTableWithNoEntries} >
                                 <RefreshIcon color={"info"} fontSize={"large"}
                                              style={{ display: "inline-block",}} />
@@ -634,7 +634,7 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                               onClose={()=>{setOpenContextMenu(false);}}
                               innerDialog={
                                   <MythicModifyStringDialog
-                                      title='Filter Column'
+                                      title='筛选列'
                                       onSubmit={onSubmitFilterOptions}
                                       value={filterOptions[selectedColumn.key]}
                                       onClose={() => {
@@ -649,8 +649,8 @@ export const CallbacksTabsFileBrowserTable = (props) => {
                   onClose={()=>{setOpenAdjustColumnsDialog(false);}} 
                   innerDialog={
                     <MythicTransferListDialog onClose={()=>{setOpenAdjustColumnsDialog(false);}} 
-                      onSubmit={onSubmitAdjustColumns} right={columnVisibility.visible} rightTitle="Show these columns"
-                      leftTitle={"Hidden Columns"} left={columnVisibility.hidden} dialogTitle={"Edit which columns are shown"}/>}
+                      onSubmit={onSubmitAdjustColumns} right={columnVisibility.visible} rightTitle="显示这些列"
+                      leftTitle={"隐藏列"} left={columnVisibility.hidden} dialogTitle={"编辑显示的列"}/>}
                 />
             } 
         </div>
@@ -688,11 +688,11 @@ const FileBrowserTableRowNameCell = ({cellData,  rowData, treeRootData, selected
                 {cellData}
             </pre>
             {treeRootData[selectedFolderData.host][rowData.full_path_text]?.success === true ? (
-                <MythicStyledTooltip title='Successfully listed contents of folder' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
+                <MythicStyledTooltip title='文件夹内容已成功列出' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
                     <CheckCircleOutlineIcon color="success" fontSize='small' />
                 </MythicStyledTooltip>
             ) : treeRootData[selectedFolderData.host][rowData.full_path_text]?.success === false ? (
-                <MythicStyledTooltip title='Failed to list contents of folder' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
+                <MythicStyledTooltip title='列出文件夹内容失败' tooltipStyle={{display: "inline-flex", marginLeft: "5px"}}>
                     <ErrorIcon fontSize='small' color="error" />
                 </MythicStyledTooltip>
             ) : null}
@@ -725,7 +725,7 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
         if(view_utc_time !== undefined){
             view_utc = view_utc_time
         }
-        // handle Unix epoch timestamps
+        // 处理Unix时间戳
         if (view_utc) {
             let init_date = new Date(cellDataInt);
             return init_date.toDateString() + " " + init_date.toTimeString().substring(0, 8) + " UTC";
@@ -739,11 +739,11 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
     }catch(error){
         try{
             let cellDataInt = parseInt(cellData)
-            // handle windows FILETIME values
+            // 处理Windows FILETIME值
             const dateData = new Date( ((cellDataInt / 10000000) - 11644473600) * 1000).toISOString();
             return toLocalTime(dateData.slice(0, 10) + " " + dateData.slice(11,-1), view_utc_time);
         }catch(error2){
-            console.log("error with timestamp: ", cellData);
+            console.log("时间戳错误: ", cellData);
             return String(cellData);
         }
         
@@ -753,7 +753,7 @@ export const TableRowDateCell = ({ cellData, rowData, view_utc_time }) => {
 export const TableRowSizeCell = ({ cellData, rowData }) => {
     const getStringSize = () => {
         try {
-            // process for getting human readable string from bytes: https://stackoverflow.com/a/18650828
+            // 从字节获取人类可读字符串的处理方式: https://stackoverflow.com/a/18650828
             let bytes = parseInt(cellData);
             if (cellData === '' || cellData === undefined) return '';
             if (bytes === 0) return '0 B';
@@ -783,14 +783,14 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
     const [getHistory] = useLazyQuery(getFileDownloadHistory, {
         onCompleted: (data) => {
             if (data.mythictree.length === 0) {
-                snackActions.warning('No download history recorded');
+                snackActions.warning('未记录下载历史');
             } else {
                 let files = [];
                 for(let i = 0; i < data.mythictree.length; i++){
                     files.push(...data.mythictree[i].filemeta);
                 }
                 if(files.length === 0){
-                    snackActions.warning('No download history recorded');
+                    snackActions.warning('未记录下载历史');
                     return;
                 }
                 files = files.map(f => {
@@ -806,7 +806,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
     });
     const [updateComment] = useMutation(updateFileComment, {
         onCompleted: (data) => {
-            snackActions.success('updated comment');
+            snackActions.success('注释已更新');
         },
     });
     const onSubmitUpdatedComment = (comment) => {
@@ -828,7 +828,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
             type: "item", disabled: true
         },
         {
-            name: 'View Permissions', type: "item",
+            name: '查看权限', type: "item",
             icon: <VisibilityIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -837,7 +837,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
             },
         },
         {
-            name: 'Download History', type: "item",
+            name: '下载历史', type: "item",
             icon: <HistoryIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -849,7 +849,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
             },
         },
         {
-            name: 'Edit Comment', type: "item",
+            name: '编辑注释', type: "item",
             icon: <EditIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -883,7 +883,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
             </IconButton>
             {treeRootData[selectedFolderData.host][rowData.full_path_text]?.filemeta.length > 0 ?
                 <MythicStyledTooltip title={treeRootData[selectedFolderData.host][rowData.full_path_text]?.filemeta[0]?.complete ?
-                    "Preview Media" : "Preview Partial Media"}>
+                    "预览媒体" : "预览部分媒体"}>
                     <FontAwesomeIcon icon={faPhotoVideo} size={"1x"} style={{
                         position: "relative", cursor: "pointer", display: "inline-block"}}
                                      onClick={openFilePreview}/>
@@ -946,7 +946,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
                     }}
                     innerDialog={
                         <MythicModifyStringDialog
-                            title='Edit Comment'
+                            title='编辑注释'
                             onSubmit={onSubmitUpdatedComment}
                             value={rowData.comment}
                             onClose={() => {
@@ -966,9 +966,9 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
                     }}
                     innerDialog={
                         <MythicViewJSONAsTableDialog
-                            title={'View Metadata for ' + rowData.name_text}
-                            leftColumn='Attribute'
-                            rightColumn='Value'
+                            title={'查看 ' + rowData.name_text + ' 的元数据'}
+                            leftColumn='属性'
+                            rightColumn='值'
                             me={me}
                             value={permissionData}
                             onClose={() => {
@@ -988,7 +988,7 @@ const FileBrowserTableRowActionCell = ({ rowData, cellData, onTaskRowAction, tre
                     }}
                     innerDialog={
                         <DownloadHistoryDialog
-                            title='Download History'
+                            title='下载历史'
                             value={downloadHistory}
                             onClose={() => {
                                 setFileHistoryDialogOpen(false);

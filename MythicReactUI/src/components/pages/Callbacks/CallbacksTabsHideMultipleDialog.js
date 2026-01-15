@@ -38,28 +38,28 @@ const columns = [
     { field: 'display_id', headerName: 'ID', width: 70, type: 'number', },
     {
         field: 'host',
-        headerName: 'Host',
+        headerName: '主机',
         flex: 0.5,
     },
     {
         field: 'user',
-        headerName: 'User',
+        headerName: '用户',
         flex: 0.5,
     },
     {
         field: 'pid',
-        headerName: 'PID',
+        headerName: '进程ID',
         type: 'number',
         width: 70,
     },
     {
         field: 'description',
-        headerName: 'Description',
+        headerName: '描述',
         flex: 1,
     },
     {
       field: 'ip',
-      headerName: 'IP',
+      headerName: 'IP地址',
       width: 100,
       renderCell: (params) => <CallbacksTableIPCell rowData={params.row} cellData={params.row.ip} />,
         sortable: false,
@@ -73,7 +73,7 @@ const columns = [
     },
     {
         field: "last_checkin",
-        headerName: "Checkin",
+        headerName: "最后签到",
         width: 100,
         valueGetter: (value, row) => new Date(row.last_checkin),
         renderCell: (params) =>
@@ -81,14 +81,14 @@ const columns = [
     },
     {
         field: "payload.payloadtype.name",
-        headerName: "Agent",
+        headerName: "代理类型",
         flex: 0.5,
         valueGetter: (value, row) => row.payload.payloadtype.name,
         renderCell: (params) => <CallbacksTablePayloadTypeCell rowData={params.row} />
     },
     {
         field: "mythictree_groups_string",
-        headerName: "Groups",
+        headerName: "分组",
         flex: 0.5,
     }
 ];
@@ -129,7 +129,7 @@ const CustomSelectTable = ({initialData, selectedData, sortModel}) => {
                     setRowSelectionModel(newRowSelectionModel);
                 }}
                 rowSelectionModel={rowSelectionModel}
-                density={"compact"}
+                density={"紧凑"}
             />
         </div>
 
@@ -141,7 +141,7 @@ export function CallbacksTabsHideMultipleDialog({onClose}) {
     const [initialData, setInitialData] = React.useState([]);
     const [hideCallback] = useMutation(hideCallbacksMutation, {
         onCompleted: data => {
-            snackActions.success("Successfully hid callbacks!")
+            snackActions.success("成功隐藏回调！")
             onClose();
         },
         onError: data => {
@@ -154,7 +154,7 @@ export function CallbacksTabsHideMultipleDialog({onClose}) {
       fetchPolicy: "no-cache",
       onCompleted: (data) => {
         const callbackData = data.callback.map( c => {
-          // for each callback, get a unique set of supported features
+          // 为每个回调获取唯一的支持功能集合
           const display = `${c.display_id} - ${c.user}@${c.host} (${c.pid}) - ${c.description}`;
           return {...c, display};
         });
@@ -167,24 +167,25 @@ export function CallbacksTabsHideMultipleDialog({onClose}) {
         return;
       }
       let callbackIDs = selectedData.current.map(c => c.display_id);
-      snackActions.info("Hiding callbacks...");
+      snackActions.info("正在隐藏回调...");
       hideCallback({variables: {callback_display_ids: callbackIDs}});
     }
 
 
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Hide Multiple Callbacks at Once</DialogTitle>
-            <CustomSelectTable initialData={initialData}
-                               selectedData={selectedData}
-                               sortModel={{ field: 'last_checkin', sort: 'asc' }}
+        <DialogTitle id="form-dialog-title">批量隐藏多个回调</DialogTitle>
+            <CustomSelectTable 
+                initialData={initialData}
+                selectedData={selectedData}
+                sortModel={{ field: 'last_checkin', sort: 'asc' }}
             />
         <DialogActions>
           <Button onClick={onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           <Button onClick={submitTasking} variant="contained" color="warning">
-            Hide
+            隐藏
           </Button>
         </DialogActions>
   </React.Fragment>
@@ -198,7 +199,7 @@ export function CallbacksTabsSelectMultipleDialog({onClose, onSubmit}) {
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
             const callbackData = data.callback.map( c => {
-                // for each callback, get a unique set of supported features
+                // 为每个回调获取唯一的支持功能集合
                 const display = `${c.display_id} - ${c.user}@${c.host} (${c.pid}) - ${c.description}`;
                 return {...c, display};
             });
@@ -216,20 +217,20 @@ export function CallbacksTabsSelectMultipleDialog({onClose, onSubmit}) {
 
     return (
         <React.Fragment>
-            <DialogTitle id="form-dialog-title">Select Multiple Callbacks</DialogTitle>
-            <CustomSelectTable initialData={initialData}
-                               selectedData={selectedData}
-                               sortModel={{ field: 'display_id', sort: 'desc' }}
+            <DialogTitle id="form-dialog-title">选择多个回调</DialogTitle>
+            <CustomSelectTable 
+                initialData={initialData}
+                selectedData={selectedData}
+                sortModel={{ field: 'display_id', sort: 'desc' }}
             />
             <DialogActions>
                 <Button onClick={onClose} variant="contained" color="primary">
-                    Close
+                    关闭
                 </Button>
                 <Button onClick={submitTasking} variant="contained" color="warning">
-                    Use Selection
+                    使用选择
                 </Button>
             </DialogActions>
         </React.Fragment>
     );
 }
-

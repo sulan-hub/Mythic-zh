@@ -19,13 +19,17 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 export function CallbacksTableColumnsReorderDialog({initialItems, onSubmit, onClose, onReset, visible, hidden}) {
     const [items, setItems] = React.useState(initialItems);
     const theme = useTheme();
+    
+    // 处理拖拽结束事件
     const onDragEnd = ({ destination, source }) => {
-        // dropped outside the list
+        // 如果拖拽到列表外则返回
         if (!destination) return;
         const newItems = reorder(items, source.index, destination.index);
         setItems(newItems);
     };
+    
     React.useEffect( () => {
+        // 根据可见性设置更新项目状态
         const newItems = items.map( c => {
             if(visible.includes(c.name)){
                 return {...c, visible: true};
@@ -34,6 +38,8 @@ export function CallbacksTableColumnsReorderDialog({initialItems, onSubmit, onCl
         })
         setItems(newItems);
     }, [visible, hidden]);
+    
+    // 切换列的可见性
     const onToggleVisibility = (i) => {
         const newItems = items.map( (c, index) => {
             if(index === i){
@@ -43,39 +49,62 @@ export function CallbacksTableColumnsReorderDialog({initialItems, onSubmit, onCl
         });
         setItems(newItems);
     }
+    
     const onFinish = () => {
         onSubmit(items);
     }
 
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Drag and Drop to Adjust the Order and Toggle Visibility</DialogTitle>
-        <DialogContent dividers={true} style={{height: "100%", margin: 0, padding: 0, background: theme.palette.background.main}}>
-            <DraggableList items={items} onToggleVisibility={onToggleVisibility} onDragEnd={onDragEnd} />
+        <DialogTitle id="form-dialog-title">拖拽调整顺序并切换列可见性</DialogTitle>
+        <DialogContent 
+            dividers={true} 
+            style={{
+                height: "100%", 
+                margin: 0, 
+                padding: 0, 
+                background: theme.palette.background.main
+            }}
+        >
+            <DraggableList 
+                items={items} 
+                onToggleVisibility={onToggleVisibility} 
+                onDragEnd={onDragEnd} 
+            />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
             <Button onClick={onReset} variant="contained" color="warning">
-                Reset
+                重置
             </Button>
           <Button onClick={onFinish} variant="contained" color="success">
-            Submit
+            提交
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
 
+// 可拖拽列表组件
 export const DraggableList = ({ items, onDragEnd, onToggleVisibility }) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="callback-table-column-list">
                 {(provided) => (
-                    <List style={{border: 0, padding: 0}} ref={provided.innerRef} {...provided.droppableProps}>
+                    <List 
+                        style={{border: 0, padding: 0}} 
+                        ref={provided.innerRef} 
+                        {...provided.droppableProps}
+                    >
                         {items.map((item, index) => (
-                            <DraggableListItem onToggleVisibility={onToggleVisibility} item={item} index={index} key={item.key} />
+                            <DraggableListItem 
+                                onToggleVisibility={onToggleVisibility} 
+                                item={item} 
+                                index={index} 
+                                key={item.key} 
+                            />
                         ))}
                         {provided.placeholder}
                     </List>
@@ -84,6 +113,8 @@ export const DraggableList = ({ items, onDragEnd, onToggleVisibility }) => {
         </DragDropContext>
     );
 };
+
+// 可拖拽列表项组件
 export const DraggableListItem = ({ item, index, onToggleVisibility }) => {
     const theme = useTheme();
     return (
@@ -95,24 +126,24 @@ export const DraggableListItem = ({ item, index, onToggleVisibility }) => {
                     {...provided.dragHandleProps}
                     component={Paper}
                     disabled={!item.visible}
-                    sx={snapshot.isDragging ? { background: theme.palette.secondary.main } : {
-
-                    }}
+                    sx={snapshot.isDragging ? { 
+                        background: theme.palette.secondary.main 
+                    } : {}}
                 >
                     <DragHandleIcon style={{marginRight: "10px"}}/>
                     <ListItemText primary={item.name} />
-                    <IconButton onClick={() => onToggleVisibility(index)} style={{float: "right", margin: 0, padding: 0}}>
+                    <IconButton 
+                        onClick={() => onToggleVisibility(index)} 
+                        style={{float: "right", margin: 0, padding: 0}}
+                    >
                         {item.visible ? (
                             <VisibilityIcon color={"success"} />
                         ) : (
                             <VisibilityOffIcon color={"error"} />
-                        )
-
-                        }
+                        )}
                     </IconButton>
                 </ListItem>
             )}
         </Draggable>
     );
 };
-

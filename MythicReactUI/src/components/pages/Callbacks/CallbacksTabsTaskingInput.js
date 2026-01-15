@@ -214,9 +214,9 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                             tabOptions.current = [];
                             tabOptionsType.current = "param_name";
                             if (lastValueTypedBeforeDynamicParamsRef.current === ""){
-                                snackActions.info("no available options", snackMessageStyles);
+                                snackActions.info("没有可用选项", snackMessageStyles);
                             } else {
-                                snackActions.info("no available options match the supplied data", snackMessageStyles);
+                                snackActions.info("没有可用选项匹配提供的数据", snackMessageStyles);
                             }
                             setBackdropOpen(false);
                             return;
@@ -228,12 +228,12 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         setMessage(newMsg);
                         tabOptionsType.current = "param_value";
                     } else {
-                        snackActions.warning("no available options", snackMessageStyles);
+                        snackActions.warning("没有可用选项", snackMessageStyles);
                     }
                 }catch(error){
                     console.log(error);
                     setBackdropOpen(false);
-                    snackActions.warning("Failed to parse dynamic parameter results", snackMessageStyles);
+                    snackActions.warning("解析动态参数结果失败", snackMessageStyles);
                     tabOptions.current = [];
                     tabOptionsType.current = "param_name";
                 }
@@ -244,7 +244,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             setBackdropOpen(false);
         },
         onError: (data) => {
-            snackActions.warning("Failed to query payload type container for options", snackMessageStyles);
+            snackActions.warning("查询有效载荷类型容器选项失败", snackMessageStyles);
             console.log(data);
             setBackdropOpen(false);
         }
@@ -286,7 +286,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             }
             tokenOptions.current = data.data.callbacktoken;
             if(tokenOptions.current.length === 0) {
-                props.changeSelectedToken("Default Token");
+                props.changeSelectedToken("默认令牌");
             }
         }
       });
@@ -341,14 +341,14 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 cmdData.commandparameters.sort( (a,b) => a.ui_position > b.ui_position ? 1 : -1);
                 return cmdData;
             })
-            cmds.push({cmd: "help", description: "Get help for a command or info about loaded commands", commandparameters: [], attributes: {supported_os: []}});
-            cmds.push({cmd: "clear", description: "Clear 'submitted' jobs from being pulled down by an agent", commandparameters: [], attributes: {supported_os: []}});
+            cmds.push({cmd: "help", description: "获取命令帮助或已加载命令信息", commandparameters: [], attributes: {supported_os: []}});
+            cmds.push({cmd: "clear", description: "清除代理将获取的'已提交'作业", commandparameters: [], attributes: {supported_os: []}});
             cmds.sort((a,b) => a.cmd > b.cmd ? 1 : -1);
             loadedOptions.current = cmds;
         }
     });
     React.useEffect( () => {
-        //console.log("filter updated")
+        //console.log("过滤器已更新")
         const filteredOptions = taskOptions.current.filter( c => applyFilteringToTasks(c));
         setFilteredTaskOptions(filteredOptions);
         let active = false;
@@ -392,7 +392,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             }
           }
           if(props.filterOptions["commandsList"]?.length > 0){
-            // only show these commands
+            // 只显示这些命令
             if(!props.filterOptions["commandsList"]?.includes(GetCommandName(task))){
               return false;
             }
@@ -427,7 +427,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             return;
         }
         if(event.key === "r" && event.ctrlKey){
-            //this means they typed ctrl+r, so they're wanting to do a reverse search for a command
+            // 这意味着他们输入了 ctrl+r，所以他们想要反向搜索命令
             setReverseSearching(true);
             setMessage("");
             setReverseSearchString("");
@@ -438,22 +438,22 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             return;
         }
         if(event.key === "Tab" || (event.key === " " && event.shiftKey )){
-            // if we're still typing the command, we want this to cycle through possible matching commands
-            // if we have a command, this should cycle through parameter names that are required
+            // 如果我们仍在输入命令，我们希望这能循环遍历可能的匹配命令
+            // 如果我们有一个命令，这应该循环遍历必需的参数名称
             event.stopPropagation();
             event.preventDefault();
             setUnmodifiedHistoryValue("parsed_cli");
             if(message.includes(" ")){
-                // this means we're not trying to help with the initial command since there's already a space in what the user typed
-                // first find the command in question
+                // 这意味着我们不是在尝试帮助初始命令，因为用户输入中已经有一个空格
+                // 首先找到相关命令
                 let cmd = loadedOptions.current.filter( l => l.cmd === message.split(" ")[0]);
                 if(!cmd || cmd.length === 0){
                     setCommandPayloadType("");
-                    snackActions.warning("unknown command", snackMessageStyles);
+                    snackActions.warning("未知命令", snackMessageStyles);
                     return
                 }
                 if(commandPayloadType === ""){
-                    // default to the same payload type name as the callback if possible
+                    // 默认情况下，尽可能使用与回调相同的有效载荷类型名称
                     let cmdOpts = cmd.find(c => c?.payloadtype?.name === props.payloadtype_name)
                     if(cmdOpts){
                         setCommandPayloadType(props.payloadtype_name);
@@ -467,13 +467,13 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     cmd = cmd.find(c => c?.payloadtype?.name === commandPayloadType);
                     if(!cmd){
                         setCommandPayloadType("");
-                        snackActions.warning("unknown command", snackMessageStyles);
+                        snackActions.warning("未知命令", snackMessageStyles);
                         return
                     }
                 }
                 //commandPayloadTypeRef.current = cmd.payloadtype.name;
                 if(cmd.cmd === "help"){
-                    // somebody hit tab with either a blank message or a partial word
+                    // 有人在空白消息或部分单词上按了 tab
                     let helpCmd = message.split(" ");
                     if (helpCmd.length > 1) {
                         helpCmd = helpCmd[1];
@@ -498,14 +498,14 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 console.log(cmd.commandparameters);
                 if(cmd.commandparameters.length > 0){
                     if(message[message.length -1] === " "){
-                        // somebody hit tab after a parameter name or after a parameter value
+                        // 有人在参数名称或参数值后按了 tab
                         const parsed = parseCommandLine(message, cmd);
                         if(parsed === undefined){
                             return;
                         }
                         const cmdGroupNames = determineCommandGroupName(cmd, parsed);
                         if(cmdGroupNames === undefined){
-                            snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+                            snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
                             return;
                         }
                         const [lastSuppliedParameter, lastSuppliedParameterHasValue] = getLastSuppliedArgument(cmd, message, parsed);
@@ -527,7 +527,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                 return;
                             } else if(lastSuppliedParameter.dynamic_query_function !== ""){
                                 setBackdropOpen(true);
-                                //snackActions.info("Querying payload type container for options...",   snackMessageStyles);
+                                //snackActions.info("正在查询有效载荷类型容器以获取选项...", snackMessageStyles);
                                 getDynamicParams({variables:{
                                         callback: props.callback_id,
                                         parameter_name: lastSuppliedParameter.name,
@@ -537,7 +537,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                 return;
                             }
                         }
-                        console.log("cmdGroupNames in tab", cmdGroupNames);
+                        console.log("tab 中的 cmdGroupNames", cmdGroupNames);
                         for(let i = 0; i < cmd.commandparameters.length; i++){
                             if(cmd.commandparameters[i]["required"] &&
                                 (!(cmd.commandparameters[i]["cli_name"] in parsed) || (IsRepeatableCLIParameterType(cmd.commandparameters[i]["parameter_type"])) ) &&
@@ -559,9 +559,9 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                             }
                         }
                     }else{
-                        // somebody hit tab when looking at something like `shell dj` or `shell -command`
-                        // so, we should check if the last word is a -CommandParameterName and if so, determine other parameters to replace it
-                        // if we're looking at the first option, do nothing until they hit space
+                        // 有人在查看类似 `shell dj` 或 `shell -command` 的内容时按了 tab
+                        // 所以，我们应该检查最后一个单词是否是 -CommandParameterName，如果是，确定其他参数来替换它
+                        // 如果我们正在查看第一个选项，什么也不做，直到他们按空格
                         if(tabOptions.current.length > 0){
                             let newIndex = forwardOrBackwardTabIndex(event, tabOptionsIndex.current, tabOptions.current);
                             if(tabOptionsType.current === "param_name"){
@@ -580,18 +580,18 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         }
                         const pieces = message.split(" ");
                         const lastFlag = pieces.slice(-1)[0];
-                        // determine if this last thing we see is a flag or not
+                        // 判断我们看到的最后一项是否为标志
                         if(lastFlag.startsWith("-")){
-                            // the last thing we see starts with - and doesn't have a space at the end, so treat this like a tab-completable command parameter
-                            // so we need to remove it and see what group we're dealing with so far
+                            // 我们看到的最后一项以 - 开头且末尾没有空格，因此将其视为可 tab 补全的命令参数
+                            // 所以我们需要移除它并查看我们目前处理的是哪个组
                             const parsed = parseCommandLine(pieces.slice(0, -1).join(" "), cmd);
                             const cmdGroupNames = determineCommandGroupName(cmd, parsed);
                             if(cmdGroupNames === undefined){
-                                snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+                                snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
                                 return;
                             }
-                            // determine if we're looking at a valid flag name in lastFlag or if it's simply the start of a flag
-                            //console.log("swapping parameter name, group options: ", cmdGroupNames);
+                            // 判断我们是在 lastFlag 中查看一个有效的标志名称，还是仅仅是一个标志的开始
+                            //console.log("交换参数名称，组选项：", cmdGroupNames);
                             let exactMatch = cmd.commandparameters.find(cur => 
                                 cmdGroupNames.includes(cur.parameter_group_name) && 
                                 cur.cli_name === lastFlag.slice(1) &&
@@ -600,8 +600,8 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                             );
                             let paramOptions = [];
                             if(exactMatch){
-                                // what the user typed or what we filled out is an exact match to a parameter name
-                                // the options should be all parameters in that group except for the ones already supplied in parsed
+                                // 用户输入的内容或我们填写的内容与参数名称完全匹配
+                                // 选项应该是该组中的所有参数，除了已解析中已提供的参数
                                 paramOptions = cmd.commandparameters.reduce( (prev, cur) => {
                                     if(cmdGroupNames.includes(cur.parameter_group_name) && 
                                         cur.cli_name !== lastFlag.slice(1) &&
@@ -614,7 +614,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                 }, []);
                                 paramOptions.push(lastFlag.slice(1));
                             }else{
-                                // what the user typed isn't an exact match, so find things that start with what they're trying to type
+                                // 用户输入的内容不完全匹配，因此查找以他们尝试输入的内容开头的内容
                                 paramOptions = cmd.commandparameters.reduce( (prev, cur) => {
                                     if(cmdGroupNames.includes(cur.parameter_group_name) && 
                                         cur.cli_name.toLowerCase().includes(lastFlag.slice(1).toLocaleLowerCase()) &&
@@ -649,18 +649,18 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                 }
                                 return;
                             }else{
-                                snackActions.warning("Unknown Parameter Name", snackMessageStyles);
+                                snackActions.warning("未知参数名称", snackMessageStyles);
                                 return;
                             }
                         }else{
-                            // the last thing doesn't start with -, so we're just looking at text, do nothing for now
+                            // 最后一项不是以 - 开头，所以我们现在只是在查看文本，暂时什么也不做
                             const parsed = parseCommandLine(message, cmd);
                             if(parsed === undefined){
                                 return;
                             }
                             const cmdGroupNames = determineCommandGroupName(cmd, parsed);
                             if(cmdGroupNames === undefined){
-                                snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+                                snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
                                 return;
                             }
                             const [lastSuppliedParameter, lastSuppliedParameterHasValue] = getLastSuppliedArgument(cmd, message, parsed);
@@ -682,7 +682,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                     return;
                                 } else if(lastSuppliedParameter.dynamic_query_function !== ""){
                                     setBackdropOpen(true);
-                                    //snackActions.info("Querying payload type container for options...",   snackMessageStyles);
+                                    //snackActions.info("正在查询有效载荷类型容器以获取选项...", snackMessageStyles);
                                     getDynamicParams({variables:{
                                             callback: props.callback_id,
                                             parameter_name: lastSuppliedParameter.name,
@@ -697,13 +697,13 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         
                     }
                     
-                    snackActions.info("No more arguments for command", snackMessageStyles);
+                    snackActions.info("命令没有更多参数", snackMessageStyles);
                 }else{
-                    snackActions.info("No arguments for command", snackMessageStyles);
+                    snackActions.info("命令没有参数", snackMessageStyles);
                 }
                 
             }else{
-                // somebody hit tab with either a blank message or a partial word
+                // 有人在空白消息或部分单词上按了 tab
                 if(tabOptions.current.length === 0){
                     let opts = loadedOptions.current.filter( l => l.cmd.toLowerCase().includes(message.toLocaleLowerCase()) && (l.attributes.supported_os.length === 0 || l.attributes.supported_os.includes(props.callback_os)));
                     tabOptionsType.current = "param_name";
@@ -741,7 +741,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             event.preventDefault();
             event.stopPropagation();
             if(filteredTaskOptions.length === 0){
-                snackActions.warning("No previous tasks", snackMessageStyles);
+                snackActions.warning("没有之前的任务", snackMessageStyles);
                 return;
             }else{
                 
@@ -756,7 +756,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             }
         }else if(event.key === "ArrowDown"){
             if(filteredTaskOptions.length === 0){
-                snackActions.warning("No previous tasks", snackMessageStyles);
+                snackActions.warning("没有之前的任务", snackMessageStyles);
                 return;
             }else{
                 let newIndex = (taskOptionsIndex.current - 1);
@@ -791,7 +791,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         let buffer = '';
 
         str.split('').forEach((value, i, s) => {
-            //loop over every value in the string
+            // 遍历字符串中的每个值
             //console.log(value);
             if( (sQuoted || dQuoted) && value === "\\"){
                 if(!backslash){
@@ -805,7 +805,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 
             }
             if(!sQuoted && !dQuoted){
-                //console.log("not sQuoted and not dQuoted");
+                //console.log("未在单引号内且未在双引号内");
                 if(value === `'`){
                     if(backslash){
                         backslash = false;
@@ -823,7 +823,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         return;
                     }
                     dQuoted = true;
-                    //console.log("double quoted now, skipping char: ", value);
+                    //console.log("现在在双引号内，跳过字符：", value);
                     buffer += value;
                     return;
                 }
@@ -836,20 +836,20 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     }
                     if(buffer.length > 0){
                         if(buffer[buffer.length-1] === buffer[0] && [`'`, `"`].includes(buffer[0])){
-                            //console.log("stripping off surrounding ' or \" for ", buffer)
+                            //console.log("为 buffer 剥离周围的 ' 或 \"", buffer)
                             res.push(buffer.slice(1, -1))
                         }else{
-                            //console.log("not stripping off for", buffer);
+                            //console.log("不为 buffer 剥离", buffer);
                             res.push(buffer);
                         }
-                        //console.log("pushed to buffer:", buffer);
+                        //console.log("推送到 buffer：", buffer);
                     }
                     buffer = '';
                     return;
                 }
             }
             if(sQuoted && value === `'`){
-                // if we're already inside of an explicit single quote and see another single quote, then we're not quoted anymore
+                // 如果我们在显式单引号内并看到另一个单引号，那么我们就不再被引用了
                 if(backslash){
                     buffer += "'";
                     backslash = false;
@@ -877,7 +877,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 }
                 return;
             }
-            //console.log("adding to buffer: ", value);
+            //console.log("添加到 buffer：", value);
             if(backslash){
                 buffer += `\\${value}`;
                 backslash = false;
@@ -887,20 +887,20 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             
         });
         if(backslash){
-            buffer += "\\"; // try to account for a trailing \
+            buffer += "\\"; // 尝试处理末尾的 \
         }
         if(buffer.length > 0){
-            //console.log("pushed end buffer: ", buffer);
+            //console.log("推送结束 buffer：", buffer);
             if(buffer[buffer.length-1] === buffer[0] && [`'`, `"`].includes(buffer[0])){
-                //console.log("stripping off surrounding ' or \" for ", buffer)
+                //console.log("为 buffer 剥离周围的 ' 或 \"", buffer)
                 res.push(buffer.slice(1, -1))
             }else{
-                //console.log("not stripping off for", buffer);
+                //console.log("不为 buffer 剥离", buffer);
                 res.push(buffer);
             }
         }
-        if(dQuoted) throw new SyntaxError('unexpected end of string while looking for matching double quote');
-        if(sQuoted) throw new SyntaxError('unexpected end of string while looking for matching single quote');
+        if(dQuoted) throw new SyntaxError('在查找匹配的双引号时出现意外的字符串结尾');
+        if(sQuoted) throw new SyntaxError('在查找匹配的单引号时出现意外的字符串结尾');
         return res;
     }
     const parseArgvToDict = (argv, cmd) => {
@@ -946,20 +946,19 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         for(let i = 0; i < argv.length; i++){
             let value = argv[i];
             if(current_argument === ""){
-                // not currently processing the value for an argument
-                // check to see if this is the start of a new argument
-                // or a positional argument
+                // 当前没有在处理参数的值
+                // 检查这是新参数的开始还是位置参数
                 if(stringArgs.includes(value)){
                     current_argument_type = "string";
                     current_argument = value;
                     if(i === argv.length-1){
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] = GetDefaultValueForType(current_argument_type);
                     }
                 }else if(booleanArgs.includes(value)){
                     current_argument_type = "boolean";
                     if(i === argv.length-1){
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                     current_argument = value;
@@ -967,45 +966,45 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     current_argument_type = "array";
                     current_argument = value;
                     if(i === argv.length-1){
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                 } else if(typedArrayArgs.includes(value)){
                     current_argument_type = "typedArray";
                     current_argument = value;
                     if(i === argv.length-1){
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                 }else if(numberArgs.includes(value)) {
                     current_argument_type = "number";
                     current_argument = value;
                     if (i === argv.length - 1) {
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                 }else if(fileArgs.includes(value)) {
                     current_argument_type = "file";
                     current_argument = value;
                     if (i === argv.length - 1) {
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                 }else if(complexArgs.includes(value)){
                     current_argument_type = "complex";
                     current_argument = value;
                     if (i === argv.length - 1) {
-                        // special case where somebody did -flag at the end of the command
+                        // 特殊情况，有人在命令末尾输入了 -flag
                         result[value.slice(1)] =  GetDefaultValueForType(current_argument_type);
                     }
                 } else {
-                    // we don't have this as a named argument, so we'll process it as a positional one
+                    // 我们没有将其作为命名参数，因此将其作为位置参数处理
                     result["_"].push(value);
                     current_argument = "";
                     current_argument_type = "";
                 }
             } else {
-                // we have a named argument that we just saw, so interpret this as that argument's value
+                // 我们刚刚看到一个命名参数，因此将其解释为该参数的值
                 if(allCLINames.includes(value)){
                     if(result[current_argument.slice(1)] === undefined) {
                         result[current_argument.slice(1)] = GetDefaultValueForType(current_argument_type);
@@ -1028,7 +1027,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                             current_argument_type = "";
                             break;
                         }
-                        snackActions.warning("File type value must be UUID of uploaded file: " + value, snackMessageStyles);
+                        snackActions.warning("文件类型值必须是上传文件的UUID：" + value, snackMessageStyles);
                         return undefined;
                     case "boolean":
                         if(["false", "true"].includes(value.toLowerCase())){
@@ -1038,7 +1037,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                                 result[current_argument.slice(1)] = true;
                             }
                         }else{
-                            // we see something like `-flag bob`, so interpret this as `-flag true bob`
+                            // 我们看到类似 `-flag bob` 的内容，因此将其解释为 `-flag true bob`
                             result[current_argument.slice(1)] = true;
                         }
                         current_argument = "";
@@ -1048,20 +1047,20 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         try{
                             let num = Number(value);
                             if(isNaN(num)){
-                                snackActions.warning("Failed to parse number: " + value, snackMessageStyles);
+                                snackActions.warning("解析数字失败：" + value, snackMessageStyles);
                                 return undefined;
                             }
                             result[current_argument.slice(1)] = num;
                         }catch(error){
-                            snackActions.warning("Failed to parse number: " + error, snackMessageStyles);
+                            snackActions.warning("解析数字失败：" + error, snackMessageStyles);
                             return undefined;
                         }
                         current_argument = "";
                         current_argument_type = "";
                         break;
                     case "typedArray":
-                        // in this case, it's not as easy as just parsing a single value
-                        // this will be a greedy match until the value matches another named argument
+                        // 在这种情况下，不仅仅是解析单个值那么简单
+                        // 这将进行贪婪匹配，直到值匹配另一个命名参数
                         if(stringArgs.includes(value)){
                             current_argument_type = "string";
                             current_argument = value;
@@ -1083,8 +1082,8 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         }
                         break;
                     case "array":
-                        // in this case, it's not as easy as just parsing a single value
-                        // this will be a greedy match until the value matches another named argument
+                        // 在这种情况下，不仅仅是解析单个值那么简单
+                        // 这将进行贪婪匹配，直到值匹配另一个命名参数
                         if(stringArgs.includes(value)){
                             current_argument_type = "string";
                             current_argument = value;
@@ -1138,7 +1137,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         return [last_command_parameter, has_value ? argv[argv.length-1] : ""];
     }
     const parseCommandLine = (command_line, cmd) => {
-        // given a command line and the associated command
+        // 给定一个命令行和关联的命令
         
         if(command_line.length > 0 && command_line[0] === "{"){
             try{
@@ -1146,8 +1145,8 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 json_arguments["_"] = [];
                 return json_arguments;
             }catch(error){
-                //looks like JSON, but doesn't parse like JSON
-                snackActions.warning("Failed to parse custom JSON command line: " + error, snackMessageStyles);
+                // 看起来像 JSON，但无法像 JSON 那样解析
+                snackActions.warning("解析自定义 JSON 命令行失败：" + error, snackMessageStyles);
                 return undefined;
             }
         }
@@ -1161,14 +1160,14 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             console.log("yargs_parsed", yargs_parsed);
             return yargs_parsed;
         }catch(error){
-            snackActions.warning("Failed to parse command line: " + error, snackMessageStyles);
+            snackActions.warning("解析命令行失败：" + error, snackMessageStyles);
             return undefined;
         }
     }
     const simplifyGroupNameChoices = (groupNames, cmd, parsed) => {
-        // for each option in groupNames, see if we have all the required parameters
-        // if there's 2+ options that meet all requirements, then we don't know which to do
-        // if there's 1 option that meets all requirements and 1+ that still needs more, pick the first
+        // 对于 groupNames 中的每个选项，检查是否满足所有必需参数
+        // 如果有 2 个以上的选项满足所有要求，那么我们不知道选择哪个
+        // 如果有 1 个选项满足所有要求，而 1 个以上仍然需要更多，则选择第一个
         let finalGroupNames = [];
         for(let i = 0; i < groupNames.length; i++){
             let currentGroupName = groupNames[i];
@@ -1208,9 +1207,9 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             return [...prev, cur.parameter_group_name];
         }, []);
         for(const key of Object.keys(parsed)){
-            // for all the things we've parsed out so far, determine their parameter groups
+            // 对于到目前为止解析出的所有内容，确定它们的参数组
             if( key !== "_"){
-                // we don't care about positional arguments at the moment
+                // 目前我们暂时不关心位置参数
                 let paramGroups = [];
                 let foundParamGroup = false;
                 for(let i = 0; i < cmd.commandparameters.length; i++){
@@ -1220,8 +1219,8 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         paramGroups.push(cmd.commandparameters[i]["parameter_group_name"])
                     }
                 }
-                // now paramGroups has all the group names associated with `key`
-                // we have some set of possible options, so we need to find the intersection with paramGroups and cmdGroupOptions
+                // 现在 paramGroups 包含与 `key` 关联的所有组名
+                // 我们有一些可能的选项，因此需要找到 paramGroups 和 cmdGroupOptions 的交集
                 //console.log(cmdGroupOptions, paramGroups)
                 let intersection = cmdGroupOptions.reduce( (prev, cur) => {
                     if(paramGroups.includes(cur)){
@@ -1230,8 +1229,8 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     return [...prev];
                 }, [])
                 if(intersection.length === 0){
-                    // this is a bad thing, we did an intersection and there's no similar parameter groups, but parameters have been supplied
-                    // account for the scenario where we essentially have "extra" parameters supplied - extra ones don't count against you
+                    // 这是一件坏事，我们进行了交集运算，但没有相似的参数组，但已经提供了参数
+                    // 考虑到我们基本上提供了“额外”参数的情况 - 额外的参数不计入其中
                     if(foundParamGroup){
                         return undefined;
                     }
@@ -1241,13 +1240,13 @@ export function CallbacksTabsTaskingInputPreMemo(props){
 
             }
         }
-        // now cmdGroupOptions is a list of all the matching parameter_group_names for the commandline arguments we've specified
+        // 现在 cmdGroupOptions 是我们在命令行参数中指定的所有匹配的 parameter_group_names 的列表
         console.log("cmdGroupOptions", cmdGroupOptions)
         return cmdGroupOptions;
     }
     const fillOutPositionalArguments = (cmd, parsed, groupNames) => {
         let parsedCopy = {...parsed};
-        parsedCopy["_"].shift(); // get rid of the command name from this list of arguments.
+        parsedCopy["_"].shift(); // 从参数列表中移除命令名称。
         if(cmd.commandparameters.length === 0){
             return parsedCopy;
         }
@@ -1258,23 +1257,23 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         if(groupNames.includes("Default")){
             usedGroupName = "Default";
         }
-        // figure out how to deal with positional parameters
+        // 弄清楚如何处理位置参数
         const groupParameters = cmd.commandparameters.filter(c => c.parameter_group_name === usedGroupName);
         groupParameters.sort((a,b) => a.ui_position < b.ui_position ? -1 : 1);
-        // now we have all of the parameters and they're sorted by `ui_position`
+        // 现在我们有了所有参数，并且它们按照 `ui_position` 排序
         console.log("groupParameters", groupParameters);
         let unSatisfiedArguments = [];
         for(let i = 0; i < groupParameters.length; i++){
             if( !(groupParameters[i]["cli_name"] in parsedCopy)){
-                // this parameter hasn't been supplied yet, track it
+                // 此参数尚未提供，进行跟踪
                 unSatisfiedArguments.push(groupParameters[i]); 
             }
         }
-        // now iterate over the unsatisfied arguments and add in the positional parameters
+        // 现在遍历不满足的参数并添加位置参数
         //console.log("unsatisfiedParameters", unSatisfiedArguments)
         for(let i = 0; i < unSatisfiedArguments.length; i++){
-            // we cut this short by one so that the last unSatisifedArgument can do a greedy matching for the rest of what was supplied
-            // this parameter hasn't been supplied yet, check if we have any positional parameters in parsedCopy["_"]
+            // 我们提前一个中断，以便最后一个 unSatisifedArgument 可以对提供的其余部分进行贪婪匹配
+            // 此参数尚未提供，检查 parsedCopy["_"] 中是否有任何位置参数
             if(parsedCopy["_"].length > 0){
                 let temp = parsedCopy["_"].shift();
                 switch(unSatisfiedArguments[i]["parameter_type"]){
@@ -1287,12 +1286,12 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         try{
                             temp = Number(temp);
                             if(isNaN(temp)){
-                                snackActions.warning("Failed to parse number: " + temp, snackMessageStyles);
+                                snackActions.warning("解析数字失败：" + temp, snackMessageStyles);
                                 return undefined;
                             }
                             parsedCopy[unSatisfiedArguments[i]["cli_name"]] = temp;
                         }catch(error){
-                            snackActions.warning("Failed to parse number: " + error, snackMessageStyles);
+                            snackActions.warning("解析数字失败：" + error, snackMessageStyles);
                             return undefined;
                         }
                         break;
@@ -1302,7 +1301,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                         } else if(temp.toLowerCase() === "true"){
                             parsedCopy[unSatisfiedArguments[i]["cli_name"]] = true;
                         } else {
-                            snackActions.warning("Failed to parse boolean: " + temp, snackMessageStyles);
+                            snackActions.warning("解析布尔值失败：" + temp, snackMessageStyles);
                             return undefined;
                         }
                         break;
@@ -1325,23 +1324,23 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 break;
             }
         }
-        //console.log("unsatisfied filled, but still some args", JSON.parse(JSON.stringify(parsedCopy)))
+        //console.log("已填充不满足参数，但仍有参数", JSON.parse(JSON.stringify(parsedCopy)))
         if(unSatisfiedArguments.length > 0 && parsedCopy["_"].length > 0){
             //parsedCopy["_"] = parsedCopy["_"].map( c => typeof(c) === "string" && c.includes(" ") ? "\"" + c + "\"" : c);
             let temp = ""; //parsedCopy["_"].join(" ");
-            // we need to keep inner quotes if they existed as we re-join things together
+            // 我们需要在重新连接时保留内部引号（如果它们存在）
             let negativeIndex = message.length;
             for(let pci = parsedCopy["_"].length -1; pci >= 0; pci--){
                 let startIndex = message.lastIndexOf(parsedCopy["_"][pci], negativeIndex);
-                // now check if startIndex -1 == ' or " and startIndex + parsedCopy["_"][pci].length + 1 == ' or "
-                negativeIndex = startIndex - 1; // update the negative index to move further 
+                // 现在检查 startIndex -1 是否为 ' 或 "，以及 startIndex + parsedCopy["_"][pci].length + 1 是否为 ' 或 "
+                negativeIndex = startIndex - 1; // 更新 negativeIndex 以进一步移动
                 if(message[startIndex-1] === "'"){
                     if(startIndex + parsedCopy["_"][pci].length + 1 < message.length){
                         if(message[startIndex + parsedCopy["_"][pci].length + 1] === "'"){
                             temp = "'" + parsedCopy["_"][pci] + "' " + temp;
                         }
                     }else{
-                        console.log("mismatched quotes?", message[startIndex-1], message[startIndex + parsedCopy["_"][pci].length + 1])
+                        console.log("引号不匹配？", message[startIndex-1], message[startIndex + parsedCopy["_"][pci].length + 1])
                     }
                 }else if(message[startIndex -1] === '"'){
                     if(startIndex + parsedCopy["_"][pci].length  < message.length){
@@ -1349,7 +1348,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                             temp = '"' + parsedCopy["_"][pci] + '" ' + temp;
                         }
                     }else{
-                        console.log("mismatched quotes?", message[startIndex-1], message[startIndex + parsedCopy["_"][pci].length ])
+                        console.log("引号不匹配？", message[startIndex-1], message[startIndex + parsedCopy["_"][pci].length ])
                     }
                 }else{
                     temp = parsedCopy["_"][pci] + " " + temp;
@@ -1366,12 +1365,12 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     try{
                         temp = Number(temp);
                         if(isNaN(temp)){
-                            snackActions.warning("Failed to parse number: " + temp, snackMessageStyles);
+                            snackActions.warning("解析数字失败：" + temp, snackMessageStyles);
                             return undefined;
                         }
                         parsedCopy[unSatisfiedArguments[unSatisfiedArguments.length -1]["cli_name"]] = temp;
                     }catch(error){
-                        snackActions.warning("Failed to parse number: " + error, snackMessageStyles);
+                        snackActions.warning("解析数字失败：" + error, snackMessageStyles);
                         return undefined;
                     }
                     break;
@@ -1381,7 +1380,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     } else if(temp.toLowerCase() === "true"){
                         parsedCopy[unSatisfiedArguments[unSatisfiedArguments.length -1]["cli_name"]] = true;
                     } else {
-                        snackActions.warning("Failed to parse boolean: " + temp, snackMessageStyles);
+                        snackActions.warning("解析布尔值失败：" + temp, snackMessageStyles);
                         return undefined;
                     }
                     break;
@@ -1404,8 +1403,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
     }
     const processCommandAndCommandLine = (cmd) => {
         if(commandOptionsForcePopup.current && cmd.commandparameters.length === 0){
-            snackActions.info("No defined parameters for " +
-                cmd?.cmd + "( " + cmd?.payloadtype?.name + "), so no modal available", snackMessageStyles);
+            snackActions.info(cmd?.cmd + "（" + cmd?.payloadtype?.name + "）没有定义参数，因此没有可用模态框", snackMessageStyles);
             return;
         }
         let splitMessage = message.trim().split(" ");
@@ -1416,13 +1414,13 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         try{
             parsedWithPositionalParameters = JSON.parse(params);
             if(['string', 'number', 'boolean', null].includes(typeof parsedWithPositionalParameters)){
-                throw("failed to parse json");
+                throw("解析 json 失败");
             }
             cmdGroupName = determineCommandGroupName(cmd, parsedWithPositionalParameters);
             if(cmdGroupName !== undefined){
                 cmdGroupName.sort()
             } else {
-                snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+                snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
                 return;
             }
             failed_json_parse = false;
@@ -1432,7 +1430,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         }
         if(failed_json_parse){
             let parsed = parseCommandLine(params, cmd);
-            //console.log("result of parseCommandLine", parsed, !parsed)
+            //console.log("parseCommandLine 的结果", parsed, !parsed)
             if(parsed === undefined){
                 return;
             }
@@ -1442,19 +1440,19 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             if(cmdGroupName !== undefined){
                 cmdGroupName.sort();
             } else {
-                snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+                snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
                 return;
             }
 
             if(cmd.commandparameters.length > 0){
                 parsed["_"].unshift(cmd);
                 parsedWithPositionalParameters = fillOutPositionalArguments(cmd, parsed, cmdGroupName);
-                console.log("what's left", parsedWithPositionalParameters);
+                console.log("剩下什么", parsedWithPositionalParameters);
                 if(parsedWithPositionalParameters === undefined){
                     return;
                 }
                 if(parsedWithPositionalParameters["_"].length > 0){
-                    snackActions.warning("Too many positional arguments given. Did you mean to quote some of them?", snackMessageStyles);
+                    snackActions.warning("提供了太多的位置参数。你是想引用其中一些吗？", snackMessageStyles);
                     return;
                 }
             }else{
@@ -1462,7 +1460,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             }
         }
         if(cmdGroupName === undefined){
-            snackActions.warning("Two or more of the specified parameters can't be used together", snackMessageStyles);
+            snackActions.warning("指定的两个或多个参数不能一起使用", snackMessageStyles);
             return;
         }else if(cmdGroupName.length > 1){
             if(Boolean(commandOptionsForcePopup.current)){
@@ -1487,9 +1485,9 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             setUnmodifiedHistoryValue("parsed_cli");
             return;
         }
-        console.log("positional args added in:", parsedWithPositionalParameters);
-        console.log("about to call onSubmitCommandLine", cmd);
-        console.log("commandOptionsForcePopup", Boolean(commandOptionsForcePopup.current), "group name", cmdGroupName)
+        console.log("已添加位置参数：", parsedWithPositionalParameters);
+        console.log("即将调用 onSubmitCommandLine", cmd);
+        console.log("commandOptionsForcePopup", Boolean(commandOptionsForcePopup.current), "组名", cmdGroupName)
         props.onSubmitCommandLine(message, cmd, parsedWithPositionalParameters, Boolean(commandOptionsForcePopup.current), cmdGroupName, unmodifiedHistoryValue);
         setMessage("");
         setCommandPayloadType("");
@@ -1505,7 +1503,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         let splitMessage = message.trim().split(" ");
         let cmd = loadedOptions.current.filter( l => l.cmd === splitMessage[0]);
         if(cmd === undefined || cmd.length === 0){
-            snackActions.warning("Unknown (or not loaded) command", snackMessageStyles);
+            snackActions.warning("未知（或未加载）命令", snackMessageStyles);
             return;
         }
         commandOptionsForcePopup.current = force_parsed_popup;
@@ -1516,13 +1514,13 @@ export function CallbacksTabsTaskingInputPreMemo(props){
         if(commandPayloadType !== ""){
             cmd = cmd.find(c => c.payloadtype.name === commandPayloadType);
             if(cmd === undefined){
-                snackActions.warning("Unknown (or not loaded) command", snackMessageStyles);
+                snackActions.warning("未知（或未加载）命令", snackMessageStyles);
                 return;
             }
             processCommandAndCommandLine(cmd, force_parsed_popup)
             return;
         }
-        // two or more commands share the same name, we need to disambiguate between them
+        // 两个或多个命令共享相同的名称，我们需要在它们之间消除歧义
         cmd = cmd.map( c => {return {...c, display: `${c.cmd} (${c.payloadtype.name})`}});
         commandOptions.current = cmd;
         setOpenSelectCommandDialog(true);
@@ -1539,7 +1537,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             reverseSearchIndex.current = 0;
             return;
         }
-        // need to do a reverse i search through taskOptions
+        // 需要在 taskOptions 中进行反向 i 搜索
         const lowerCaseTextSearch = event.target.value.toLowerCase();
         const matchingOptions = taskOptions.current.filter( x => (GetCommandName(x) + x.original_params).toLowerCase().includes(lowerCaseTextSearch));
         const filteredMatches = matchingOptions.filter( x => applyFilteringToTasks(x))
@@ -1564,10 +1562,10 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             reverseSearchOptions.current=[];
             onSubmitCommandLine(event);
         }else if(event.key === "ArrowUp"){
-            // go up through the reverseSearchOptions by incrementing reverseSearchIndex
-            // setMessage to teh value
+            // 通过递增 reverseSearchIndex 在 reverseSearchOptions 中向上移动
+            // 将 Message 设置为该值
             if(reverseSearchOptions.current.length === 0){
-                snackActions.warning("No matching options", snackReverseSearchMessageStyles);
+                snackActions.warning("没有匹配的选项", snackReverseSearchMessageStyles);
                 return;
             }else{
                 let newIndex = (reverseSearchIndex.current + 1);
@@ -1580,10 +1578,10 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 setCommandPayloadType(reverseSearchOptions.current[newIndex]?.command?.payloadtype?.name || "");
             }
         }else if(event.key === "ArrowDown"){
-            // go down through the reverseSearchOptions by decrementing reverseSearchIndex
-            // setMessage to the value
+            // 通过递减 reverseSearchIndex 在 reverseSearchOptions 中向下移动
+            // 将 Message 设置为该值
             if(reverseSearchOptions.current.length === 0){
-                snackActions.warning("No matching options", snackReverseSearchMessageStyles);
+                snackActions.warning("没有匹配的选项", snackReverseSearchMessageStyles);
                 return;
             }else{
                 let newIndex = (reverseSearchIndex.current - 1);
@@ -1596,7 +1594,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 setCommandPayloadType(reverseSearchOptions.current[newIndex]?.command?.payloadtype?.name || "");
             }
         }else if(event.key === "r" && event.ctrlKey){
-            //this means they typed ctrl+r, so they're wanting to do a reverse search for a command
+            // 这意味着他们输入了 ctrl+r，所以他们想要反向搜索命令
             setReverseSearching(false);
             event.stopPropagation();
             event.preventDefault();
@@ -1615,7 +1613,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
             }
             {reverseSearching &&
                 <TextField
-                    placeholder={"Search previous commands"}
+                    placeholder={"搜索之前的命令"}
                     onKeyDown={onReverseSearchKeyDown}
                     onChange={handleReverseSearchInputChange}
                     size="small"
@@ -1627,93 +1625,93 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                     InputProps={{
                         type: 'search',
                         startAdornment: <React.Fragment><Typography
-                            style={{width: "10%"}}>reverse-i-search:</Typography></React.Fragment>
+                            style={{width: "10%"}}>反向-i-搜索：</Typography></React.Fragment>
                     }}
                 />
             }
             {callbackContext?.impersonation_context !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("impersonation_context") &&
-                <MythicStyledTooltip title={"Impersonation Context"}>
+                <MythicStyledTooltip title={"模拟上下文"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextImpersonationColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"User: "}</b>{callbackContext.impersonation_context}
+                        <b>{"用户："}</b>{callbackContext.impersonation_context}
                     </span>
                 </MythicStyledTooltip>
 
             }
             {callbackContext?.user !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("user") &&
-                <MythicStyledTooltip title={"User Context" + (callbackContext.integrity_level > 2 ? " (high integrity)" : "")}>
+                <MythicStyledTooltip title={"用户上下文" + (callbackContext.integrity_level > 2 ? "（高完整性）" : "")}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"User: "}</b>{callbackContext.user}{callbackContext.integrity_level > 2 ? "*" : ""}
+                        <b>{"用户："}</b>{callbackContext.user}{callbackContext.integrity_level > 2 ? "*" : ""}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.cwd !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("cwd") &&
-                <MythicStyledTooltip title={"Current Working Directory"}>
+                <MythicStyledTooltip title={"当前工作目录"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"Dir: "}</b>{callbackContext.cwd}
+                        <b>{"目录："}</b>{callbackContext.cwd}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.host !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("host") &&
-                <MythicStyledTooltip title={"Hostname"}>
+                <MythicStyledTooltip title={"主机名"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"Host: "}</b>{callbackContext.host}
+                        <b>{"主机："}</b>{callbackContext.host}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.ip !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("ip") &&
-                <MythicStyledTooltip title={"First IP Address"}>
+                <MythicStyledTooltip title={"第一个 IP 地址"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"IP: "}</b>{callbackContext.ip}
+                        <b>{"IP："}</b>{callbackContext.ip}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.pid !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("pid") &&
-                <MythicStyledTooltip title={"Process ID"}>
+                <MythicStyledTooltip title={"进程 ID"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"PID: "}</b>{callbackContext.pid}
+                        <b>{"PID："}</b>{callbackContext.pid}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.architecture !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("architecture") &&
-                <MythicStyledTooltip title={"Process Architecture"}>
+                <MythicStyledTooltip title={"进程架构"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"Arch: "}</b>{callbackContext.architecture}
+                        <b>{"架构："}</b>{callbackContext.architecture}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.process_short_name !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("process_short_name") &&
-                <MythicStyledTooltip title={"Process Name"}>
+                <MythicStyledTooltip title={"进程名称"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
                     }}>
-                        <b>{"Process: "}</b>{callbackContext.process_short_name}
+                        <b>{"进程："}</b>{callbackContext.process_short_name}
                     </span>
                 </MythicStyledTooltip>
             }
             {callbackContext?.extra_info !== "" && !hideTaskingContext.current && taskingContextFields.current.includes("extra_info") &&
-                <MythicStyledTooltip title={"Extra Callback Context"}>
+                <MythicStyledTooltip title={"额外回调上下文"}>
                     <span className={"rounded-tab"} style={{
                         backgroundColor: theme.taskContextExtraColor,
                         borderColor: callbackContext.color === "" ? "" : callbackContext.color
@@ -1723,7 +1721,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                 </MythicStyledTooltip>
             }
             <TextField
-                placeholder={"Task an agent..."}
+                placeholder={"向代理下达任务..."}
                 onKeyDown={onKeyDown}
                 onChange={handleInputChange}
                 size="small"
@@ -1800,7 +1798,7 @@ export function CallbacksTabsTaskingInputPreMemo(props){
                               }}
                            onSubmit={processCommandAndCommandLine}
                            options={commandOptions.current}
-                           title={"Select Command"}
+                           title={"选择命令"}
                            action={"select"} identifier={"id"}
                            display={"display"}/>}
                 />

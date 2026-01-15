@@ -70,7 +70,7 @@ export function ViewCallbackMythicTreeGroupsDialog(props){
     const [groups, setGroups] = React.useState([]);
     const [openViewAllCallbacksDialog, setOpenViewAllCallbacksDialog] = React.useState(false);
     React.useEffect( () => {
-        snackActions.info("Loading callbacks...");
+        snackActions.info("正在加载回调...");
     }, []);
     useQuery(getCallbackMythicTreeGroups, {
         fetchPolicy: "no-cache",
@@ -99,13 +99,13 @@ export function ViewCallbackMythicTreeGroupsDialog(props){
     return (
         <React.Fragment>
           <DialogTitle id="form-dialog-title" style={{display: "flex", justifyContent: "space-between"}}>
-              Viewing Callbacks for group: {props.group_name}
-              <MythicStyledTooltip title="View all groups" >
+              查看分组回调: {props.group_name}
+              <MythicStyledTooltip title="查看所有分组" >
                   <IconButton size="small" onClick={()=>{setOpenViewAllCallbacksDialog(true);}} style={{color: theme.palette.info.main}} variant="contained"><LayersIcon/></IconButton>
               </MythicStyledTooltip>
           </DialogTitle>
             <div style={{paddingLeft: "20px"}}>
-                All of these callbacks are contributing data that's aggregated together for the "{props.group_name}" group.
+                所有这些回调都在为 "{props.group_name}" 分组贡献聚合数据。
             </div>
           <DialogContent dividers={true} style={{padding: 0}}>
               <Backdrop open={backdropOpen} style={{zIndex: 2, position: "absolute"}} invisible={false}>
@@ -115,13 +115,13 @@ export function ViewCallbackMythicTreeGroupsDialog(props){
                 <TableHead>
                     <TableRow>
                         <TableCell></TableCell>
-                        <TableCell>Callback</TableCell>
-                        <TableCell>User</TableCell>
-                        <TableCell>Host</TableCell>
-                        <TableCell>Domain</TableCell>
+                        <TableCell>回调</TableCell>
+                        <TableCell>用户</TableCell>
+                        <TableCell>主机</TableCell>
+                        <TableCell>域</TableCell>
                         <TableCell>IP</TableCell>
                         <TableCell>PID</TableCell>
-                        <TableCell>Description</TableCell>
+                        <TableCell>描述</TableCell>
                     </TableRow>
 
                 </TableHead>
@@ -130,11 +130,11 @@ export function ViewCallbackMythicTreeGroupsDialog(props){
                         <TableRow key={'array' + props.group_name + i} hover>
                             <MythicStyledTableCell style={{width: "90px"}}>
                                 {!a.active ?
-                                    <MythicStyledTooltip title={"Callback is not active"}>
+                                    <MythicStyledTooltip title={"回调未激活"}>
                                         <VisibilityOffIcon style={{color: theme.palette.error.main, marginRight: "15px"}}/>
                                     </MythicStyledTooltip>
                                  :
-                                    <MythicStyledTooltip title={"Callback is active"}>
+                                    <MythicStyledTooltip title={"回调已激活"}>
                                         <VisibilityIcon style={{color: theme.palette.success.main, marginRight: "15px"}}/>
                                     </MythicStyledTooltip>
                                 }
@@ -157,7 +157,7 @@ export function ViewCallbackMythicTreeGroupsDialog(props){
           </DialogContent>
           <DialogActions>
             <Button onClick={props.onClose} variant="contained" color="primary">
-              Close
+              关闭
             </Button>
           </DialogActions>
             {openViewAllCallbacksDialog &&
@@ -226,10 +226,10 @@ export function ViewAllCallbackMythicTreeGroupsDialog(props){
     }
     return (
         <React.Fragment>
-            <DialogTitle id="form-dialog-title">Viewing Callbacks for every group
+            <DialogTitle id="form-dialog-title">查看所有分组的回调
             </DialogTitle>
             <div style={{paddingLeft: "20px"}}>
-                Callbacks with no groups or with only the "Default" group are not shown.
+                未显示无分组或仅包含"Default"分组的回调。
             </div>
             <DialogContent dividers={true} style={{paddingLeft: 0, paddingRight: 0}}>
 
@@ -244,13 +244,13 @@ export function ViewAllCallbackMythicTreeGroupsDialog(props){
                             <TableHead>
                                 <TableRow>
                                     <MythicStyledTableCell></MythicStyledTableCell>
-                                    <MythicStyledTableCell>Callback</MythicStyledTableCell>
-                                    <MythicStyledTableCell>User</MythicStyledTableCell>
-                                    <MythicStyledTableCell>Host</MythicStyledTableCell>
-                                    <MythicStyledTableCell>Domain</MythicStyledTableCell>
+                                    <MythicStyledTableCell>回调</MythicStyledTableCell>
+                                    <MythicStyledTableCell>用户</MythicStyledTableCell>
+                                    <MythicStyledTableCell>主机</MythicStyledTableCell>
+                                    <MythicStyledTableCell>域</MythicStyledTableCell>
                                     <MythicStyledTableCell>IP</MythicStyledTableCell>
                                     <MythicStyledTableCell>PID</MythicStyledTableCell>
-                                    <MythicStyledTableCell>Description</MythicStyledTableCell>
+                                    <MythicStyledTableCell>描述</MythicStyledTableCell>
                                 </TableRow>
 
                             </TableHead>
@@ -259,11 +259,11 @@ export function ViewAllCallbackMythicTreeGroupsDialog(props){
                                     <TableRow key={'array' + g.group + i} hover>
                                         <MythicStyledTableCell style={{width: "90px"}}>
                                             {!a.active ?
-                                                <MythicStyledTooltip title={"Callback is not active"}>
+                                                <MythicStyledTooltip title={"回调未激活"}>
                                                     <VisibilityOffIcon style={{color: theme.palette.error.main, marginRight: "15px"}}/>
                                                 </MythicStyledTooltip>
                                                 :
-                                                <MythicStyledTooltip title={"Callback is active"}>
+                                                <MythicStyledTooltip title={"回调已激活"}>
                                                     <VisibilityIcon style={{color: theme.palette.success.main, marginRight: "15px"}}/>
                                                 </MythicStyledTooltip>
                                             }
@@ -289,7 +289,7 @@ export function ViewAllCallbackMythicTreeGroupsDialog(props){
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose} variant="contained" color="primary">
-                    Close
+                    关闭
                 </Button>
             </DialogActions>
         </React.Fragment>

@@ -77,7 +77,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
           target: { value },
         } = event;
         setSelectedComponentOptions(
-          // On autofill we get a stringified value.
+          // 自动填充时我们得到一个字符串化的值。
           typeof value === 'string' ? value.split(',') : value,
         );
       };
@@ -90,7 +90,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     useEffect( () => {
         setViewConfig({...viewConfig, group_by: selectedGroupBy});
     }, [selectedGroupBy])
-    // adding context menus and options
+    // 添加上下文菜单和选项
     const [linkCommands, setLinkCommands] = React.useState([]);
     const [openParametersDialog, setOpenParametersDialog] = React.useState(false);
     const [openSelectLinkCommandDialog, setOpenSelectLinkCommandDialog] = React.useState(false);
@@ -98,18 +98,18 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     const [selectedCallback, setSelectedCallback] = useState();
     const [manuallyRemoveEdgeDialogOpen, setManuallyRemoveEdgeDialogOpen] = useState(false);
     const [manuallyAddEdgeDialogOpen, setManuallyAddEdgeDialogOpen] = useState(false);
-    const [edgeOptions, setEdgeOptions] = useState([]); // used for manuallyRemoveEdgeDialog
-    const [addEdgeSource, setAddEdgeSource] = useState(null); // used for manuallyAddEdgeDialog
+    const [edgeOptions, setEdgeOptions] = useState([]); // 用于manuallyRemoveEdgeDialog
+    const [addEdgeSource, setAddEdgeSource] = useState(null); // 用于manuallyAddEdgeDialog
     const [getLinkCommands] = useLazyQuery(loadedLinkCommandsQuery, {fetchPolicy: "network-only",
         onCompleted: data => {
             const updatedCommands = data.loadedcommands.map( c => {return {command: {...c.command, parsedParameters: {}}}})
             if(updatedCommands.length === 1){
-                //no need for a popup, there's only one possible command
+                //无需弹窗，只有一个可能的命令
                 setSelectedLinkCommand(updatedCommands[0].command);
                 setOpenParametersDialog(true);
             }else if(updatedCommands.length === 0){
-                //no possible command can be used, do a notification
-                snackActions.warning("No commands loaded support the ui feature 'graph_view:link'");
+                //没有可能的命令可以使用，显示通知
+                snackActions.warning("没有加载的命令支持ui功能 'graph_view:link'");
             }else{
                 const cmds = updatedCommands.map( (cmd) => { return {...cmd, display: cmd.command.cmd} } );
                 setLinkCommands(cmds);
@@ -127,7 +127,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
             if(data.createTask.status === "error"){
                 snackActions.error(data.createTask.error);
             }else{
-                snackActions.success("task created");
+                snackActions.success("任务已创建");
             }
 
         }
@@ -147,7 +147,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
         },
         onCompleted: (data) => {
             if(data.updateCallback.status === "success"){
-                snackActions.success("Successfully hid callback")
+                snackActions.success("成功隐藏回连")
             }else{
                 snackActions.error(data.updateCallback.error)
             }
@@ -158,7 +158,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     const [manuallyRemoveEdge] = useMutation(removeEdgeMutation, {
         update: (cache, {data}) => {
             //console.log(data);
-            snackActions.success("Successfully removed edge, updating graph...");
+            snackActions.success("成功移除边，正在更新图...");
         },
         onError: (err) => {
             snackActions.error(err.message);
@@ -167,7 +167,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     const [manuallyAddEdge] = useMutation(addEdgeMutation, {
         update: (cache, {data}) => {
             //console.log(data);
-            snackActions.success("Successfully added edge, updating graph...");
+            snackActions.success("成功添加边，正在更新图...");
         },
         onError: (err) => {
             snackActions.error(err.message);
@@ -175,39 +175,39 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     });
     const onSubmitManuallyRemoveEdge = (edge) => {
         if(edge === ""){
-            snackActions.warning("No edge selected");
+            snackActions.warning("未选择边");
             return;
         }
         manuallyRemoveEdge({variables: {edge_id: edge.id}});
     }
     const onSubmitManuallyAddEdge = (source_id, profile, destination) => {
         if(profile === "" || destination === ""){
-            snackActions.warning("Profile or Destination Callback not provided");
+            snackActions.warning("未提供配置或目标回连");
             return;
         }
         manuallyAddEdge({variables: {source_id: source_id, c2profile: profile.name, destination_id: destination.display_id}});
     }
     const contextMenu = useMemo(() => {return [
         {
-            title: 'Hide Callback',
+            title: '隐藏回连',
             onClick: function(node) {
                 hideCallback({variables: {callback_display_id: node.display_id}});
             }
         },
         {
-            title: 'Interact',
+            title: '交互',
             onClick: function(node){
                 //console.log(node);
                 if(onOpenTab){
                     onOpenTab({tabType: "interact", tabID: node.callback_id + "interact", callbackID: node.callback_id});
                 } else {
-                    snackActions.warning("interacting with callbacks not available here");
+                    snackActions.warning("此处无法与回连交互");
                 }
 
             }
         },
         {
-            title: "Manually Remove Edge",
+            title: "手动移除此边",
             onClick: function(node){
                 const opts = callbackgraphedges.reduce( (prev, e) => {
                     if(e.source.id === node.id || e.destination.id === node.id){
@@ -230,14 +230,14 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
             }
         },
         {
-            title: "Manually Add Edge",
+            title: "手动添加边",
             onClick: function(node){
                 setAddEdgeSource(node);
                 setManuallyAddEdgeDialogOpen(true);
             }
         },
         {
-            title: "Task Callback for Edge",
+            title: "回连的任务边",
             onClick: function(node){
                 setLinkCommands([]);
                 setSelectedLinkCommand(null);
@@ -253,18 +253,18 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
     <>
         <div style={{padding: "10px"}}>
             <Typography variant='h4' style={{display:"inline-block", marginTop: "10px"}}>
-            Callback {callback.display_id}'s Egress Path
+            回连 {callback.display_id} 的出口路径
             </Typography>
             <div style={{float: "right"}}>
                 <FormControl sx={{ width: 200,  marginTop: "10px" }}>
-                    <InputLabel id="demo-chip-label">Group Callbacks By</InputLabel>
+                    <InputLabel id="demo-chip-label">按群组显示回连</InputLabel>
                     <Select
                     labelId="demo-chip-label"
                     id="demo-chip"
                     
                     value={selectedGroupBy}
                     onChange={handleGroupByChange}
-                    input={<OutlinedInput id="select-chip" label="Group Callbacks By" />}
+                    input={<OutlinedInput id="select-chip" label="按群组显示回连" />}
                     >
                     {groupByOptions.map((name) => (
                         <MenuItem
@@ -277,14 +277,14 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
                     </Select>
                 </FormControl>
                 <FormControl sx={{minWidth: 300, marginTop: "10px"}}>
-                    <InputLabel id="demo-multiple-chip-label">Display Properties per Callback</InputLabel>
+                    <InputLabel id="demo-multiple-chip-label">每个回连的显示属性</InputLabel>
                     <Select
                     labelId="demo-multiple-chip-label"
                     id="demo-multiple-chip"
                     multiple
                     value={selectedComponentOptions}
                     onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Display Properties per Callback" />}
+                    input={<OutlinedInput id="select-multiple-chip" label="每个回连的显示属性" />}
                     MenuProps={MenuProps}
                     >
                     {labelComponentOptions.map((name) => (
@@ -305,7 +305,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
                 <MythicDialog fullWidth={true} maxWidth="sm" open={manuallyRemoveEdgeDialogOpen}
                               onClose={()=>{setManuallyRemoveEdgeDialogOpen(false);}}
                               innerDialog={<MythicSelectFromListDialog onClose={()=>{setManuallyRemoveEdgeDialogOpen(false);}} identifier="id" display="display"
-                                                                       onSubmit={onSubmitManuallyRemoveEdge} options={edgeOptions} title={"Manually Remove Edge"} action={"remove"} />}
+                                                                       onSubmit={onSubmitManuallyRemoveEdge} options={edgeOptions} title={"手动移除边"} action={"remove"} />}
                 />
             }
             {manuallyAddEdgeDialogOpen &&
@@ -325,7 +325,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
                 <MythicDialog fullWidth={true} maxWidth="sm" open={openSelectLinkCommandDialog}
                               onClose={()=>{setOpenSelectLinkCommandDialog(false);}}
                               innerDialog={<MythicSelectFromListDialog onClose={()=>{setOpenSelectLinkCommandDialog(false);}}
-                                                                       onSubmit={onSubmitSelectedLinkCommand} options={linkCommands} title={"Select Link Command"}
+                                                                       onSubmit={onSubmitSelectedLinkCommand} options={linkCommands} title={"选择连接命令"}
                                                                        action={"select"} display={"display"} identifier={"display"}/>}
                 />
             }
@@ -339,7 +339,7 @@ export function C2PathDialog({callback, callbackgraphedges, onClose, onOpenTab})
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
     </>
@@ -570,9 +570,9 @@ export default async function createLayout({initialGroups, initialNodes, initial
         "elk.padding": '[top=30,left=10,right=10]',
         "elk.separateConnectedComponents": false,
         "elk.layered.compaction.connectedComponents": false,
-        "elk.spacing.nodeNode": 40, // spacing between each node
-        "elk.layered.spacing.nodeNodeBetweenLayers": 100, // spacing between nodes _within_ a group
-        "elk.layered.nodePlacement.bk.fixedAlignment": "BALANCED", // centers them within a group, good
+        "elk.spacing.nodeNode": 40, // 节点之间的间距
+        "elk.layered.spacing.nodeNodeBetweenLayers": 100, // 群组内节点之间的间距
+        "elk.layered.nodePlacement.bk.fixedAlignment": "BALANCED", // 在群组内居中，很好
         //"elk.layered.compaction.postCompaction.strategy": "LEFT_RIGHT_CONNECTION_LOCKING",
         "elk.alg.layered.p4nodes.NodePlacementStrategy": "BRANDES_KOEPF",
         "elk.layered.spacing.edgeEdgeBetweenLayers": 20,
@@ -742,10 +742,9 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
     const {fitView} = useReactFlow()
     const updateNodeInternals = useUpdateNodeInternals();
     const onDownloadImageClickSvg = () => {
-        // we calculate a transform for the nodes so that all nodes are visible
-        // we then overwrite the transform of the `.react-flow__viewport` element
-        // with the style option of the html-to-image library
-        snackActions.info("Saving image to svg...");
+        // 我们计算节点的变换，以便所有节点都可见
+        // 然后我们用 html-to-image 库的 style 选项覆盖 `.react-flow__viewport` 元素的变换
+        snackActions.info("正在将图像保存为 svg...");
         toSvg(viewportRef.current, {
             width: viewportRef.current.offsetWidth,
             height: viewportRef.current.offsetHeight,
@@ -761,10 +760,9 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
         });
     };
     const onDownloadImageClickPng = () => {
-        // we calculate a transform for the nodes so that all nodes are visible
-        // we then overwrite the transform of the `.react-flow__viewport` element
-        // with the style option of the html-to-image library
-        snackActions.info("Saving image to png...");
+        // 我们计算节点的变换，以便所有节点都可见
+        // 然后我们用 html-to-image 库的 style 选项覆盖 `.react-flow__viewport` 元素的变换
+        snackActions.info("正在将图像保存为 png...");
         toPng(viewportRef.current, {
             width: viewportRef.current.offsetWidth,
             height: viewportRef.current.offsetHeight,
@@ -968,10 +966,10 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
             if(!edge.source.active && !edge.destination.active && !view_config["show_all_nodes"]){
                 return;
             }else if(!view_config["show_all_nodes"]){
-                //at least one of the two nodes is active and we don't want to show all the nodes
+                //至少有一个节点是活跃的，而我们不想显示所有节点
                 if(edge.source.active){add_node(edge.source, view_config)}
                 if(edge.destination.active){add_node(edge.destination, view_config)}
-                // not adding an edge because one of the nodes could be non-existent
+                // 不添加边，因为其中一个节点可能不存在
                 if(!edge.source.active || !edge.destination.active){
                     return;
                 }
@@ -1145,7 +1143,7 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
             return false;
         }
         const createNewEdges = () => {
-            // loop through until all edges have one side marked as "toward_mythic"
+            // 循环直到所有边都有一侧标记为 "toward_mythic"
             let tempNewEdges = edges.reduce((prev, cur) => {
                 if(filterRow(cur.source) || filterRow(cur.destination)){
                     return [...prev];
@@ -1178,10 +1176,10 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
                             e.source.to_mythic = false;
                             edgesUpdated += 1;
                         } else {
-                            // check if either source/destination has any edges that identify
+                            // 检查 source/destination 是否有任何边标识
                             tempNewEdges.forEach( e2 => {
                                 if(e2.source.id === e.source.id){
-                                    // only look at edges that contain our source
+                                    // 只查看包含我们 source 的边
                                     if(e2.destination.to_mythic){
                                         e.source.to_mythic = true;
                                         edgesUpdated += 1;
@@ -1202,7 +1200,7 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
                 })
                 loop_count += 1;
                 if (loop_count > 2 * edgesToUpdate){
-                    //console.log("aborting early", tempEdges, edgesUpdated)
+                    //console.log("提前中止", tempEdges, edgesUpdated)
                     edgesUpdated = edgesToUpdate;
 
                 }
@@ -1220,17 +1218,17 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
             }
         }
         let updatedEdges = createNewEdges();
-        // need to add fake edges between parent groups and Mythic so that rendering will be preserved
+        // 需要在父群组和 Mythic 之间添加假边，以便保持渲染
         updatedEdges.forEach( (edge) => {
             if(!view_config["include_disconnected"] && edge.end_timestamp !== null){return}
             if(edge.destination.id === edge.source.id){
                 if(hasEdge(edge.source.id, "Mythic", edge.c2profile.name)){
-                    // we already have an edge to Mythic from our source id, check if this edge is newer or not
+                    // 我们已经有一条从我们的 source id 到 Mythic 的边，检查这条边是否更新
                     if(edge.id > getEdge(edge.source.id, "Mythic", edge.c2profile.name).mythic_id){
                         add_edge_to_mythic(edge, view_config);
                     }
                 }else{
-                    //this is a new edge to mythic
+                    //这是一条到 mythic 的新边
                     add_edge_to_mythic(edge, view_config);
                 }
             }else{
@@ -1239,28 +1237,28 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
                 if(view_config["packet_flow_view"]){
                     // destination -> source
                     if(hasEdge(destination_str_id, source_str_id, edge.c2profile.name)){
-                        //we've seen an edge between these two before
+                        //我们之前见过这两个节点之间的边
                         if(edge.id > getEdge(destination_str_id, source_str_id, edge.c2profile.name).mythic_id){
                             add_edge_p2p(edge, view_config);
                         }else{
-                            //console.log("doing nothing, dropping data");
+                            //console.log("do nothing, dropping data");
                         }
                     }else{
-                        //this is a new edge
+                        //这是一条新边
                         add_edge_p2p(edge, view_config);
                     }
 
                 } else {
                     // source -> destination
                     if(hasEdge(source_str_id, destination_str_id, edge.c2profile.name)){
-                        //we've seen an edge between these two before
+                        //我们之前见过这两个节点之间的边
                         if(edge.id > getEdge(source_str_id, destination_str_id, edge.c2profile.name).mythic_id){
                             add_edge_p2p(edge, view_config);
                         }else{
-                            //console.log("doing nothing, dropping data");
+                            //console.log("do nothing, dropping data");
                         }
                     }else{
-                        //this is a new edge
+                        //这是一条新边
                         add_edge_p2p(edge, view_config);
                     }
                 }
@@ -1297,13 +1295,13 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
             tempEdges[i].animated = tempEdges[i].data.end_timestamp === null;
         }
         if(shouldUseGroups(view_config)){
-            // only add in edges from parents to parents/mythic if we're doing egress flow
+            // 只有在我们进行出口流时才添加从父节点到父节点/mythic 的边
             for(let i = 0; i < parentIds.length; i++){
-                // every parentNode needs a connection to _something_ - either to Mythic or another parentNode
+                // 每个 parentNode 都需要连接到 _某个东西_ - 要么是 Mythic，要么是另一个 parentNode
                 for(let j = 0; j < tempEdges.length; j++){
                     //console.log("checking", parentNodes[i].id, tempEdges[j].data.source.parentNode, tempEdges[j].data.target.parentNode)
                     if(tempEdges[j].data.source.parentId === parentIds[i].id){
-                        // don't process where source.parentNode == target.parentNode
+                        // 不处理 source.parentNode == target.parentNode 的情况
                         if(parentIds[i].id === tempEdges[j].data.target.parentId){
                             //console.log("skipping")
                             continue
@@ -1425,10 +1423,10 @@ export const DrawC2PathElementsFlow = ({edges, panel, view_config, contextMenu, 
                 >
                     <Panel position={"top-left"} >{panel}</Panel>
                     <Controls showInteractive={false} >
-                        <ControlButton onClick={onDownloadImageClickPng} title={"Download PNG"}>
+                        <ControlButton onClick={onDownloadImageClickPng} title={"下载 PNG"}>
                             <CameraAltIcon />
                         </ControlButton>
-                        <ControlButton onClick={onDownloadImageClickSvg} title={"Download SVG"}>
+                        <ControlButton onClick={onDownloadImageClickSvg} title={"下载 SVG"}>
                             <InsertPhotoIcon />
                         </ControlButton>
                     </Controls>
@@ -1518,7 +1516,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             left:  event.clientX,
         });
         let tempContextMenu = [{
-            title: "Unselect All",
+            title: "取消全选",
             onClick: function() {
                 selectedNodes.current = [];
                 selectedEdges.current = [];
@@ -1556,7 +1554,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             left:  event.clientX,
         });
         let tempContextMenu = [...contextMenu, {
-            title: selectedNodes.current.length > 0 ? "Hide Selected Nodes" : "Hide Node",
+            title: selectedNodes.current.length > 0 ? "隐藏选中的节点" : "隐藏节点",
             onClick: function(node) {
                 if(selectedNodes.current.length > 0){
                     const newEdges = edgeFlow.filter( e => {
@@ -1577,7 +1575,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             },
         },
             {
-                title: "Show Only Selected",
+                title: "仅显示选中的",
                 onClick: function (node) {
                     if (selectedNodes.current.length > 0) {
                         const newEdges = edgeFlow.filter(e => {
@@ -1644,7 +1642,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             left:  event.clientX,
         });
         let tempContextMenu = [{
-            title: selectedEdges.current.length > 0 ? "Hide Selected Edges" : "Hide Edge",
+            title: selectedEdges.current.length > 0 ? "隐藏选中的边" : "隐藏边",
             onClick: function(edge) {
                 if(selectedEdges.current.length > 0){
                     const newEdges = edgeFlow.filter( e => {
@@ -1715,9 +1713,9 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             const graphEdge = graphData.edges.filter((edge) => edge.id === e.id);
             let included = connectedEdges.filter( ce => ce.id === e.id).length > 0;
             if(included){
-                //this edge is supposed to be highlighted
+                //这条边应该被高亮显示
                 let alreadySelected = selectedEdges.current.filter( s => s.id === e.id).length > 0;
-                // if the edge isn't already selected, mark it as selected
+                // 如果边还未被选中，将其标记为选中
                 if(!alreadySelected){
                     selectedEdges.current.push(e);
                 }
@@ -1741,7 +1739,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
                     }
                 }
             } else {
-                // this edge isn't supposed to be included, so make sure it's not highlighted
+                // 这条边不应该被包含，所以确保它没有被高亮显示
                 selectedEdges.current = selectedEdges.current.filter(s => s.id !== e.id);
                 return {...graphEdge[0],
                     animated: false,
@@ -1989,13 +1987,13 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             //tempEdges[i].zIndex = 20;
         }
         if(shouldUseTaskGroups(localViewConfig)){
-            // only add in edges from parents to parents/mythic if we're doing egress flow
+            // 只有在我们进行出口流时才添加从父节点到父节点/mythic 的边
             for(let i = 0; i < parentIds.length; i++){
-                // every parentNode needs a connection to _something_ - either to Mythic or another parentNode
+                // 每个 parentNode 都需要连接到 _某个东西_ - 要么是 Mythic，要么是另一个 parentNode
                 for(let j = 0; j < tempEdges.length; j++){
                     //console.log("checking", parentNodes[i].id, tempEdges[j].data.target.parentNode, tempEdges[j].data.source.id)
                     if(tempEdges[j].data.target.parentId === parentIds[i].id){
-                        // don't process where source.parentNode == target.parentNode
+                        // 不处理 source.parentNode == target.parentNode 的情况
                         //console.log("found match")
                         if(parentIds[i].id === tempEdges[j].data.source.parentId){
                             //console.log("skipping")
@@ -2075,10 +2073,9 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
         }
     }
     const onDownloadImageClickSvg = () => {
-        // we calculate a transform for the nodes so that all nodes are visible
-        // we then overwrite the transform of the `.react-flow__viewport` element
-        // with the style option of the html-to-image library
-        snackActions.info("Saving image to svg...");
+        // 我们计算节点的变换，以便所有节点都可见
+        // 然后我们用 html-to-image 库的 style 选项覆盖 `.react-flow__viewport` 元素的变换
+        snackActions.info("正在将图像保存为 svg...");
         toSvg(viewportRef.current, {
             width: viewportRef.current.offsetWidth,
             height: viewportRef.current.offsetHeight,
@@ -2123,13 +2120,13 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
             >
                 <Panel position={"top-left"} >{panel}</Panel>
                 <Controls showInteractive={false} style={{marginLeft: "40px"}} >
-                    <ControlButton onClick={toggleViewConfig} title={"Toggle View"}>
+                    <ControlButton onClick={toggleViewConfig} title={"切换视图"}>
                         <SwapCallsIcon />
                     </ControlButton>
-                    <ControlButton onClick={onDownloadImageClickSvg} title={"Download SVG"}>
+                    <ControlButton onClick={onDownloadImageClickSvg} title={"下载 SVG"}>
                         <InsertPhotoIcon />
                     </ControlButton>
-                    <ControlButton onClick={revertHidden} title={"Revert Hidden"}>
+                    <ControlButton onClick={revertHidden} title={"恢复隐藏"}>
                         <RestartAltIcon />
                     </ControlButton>
                 </Controls>
@@ -2151,7 +2148,7 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
                                   parameters={taskingData.parameters}
                                   openDialog={taskingData?.openDialog || false}
                                   getConfirmation={taskingData?.getConfirmation || false}
-                                  acceptText={taskingData?.acceptText || "confirm"}
+                                  acceptText={taskingData?.acceptText || "确认"}
                                   selectCallback={taskingData?.selectCallback || false}
                                   onTasked={finishedTasking}/>
             }
@@ -2163,14 +2160,14 @@ export const DrawBrowserScriptElementsFlow = ({edges, panel, view_config, theme,
                 />
             }
             {openStringButton &&
-                <MythicDisplayTextDialog fullWidth={true} maxWidth="lg" open={openStringButton} title={taskingData?.title || "Title Here"} value={taskingData?.value || ""}
+                <MythicDisplayTextDialog fullWidth={true} maxWidth="lg" open={openStringButton} title={taskingData?.title || "标题"} value={taskingData?.value || ""}
                                          onClose={finishedTasking}
                 />
             }
             {openTableButton &&
                 <MythicDialog fullWidth={true} maxWidth="xl" open={openTableButton}
                               onClose={finishedTasking}
-                              innerDialog={<ResponseDisplayTableDialogTable title={taskingData?.title || "Title Here"}
+                              innerDialog={<ResponseDisplayTableDialogTable title={taskingData?.title || "标题"}
                                                                             table={taskingData?.value || {}} callback_id={task.callback_id} onClose={finishedTasking} />}
                 />
             }

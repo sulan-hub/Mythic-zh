@@ -45,15 +45,15 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                                                      onTaskRowAction, host, group, showDeletedFiles, tabInfo,
                                                      expandOrCollapseAll, getLoadedCommandForUIFeature}) => {
     //const [allData, setAllData] = React.useState([]);
-    //console.log("treeAdjMatrix updated in table", treeAdjMatrix)
+    //console.log("进程树邻接矩阵在表格中更新", treeAdjMatrix)
     const [sortData, setSortData] = React.useState({"sortKey": null, "sortDirection": null, "sortType": null});
     const [openNodes, setOpenNodes] = React.useState({});
     const [openContextMenu, setOpenContextMenu] = React.useState(false);
     const [filterOptions, setFilterOptions] = React.useState({});
     const selectedColumn = React.useRef({});
     const [columnVisibility, setColumnVisibility] = React.useState({
-        "visible": ["Info","PID", "PPID", "Name",  "Arch", "Session", "User", "CMD"],
-        "hidden": [ "Comment", "Tags" ]
+        "visible": ["信息","进程ID", "父进程ID", "名称",  "架构", "会话", "用户", "命令行"],
+        "hidden": [ "注释", "标签" ]
     })
     const [singleTreeData, setSingleTreeData] = React.useState({});
     const [viewSingleTreeData, setViewSingleTreeData] = React.useState(false);
@@ -71,9 +71,9 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
         setOpenNodes(onodes);
     }
     React.useEffect( () => {
-        // need to update the matrix in case there are nodes that don't trace back to root
+        // 需要更新矩阵，以防存在无法追溯到根的节点
         let adjustedMatrix = {};
-        // check for cycles
+        // 检查循环
         let tempMatrix = {...treeAdjMatrix};
         for(const[group, groupMatrix] of Object.entries(tempMatrix)){
             for(const[host, hostMatrix] of Object.entries(tempMatrix[group])){
@@ -88,23 +88,23 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                 }
             }
         }
-        //console.log("treeAdjMatrix updated", treeAdjMatrix)
+        //console.log("进程树邻接矩阵已更新", treeAdjMatrix)
         for(const [group, hosts] of Object.entries(tempMatrix)){
             if(adjustedMatrix[group] === undefined){adjustedMatrix[group] = {}}
             for(const [host, matrix] of Object.entries(hosts)){
-                // looping through the hosts to adjust their entries
+                // 遍历主机以调整它们的条目
                 if( adjustedMatrix[group][host] === undefined){adjustedMatrix[group][host] = {}}
                 for(const [key, children] of Object.entries(matrix)){
-                    // if key !== "", if key is in another entry, leave it. if it's not anywhere else, add it to ""
-                    // key is the parent and children are all the child processes
+                    // 如果 key !== ""，如果 key 出现在其他条目中，保留它。如果它不在任何其他地方，则添加到 "" 中
+                    // key 是父进程，children 是所有子进程
                     if(adjustedMatrix[group][host][key] === undefined){adjustedMatrix[group][host][key] = children}
                     if(key === ""){
-                        // add all the children automatically
+                        // 自动添加所有子节点
                         for(const [i, v] of Object.entries(children)){
                             adjustedMatrix[group][host][key][i] = v
                         }
                     } else {
-                        // check if key  is in children anywhere, if not, add it to adjustedMatrix[host][""][key] = 1
+                        // 检查 key 是否在任何子节点中出现，如果没有，则添加到 adjustedMatrix[host][""][key] = 1
                         let found = false;
                         for(const [keySearch, childrenSearch] of Object.entries(matrix)){
                             if(childrenSearch.hasOwnProperty(key)){
@@ -120,12 +120,12 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                         }
                     }
                 }
-                // check for loops in our adjusted matrix
+                // 检查调整后的矩阵中是否有循环
                 for(const [key, _] of Object.entries(adjustedMatrix[group][host])){
                     // key == 540
-                    // does anything have 540 has a child? 760 does - 760 is visited
-                    // does anything have 760 as a child? 676 does
-                    // does anything have 676 as a child? 540 does - X loop detected
+                    // 是否有任何节点以 540 为子节点？760 有 - 760 已被访问
+                    // 是否有任何节点以 760 为子节点？676 有
+                    // 是否有任何节点以 676 为子节点？540 有 - X 检测到循环
                     // let badKey = checkLoop(540, adjustedMatrix[group][host], [540]);
                     let removeKey = checkLoop(adjustedMatrix[group][host], [key]);
                     if(adjustedMatrix[group][host][removeKey]){
@@ -136,20 +136,20 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
             }
         }
 
-        console.log("adjustedMatrix", adjustedMatrix, "realMatrix", treeAdjMatrix)
+        console.log("调整后的矩阵", adjustedMatrix, "真实矩阵", treeAdjMatrix)
         setUpdatedTreeAdjMatrix(adjustedMatrix);
     }, [treeAdjMatrix]);
     const checkLoop = (nodes, visited) => {
         let found = false;
-        let checkingKey = visited[visited.length-1]; // the latest thing we've seen
+        let checkingKey = visited[visited.length-1]; // 我们看到的最后一个节点
         for(const [testKey, testNodes] of Object.entries(nodes)){
             if(testNodes.hasOwnProperty(checkingKey)){
-                // we found a new node that has the last node we saw as a child
+                // 我们找到了一个新节点，它以我们最后看到的节点为子节点
                 found = true;
-                //console.log("found", testNodes, "has", checkingKey, "visited", visited, "testKey", testKey)
+                //console.log("找到", testNodes, "拥有", checkingKey, "已访问", visited, "测试键", testKey)
                 if(visited.includes(testKey)){
-                    // we found a loop
-                    //console.log("found loop", visited, testKey)
+                    // 我们找到了一个循环
+                    //console.log("找到循环", visited, testKey)
                     return true;
                 }
                 visited.push(testKey);
@@ -159,9 +159,9 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
             }
         }
         if(!found){
-            //console.log("didn't find", checkingKey, "in any edges")
+            //console.log("没有在任何边中找到", checkingKey)
         } else {
-            //console.log("found nested, but no loop with", checkingKey)
+            //console.log("找到嵌套，但没有循环", checkingKey)
         }
         return false;
     }
@@ -193,16 +193,16 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
         
     };
     const columnDefaults = [
-        { name: 'Info', width: 50, disableAutosize: true, disableSort: true, disableFilterMenu: true },
-        { name: 'PID', type: 'number', key: 'process_id', inMetadata: true, width: 100},
-        { name: 'PPID', type: 'number', key: 'parent_process_id', inMetadata: true, width: 100},
-        { name: 'Name', type: 'string', disableSort: false, key: 'name_text', fillWidth: true },
-        { name: "Arch", type: 'string', key: 'architecture', inMetadata: true, width: 70},
-        { name: 'Session', type: 'number', key: 'session_id', inMetadata: true, width: 100},
-        { name: "User", type: 'string', key: 'user', inMetadata: true, fillWidth: true},
-        { name: 'Tags', type: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
-        { name: 'Comment', type: 'string', key: 'comment', disableSort: false, width: 200 },
-        { name: "CMD", type: "string", key: 'command_line', inMetadata: true, fillWidth: true},
+        { name: '信息', width: 50, disableAutosize: true, disableSort: true, disableFilterMenu: true },
+        { name: '进程ID', type: 'number', key: 'process_id', inMetadata: true, width: 100},
+        { name: '父进程ID', type: 'number', key: 'parent_process_id', inMetadata: true, width: 100},
+        { name: '名称', type: 'string', disableSort: false, key: 'name_text', fillWidth: true },
+        { name: "架构", type: 'string', key: 'architecture', inMetadata: true, width: 70},
+        { name: '会话', type: 'number', key: 'session_id', inMetadata: true, width: 100},
+        { name: "用户", type: 'string', key: 'user', inMetadata: true, fillWidth: true},
+        { name: '标签', type: 'tags', disableSort: true, disableFilterMenu: true, width: 220 },
+        { name: '注释', type: 'string', key: 'comment', disableSort: false, width: 200 },
+        { name: "命令行", type: "string", key: 'command_line', inMetadata: true, fillWidth: true},
     ];
     const columns = React.useMemo(
         () => 
@@ -254,7 +254,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
             return [
               {
                 id: treeRootData[group][host][node]?.id || node ,
-                name: treeRootData[group][host][node]?.full_path_text || node + " - " + treeRootData[group][host][node]?.name_text || "UNKNOWN",
+                name: treeRootData[group][host][node]?.full_path_text || node + " - " + treeRootData[group][host][node]?.name_text || "未知",
                 full_path_text: treeRootData[group][host][node]?.full_path_text || node,
                 name_text: treeRootData[group][host][node]?.name_text || node,
                 deleted: treeRootData[group][host][node]?.deleted || true,
@@ -276,7 +276,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
           return [
             {
               id: treeRootData[group][host][node]?.id || node,
-              name: treeRootData[group][host][node]?.full_path_text || node  + " - " + treeRootData[group][host][node]?.name_text || "UNKNOWN",
+              name: treeRootData[group][host][node]?.full_path_text || node  + " - " + treeRootData[group][host][node]?.name_text || "未知",
               full_path_text: treeRootData[group][host][node]?.full_path_text || node,
               name_text: treeRootData[group][host][node]?.name_text || node,
               deleted: treeRootData[group][host][node]?.deleted || true,
@@ -295,13 +295,13 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
         [openNodes, updatedTreeAdjMatrix, singleTreeData, viewSingleTreeData] // eslint-disable-line react-hooks/exhaustive-deps
     );
     const allData = useMemo(() => {
-        // need to return an array
+        // 需要返回一个数组
         let finalData = [];
         let treeToUse = updatedTreeAdjMatrix;
         if(viewSingleTreeData){
             treeToUse = singleTreeData;
         }
-        //console.log("in useMemo", updatedTreeAdjMatrix, "host", host)
+        //console.log("在 useMemo 中", updatedTreeAdjMatrix, "主机", host)
         if(host === "" || treeToUse[group]?.[host] === undefined){return finalData}
         finalData.push({
         id: host,
@@ -421,24 +421,24 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
         return false;
     }
     const setSingleTree = (treeElement) => {
-        // find all data (ancestor and children) of treeElement and hide all the rest
-        // make a new adjacency matrix
+        // 找到树元素的所有数据（祖先和子节点）并隐藏所有其余部分
+        // 创建一个新的邻接矩阵
         let singleTreeAdjMatrix = {[group]: {[treeElement.host]: {}}};
 
-        // get the parent hierarchy all the way up
+        // 获取一直到根部的父层次结构
         let parent = treeRootData[group][treeElement.host][treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/].parent_path_text /*+ uniqueSplitString + treeElement.callback_id*/;
         let current = treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/;
-        //console.log("initial parent", parent, "adj", treeAdjMatrix[treeElement.host][parent])
+        //console.log("初始父节点", parent, "邻接", treeAdjMatrix[treeElement.host][parent])
         while(treeAdjMatrix[group][treeElement.host][parent] !== undefined){
             singleTreeAdjMatrix[group][treeElement.host][parent] = {[current]: 1};
-            //console.log("tree data of parent", treeRootData[treeElement.host][parent])
+            //console.log("父节点的树数据", treeRootData[treeElement.host][parent])
             if(treeRootData[group][treeElement.host][parent] === undefined){
                 break;
             }
             current = parent;
             parent = treeRootData[group][treeElement.host][parent].parent_path_text /*+ uniqueSplitString + treeRootData[group][treeElement.host][parent].callback_id*/;
         }
-        // now get all the descendents of the selected element
+        // 现在获取所选元素的所有后代
         if(treeAdjMatrix[group][treeElement.host][treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/] !== undefined){
             singleTreeAdjMatrix[group][treeElement.host][treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/] = treeAdjMatrix[group][treeElement.host][treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/];
             let leftToProcess = Object.keys(treeAdjMatrix[group][treeElement.host][treeElement.full_path_text /*+ uniqueSplitString + treeElement.callback_id*/]);
@@ -453,19 +453,19 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
         for(const [group, hosts] of Object.entries(singleTreeAdjMatrix)){
             if(singleTreeAdjMatrix[group] === undefined){singleTreeAdjMatrix[group] = {}}
             for(const [host, matrix] of Object.entries(hosts)){
-                // looping through the hosts to adjust their entries
+                // 遍历主机以调整它们的条目
                 if( singleTreeAdjMatrix[group][host] === undefined){singleTreeAdjMatrix[group][host] = {}}
                 for(const [key, children] of Object.entries(matrix)){
-                    // if key !== "", if key is in another entry, leave it. if it's not anywhere else, add it to ""
-                    // key is the parent and children are all the child processes
+                    // 如果 key !== ""，如果 key 出现在其他条目中，保留它。如果它不在任何其他地方，则添加到 "" 中
+                    // key 是父进程，children 是所有子进程
                     if(singleTreeAdjMatrix[group][host][key] === undefined){singleTreeAdjMatrix[group][host][key] = children}
                     if(key === ""){
-                        // add all the children automatically
+                        // 自动添加所有子节点
                         for(const [i, v] of Object.entries(children)){
                             singleTreeAdjMatrix[group][host][key][i] = v
                         }
                     } else {
-                        // check if key  is in children anywhere, if not, add it to adjustedMatrix[host][""][key] = 1
+                        // 检查 key 是否在任何子节点中出现，如果没有，则添加到 adjustedMatrix[host][""][key] = 1
                         let found = false;
                         for(const [keySearch, childrenSearch] of Object.entries(matrix)){
                             for(const [i, v] of Object.entries(childrenSearch)){
@@ -495,7 +495,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                 }else{
                     return [...prev, columns.map( c => {
                         switch(c.name){
-                            case "Info":
+                            case "信息":
                                 return  <FileBrowserTableRowActionCell 
                                             treeRootData={treeRootData[group]}
                                             host={host}
@@ -507,7 +507,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                                             toggleViewSingleTreeData={toggleViewSingleTreeData}
                                             getLoadedCommandForUIFeature={getLoadedCommandForUIFeature}
                                             onTaskRowAction={onTaskRowAction} />;
-                            case "Name":
+                            case "名称":
                                 return <FileBrowserTableRowNameCell 
                                             treeRootData={treeRootData[group]}
                                             host={host}
@@ -515,49 +515,49 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                                             children={updatedTreeAdjMatrix[group][host]?.[row.full_path_text ]}
                                             handleOnClickButton={handleOnClickButton}
                                             rowData={row} />;
-                            case "User":
+                            case "用户":
                                 return <FileBrowserTableRowStringCell
                                     treeRootData={treeRootData[group]}
                                     host={host}
                                     group={group}
                                     cellData={treeRootData[group][host][row.full_path_text]?.metadata?.user || ''}
                                     rowData={row} />;
-                            case "Arch":
+                            case "架构":
                                 return <FileBrowserTableRowStringCell
                                     treeRootData={treeRootData[group]}
                                     host={host}
                                     group={group}
                                     cellData={treeRootData[group][host][row.full_path_text]?.metadata?.architecture || ''}
                                     rowData={row} />;
-                            case "Session":
+                            case "会话":
                                 return <FileBrowserTableRowStringCell
                                     treeRootData={treeRootData[group]}
                                     host={host}
                                     group={group}
                                     cellData={treeRootData[group][host][row.full_path_text ]?.metadata?.session_id || ''}
                                     rowData={row} />;
-                            case "PID":
+                            case "进程ID":
                                 return <FileBrowserTableRowStringCell 
                                             treeRootData={treeRootData[group]}
                                             host={host}
                                             group={group}
                                             rowData={row} 
                                             cellData={row.full_path_text} />;
-                            case "PPID":
+                            case "父进程ID":
                                 return <FileBrowserTableRowStringCell 
                                             treeRootData={treeRootData[group]}
                                             host={host}
                                             group={group}
                                             rowData={row} 
                                             cellData={treeRootData[group][host][row.full_path_text]?.parent_path_text || ""} />;
-                            case "Tags":
+                            case "标签":
                                 return <FileBrowserTagsCell 
                                             rowData={row} 
                                             treeRootData={treeRootData[group]}
                                             host={host}
                                             group={group}
                                             me={me} />
-                            case "Comment":
+                            case "注释":
                                 return <FileBrowserTableRowStringCell 
                                             treeRootData={treeRootData[group]}
                                             host={host} 
@@ -565,7 +565,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                                             group={group}
                                             cellData={treeRootData[group][host][row.full_path_text]?.comment}
                                 />;
-                            case "CMD":
+                            case "命令行":
                                 return <FileBrowserTableRowStringCell
                                     treeRootData={treeRootData[group]}
                                     host={host}
@@ -574,7 +574,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                                     cellData={treeRootData[group][host][row.full_path_text ]?.metadata?.command_line || ""}
                                 />;
                             default:
-                                console.log("hit default case in switch on c.name)")
+                                console.log("在 switch c.name 中遇到默认情况")
                         }
                     })];
                 }
@@ -605,14 +605,14 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
     };
     const contextMenuOptions = [
         {
-            name: 'Filter Column', type: "item", icon: null,
+            name: '筛选列', type: "item", icon: null,
             click: ({event, columnIndex}) => {
                 if(event){
                     event.stopPropagation();
                     event.preventDefault();
                 }
                 if(columns[columnIndex].disableFilterMenu){
-                    snackActions.warning("Can't filter that column");
+                    snackActions.warning("无法筛选该列");
                     return;
                 }
                 selectedColumn.current = columns[columnIndex];
@@ -620,14 +620,14 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
             }
         },
         {
-            name: "Show/Hide Columns", type: "item", icon: null,
+            name: "显示/隐藏列", type: "item", icon: null,
             click: ({event, columnIndex}) => {
                 if(event){
                     event.stopPropagation();
                     event.preventDefault();
                 }
                 if(columns[columnIndex].disableFilterMenu){
-                    snackActions.warning("Can't filter that column");
+                    snackActions.warning("无法筛选该列");
                     return;
                 }
                 setOpenAdjustColumnsDialog(true);
@@ -665,7 +665,7 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                               onClose={()=>{setOpenContextMenu(false);}}
                               innerDialog={
                                   <MythicModifyStringDialog
-                                      title='Filter Column'
+                                      title='筛选列'
                                       onSubmit={onSubmitFilterOptions}
                                       value={filterOptions[selectedColumn.current]}
                                       onClose={() => {
@@ -680,8 +680,8 @@ export const CallbacksTabsProcessBrowserTable = ({treeAdjMatrix, treeRootData, m
                   onClose={()=>{setOpenAdjustColumnsDialog(false);}} 
                   innerDialog={
                     <MythicTransferListDialog onClose={()=>{setOpenAdjustColumnsDialog(false);}} 
-                      onSubmit={onSubmitAdjustColumns} right={columnVisibility.visible} rightTitle="Show these columns"
-                      leftTitle={"Hidden Columns"} left={columnVisibility.hidden} dialogTitle={"Edit which columns are shown"}/>}
+                      onSubmit={onSubmitAdjustColumns} right={columnVisibility.visible} rightTitle="显示这些列"
+                      leftTitle={"隐藏的列"} left={columnVisibility.hidden} dialogTitle={"编辑显示的列"}/>}
                 />
             }       
         </div>
@@ -731,7 +731,7 @@ const FileBrowserTableRowNameCell = ({ rowData, treeRootData, host, children, ha
                   
               )}
             <pre style={{paddingLeft: "2px"}}>
-                {treeRootData[host][rowData["full_path_text"] /*+ uniqueSplitString + rowData["callback_id"]*/]?.name_text || "UNKNOWN - MISSING DATA"}
+                {treeRootData[host][rowData["full_path_text"] /*+ uniqueSplitString + rowData["callback_id"]*/]?.name_text || "未知 - 缺少数据"}
             </pre>
         </div>
     );
@@ -760,7 +760,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
     const dropdownAnchorRef = React.useRef(null);
     const theme = useTheme();
     const loadingMenuDisplay = {
-        name: "Loading Dynamic Menu Items...", icon: null,
+        name: "正在加载动态菜单项...", icon: null,
         type: "item",
         disabled: true,
         click: ({event}) => {
@@ -780,13 +780,13 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
             setViewPermissionsDialogOpen(true);
         },
         onError: (data) => {
-          console.log("get permissions error", data);
+          console.log("获取权限错误", data);
         },
         fetchPolicy: "network-only"
     });
     const [updateComment] = useMutation(updateFileComment, {
         onCompleted: (data) => {
-            snackActions.success('updated comment');
+            snackActions.success('注释已更新');
         },
     });
     const [customMenuOptions, setCustomMenuOptions] = React.useState([loadingMenuDisplay]);
@@ -807,7 +807,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
     };
     const optionsA = [
         {
-            name: 'View Detailed Data', icon: <VisibilityIcon style={{paddingRight: "5px"}}/>,
+            name: '查看详细数据', icon: <VisibilityIcon style={{paddingRight: "5px"}}/>,
             type: "item", disabled: false,
             click: ({event}) => {
                 event.stopPropagation();
@@ -815,7 +815,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
             }
         },
         {
-            name: 'Edit Comment', type: "item", disabled: false,
+            name: '编辑注释', type: "item", disabled: false,
             icon: <EditIcon style={{ paddingRight: '5px' }} />,
             click: ({event}) => {
                 event.stopPropagation();
@@ -823,7 +823,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
             },
         },
         {
-            name: viewSingleTreeData ? "Stop Single Tree View" : "View Just This Process Tree",
+            name: viewSingleTreeData ? "退出单树视图" : "仅查看此进程树",
             icon: viewSingleTreeData ?
                 <VisibilityOffIcon style={{paddingRight: "5px", color: theme.palette.error.main}}/> :
                 <AccountTreeIcon style={{paddingRight: "5px", color: theme.palette.success.main}}/>,
@@ -837,24 +837,24 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
     ];
     async function optionsB (callback_id, callback_display_id){
         const injectCommand = await getLoadedCommandForUIFeature(callback_id, "process_browser:inject");
-        let injectDisplay = "Task Inject (Unsupported)";
+        let injectDisplay = "任务注入（不支持）";
         if(injectCommand !== undefined){
-            injectDisplay = `Task Inject (${injectCommand.command.cmd})`
+            injectDisplay = `任务注入（${injectCommand.command.cmd}）`
         }
         const tokenListCommand = await getLoadedCommandForUIFeature(callback_id, "process_browser:list_tokens");
-        let tokenListDisplay = "Task Token Listing (Unsupported)";
+        let tokenListDisplay = "任务令牌列表（不支持）";
         if(tokenListCommand !== undefined){
-            tokenListDisplay = `Task Token Listing (${tokenListCommand.command.cmd})`
+            tokenListDisplay = `任务令牌列表（${tokenListCommand.command.cmd}）`
         }
         const stealTokenCommand = await getLoadedCommandForUIFeature(callback_id, "process_browser:steal_token");
-        let stealTokenDisplay = "Task Steal Token (Unsupported)";
+        let stealTokenDisplay = "任务窃取令牌（不支持）";
         if(stealTokenCommand !== undefined){
-            stealTokenDisplay = `Task Steal Token (${stealTokenCommand.command.cmd})`
+            stealTokenDisplay = `任务窃取令牌（${stealTokenCommand.command.cmd}）`
         }
         const killProcessCommand = await getLoadedCommandForUIFeature(callback_id, "process_browser:kill");
-        let killProcessDisplay = "Task Kill Process (Unsupported)";
+        let killProcessDisplay = "任务终止进程（不支持）";
         if(killProcessCommand !== undefined){
-            killProcessDisplay = `Task Kill Process (${killProcessCommand.command.cmd})`
+            killProcessDisplay = `任务终止进程（${killProcessCommand.command.cmd}）`
         }
         return [
             {
@@ -927,7 +927,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
         options.push(...(await optionsB(tabInfo["callbackID"], tabInfo["displayID"])));
         if(treeRootData[host][rowData["full_path_text"] ]?.callback?.["id"] !== tabInfo["callbackID"]){
             options.push({
-                name: `Original Callback: ${treeRootData[host][rowData["full_path_text"] ]?.callback?.["id"]}`,
+                name: `原始回调：${treeRootData[host][rowData["full_path_text"] ]?.callback?.["id"]}`,
                 icon: null, click: () => {}, type: "menu",
                 menuItems: [
                     ...(await optionsB(treeRootData[host][rowData["full_path_text"] ]?.callback?.["id"],
@@ -1013,7 +1013,7 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
                     }}
                     innerDialog={
                         <MythicModifyStringDialog
-                            title='Edit Comment'
+                            title='编辑注释'
                             onSubmit={onSubmitUpdatedComment}
                             value={rowData.comment}
                             onClose={() => {
@@ -1026,8 +1026,8 @@ const FileBrowserTableRowActionCell = ({rowData, onTaskRowAction, treeRootData, 
             {viewPermissionsDialogOpen &&
                 <MythicDialog fullWidth={true} maxWidth="xl" open={viewPermissionsDialogOpen}
                     onClose={()=>{setViewPermissionsDialogOpen(false);}} 
-                    innerDialog={<MythicViewJSONAsTableDialog title="View Detailed Data" leftColumn="Attribute" 
-                        rightColumn="Value" value={permissionData} 
+                    innerDialog={<MythicViewJSONAsTableDialog title="查看详细数据" leftColumn="属性" 
+                        rightColumn="值" value={permissionData} 
                         onClose={()=>{setViewPermissionsDialogOpen(false);}} 
                         />}
                 />

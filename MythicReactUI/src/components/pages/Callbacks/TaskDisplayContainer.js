@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import { copyStringToClipboard } from '../../utilities/Clipboard';
 import GetAppIcon from '@mui/icons-material/GetApp';
@@ -219,43 +220,42 @@ const SideDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput,
         let command = task?.command?.cmd || task.command_name;
         let result = copyStringToClipboard(command + " " + task.original_params);
         if(result){
-            snackActions.success("Copied text!");
+            snackActions.success("已复制文本！");
         }else{
-            snackActions.error("Failed to copy text");
+            snackActions.error("复制文本失败");
         }
     };
     const [reissueTask] = useMutation(ReissueTaskMutationGQL, {
         onCompleted: data => {
             if(data.reissue_task.status === "success"){
-                snackActions.success("Successfully re-issued task to Mythic");
+                snackActions.success("已成功重新向Mythic下发任务");
             }else{
-                snackActions.error("Failed to re-issue task to Mythic: " + data.reissue_task.error);
+                snackActions.error("向Mythic重新下发任务失败：" + data.reissue_task.error);
             }
         },
         onError: data => {
             console.log(data);
-            snackActions.error("Failed to re-issue task: " + data);
+            snackActions.error("重新下发任务失败：" + data);
         }
     });
     const [reissueTaskHandler] = useMutation(ReissueTaskHandlerMutationGQL, {
         onCompleted: data => {
             if(data.reissue_task_handler.status === "success"){
-                snackActions.success("Successfully resubmitted task for handling");
+                snackActions.success("已成功重新提交任务进行处理");
             }else{
-                snackActions.warning("Failed to resubmit task for handling: " + data.reissue_task_handler.error);
+                snackActions.warning("重新提交任务进行处理失败：" + data.reissue_task_handler.error);
             }
 
         },
         onError: data => {
             console.log(data);
-            snackActions.error("Error resubmitting task for handling: " + data);
+            snackActions.error("重新提交任务处理时出错：" + data);
         }
     });
     const onDownloadImageClickPng = () => {
-        // we calculate a transform for the nodes so that all nodes are visible
-        // we then overwrite the transform of the `.react-flow__viewport` element
-        // with the style option of the html-to-image library
-        snackActions.info("Saving image to png...");
+        // 我们计算节点的变换以确保所有节点可见
+        // 然后使用html-to-image库的样式选项覆盖`.react-flow__viewport`元素的变换
+        snackActions.info("正在保存图像为PNG...");
         (async () => {
             const canvas = await html2canvas(responseRef.current);
             const image = canvas.toDataURL("image/png", 1.0);
@@ -339,74 +339,74 @@ const SideDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput,
             }
             <Paper elevation={5} style={{width: "30px", display: "flex", flexDirection: "column", alignItems: "center", overflow: "hidden",
                 backgroundColor: "transparent", height: "100%"}}>
-                <MythicStyledTooltip title={"Toggle BrowserScript"} >
+                <MythicStyledTooltip title={"切换浏览器脚本显示"} >
                     <IconButton onClick={toggleViewBrowserScript} style={{paddingBottom: "3px"}}>
                         {viewBrowserScript ? <CodeOffIcon color={"error"} /> : <CodeIcon color={"success"}/>}
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={viewAllOutput ? "View Paginated Output" : "View All Output"}>
+                <MythicStyledTooltip title={viewAllOutput ? "查看分页输出" : "查看全部输出"}>
                     <IconButton onClick={toggleSelectAllOutput} style={{paddingBottom: "3px"}}>
                         {viewAllOutput ? <CloseFullscreenIcon color={"error"} /> : <FontAwesomeIcon style={{color: theme.palette.success.main}} icon={faExpandArrowsAlt} size="sm" />}
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Search Output"}>
+                <MythicStyledTooltip title={"搜索输出"}>
                     <IconButton onClick={toggleOpenSearch} style={{paddingBottom: "3px"}}>
                         <SearchIcon color={"info"} />
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Download output"}>
+                <MythicStyledTooltip title={"下载输出"}>
                     <IconButton onClick={onDownloadResponses} style={{paddingBottom: "3px"}}>
                         <GetAppIcon color={"success"}/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Download screenshot of output"}>
+                <MythicStyledTooltip title={"下载输出截图"}>
                     <IconButton onClick={onDownloadImageClickPng} style={{paddingBottom: "3px"}}>
                         <InsertPhotoIcon/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Edit Tags"}>
+                <MythicStyledTooltip title={"编辑标签"}>
                     <IconButton onClick={()=>{setOpenTaskTagDialog(true)}} style={{paddingBottom: "3px"}}>
                         <LocalOfferOutlinedIcon/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Open Task in New Window"}>
+                <MythicStyledTooltip title={"在新窗口中打开任务"}>
                     <IconButton onClick={()=> {window.open('/new/task/' + task.display_id, "_blank")}} style={{paddingBottom: "3px"}}>
                         <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Copy original params to clipboard"}>
+                <MythicStyledTooltip title={"复制原始参数到剪贴板"}>
                     <IconButton onClick={copyToClipboard} style={{paddingBottom: "3px"}}>
                         <FileCopyOutlinedIcon/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Edit Comment"}>
+                <MythicStyledTooltip title={"编辑评论"}>
                     <IconButton onClick={()=>{setOpenCommentDialog(true)}} style={{paddingBottom: "3px"}}>
                         <RateReviewOutlinedIcon/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"View All Parameters And Timestamps"}>
+                <MythicStyledTooltip title={"查看所有参数和时间戳"}>
                     <IconButton onClick={()=>{setOpenParametersDialog(true);}} style={{paddingBottom: "3px"}}>
                         <KeyboardIcon/>
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"View Stdout/Stderr of Task"}>
+                <MythicStyledTooltip title={"查看任务的Stdout/Stderr"}>
                     <IconButton onClick={()=>{setOpenStdoutStderrDialog(true);}} style={{paddingBottom: "3px"}}>
                         <FontAwesomeIcon style={{color: theme.palette.error.main}} icon={faExclamationTriangle} size="sm" />
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Trigger Eventing Based on Task"}>
+                <MythicStyledTooltip title={"基于任务触发事件"}>
                     <IconButton onClick={()=>{onTriggerEventing();}} style={{paddingBottom: "3px"}}>
                         <PlayCircleFilledTwoToneIcon />
                     </IconButton>
                 </MythicStyledTooltip>
                 {task.opsec_pre_blocked === null ? null : (  task.opsec_pre_bypassed === false ? (
-                        <MythicStyledTooltip title={"Submit OPSEC PreCheck Bypass Request"}>
+                        <MythicStyledTooltip title={"提交OPSEC预检绕过请求"}>
                             <IconButton onClick={()=>{setOpenOpsecDialog({open: true, view: "pre"})}} style={{paddingBottom: "3px"}}>
                                 <LockIcon style={{color: theme.palette.error.main}}/>
                             </IconButton>
                         </MythicStyledTooltip>
                     ): (
-                    <MythicStyledTooltip title={"View OPSEC PreCheck Data"}>
+                    <MythicStyledTooltip title={"查看OPSEC预检数据"}>
                         <IconButton onClick={()=>{setOpenOpsecDialog({open: true, view: "pre"})}} style={{paddingBottom: "3px"}}>
                             <LockOpenIcon style={{color: theme.palette.success.main}}/>
                         </IconButton>
@@ -415,13 +415,13 @@ const SideDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput,
                 )
                 }
                 {task.opsec_post_blocked === null ? null : (  task.opsec_post_bypassed === false ? (
-                        <MythicStyledTooltip title={"Submit OPSEC PostCheck Bypass Request"}>
+                        <MythicStyledTooltip title={"提交OPSEC后检绕过请求"}>
                             <IconButton onClick={()=>{setOpenOpsecDialog({open: true, view: "post"})}} style={{paddingBottom: "3px"}}>
                                 <LockIcon style={{color: theme.palette.error.main}}/>
                             </IconButton>
                         </MythicStyledTooltip>
                     ): (
-                    <MythicStyledTooltip title={"View OPSEC PostCheck Data"}>
+                    <MythicStyledTooltip title={"查看OPSEC后检数据"}>
                         <IconButton onClick={()=>{setOpenOpsecDialog({open: true, view: "post"})}} style={{paddingBottom: "3px"}}>
                             <LockOpenIcon style={{color: theme.palette.success.main}}/>
                         </IconButton>
@@ -430,21 +430,21 @@ const SideDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput,
                 )
                 }
                 {task.token === null ? null : (
-                    <MythicStyledTooltip title={"View Token Information"}>
+                    <MythicStyledTooltip title={"查看令牌信息"}>
                         <IconButton onClick={()=>{setOpenTokenDialog(true)}} style={{paddingBottom: "3px"}}>
                             <ConfirmationNumberIcon />
                         </IconButton>
                     </MythicStyledTooltip>
                 )}
                 {task.status.toLowerCase().includes("error: container") &&
-                    <MythicStyledTooltip title={"Resubmit Tasking"}>
+                    <MythicStyledTooltip title={"重新下发任务"}>
                         <IconButton onClick={onReissueTask} style={{paddingBottom: "3px"}}>
                             <ReplayIcon style={{color: theme.palette.warning.main}}/>
                         </IconButton>
                     </MythicStyledTooltip>
                 }
                 {task.status.toLowerCase().includes("error: task") &&
-                    <MythicStyledTooltip title={"Resubmit Task Handler"}>
+                    <MythicStyledTooltip title={"重新提交任务处理器"}>
                         <IconButton onClick={onReissueTaskHandler} style={{paddingBottom: "3px"}}>
                             <ReplayIcon style={{color: theme.palette.warning.main}}/>
                         </IconButton>
@@ -491,44 +491,43 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
     let command = task?.command?.cmd || task.command_name;
     let result = copyStringToClipboard(command + " " + task.original_params);
     if(result){
-      snackActions.success("Copied text!");
+      snackActions.success("已复制文本！");
     }else{
-      snackActions.error("Failed to copy text");
+      snackActions.error("复制文本失败");
     }
     setOpenSpeedDial(false);
   };
   const [reissueTask] = useMutation(ReissueTaskMutationGQL, {
     onCompleted: data => {
       if(data.reissue_task.status === "success"){
-        snackActions.success("Successfully re-issued task to Mythic");
+        snackActions.success("已成功重新向Mythic下发任务");
       }else{
-        snackActions.error("Failed to re-issue task to Mythic: " + data.reissue_task.error);
+        snackActions.error("向Mythic重新下发任务失败：" + data.reissue_task.error);
       }
     },
     onError: data => {
       console.log(data);
-      snackActions.error("Failed to re-issue task: " + data);
+      snackActions.error("重新下发任务失败：" + data);
     }
   });
   const [reissueTaskHandler] = useMutation(ReissueTaskHandlerMutationGQL, {
     onCompleted: data => {
       if(data.reissue_task_handler.status === "success"){
-        snackActions.success("Successfully resubmitted task for handling");
+        snackActions.success("已成功重新提交任务进行处理");
       }else{
-        snackActions.warning("Failed to resubmit task for handling: " + data.reissue_task_handler.error);
+        snackActions.warning("重新提交任务进行处理失败：" + data.reissue_task_handler.error);
       }
 
     },
     onError: data => {
       console.log(data);
-      snackActions.error("Error resubmitting task for handling: " + data);
+      snackActions.error("重新提交任务处理时出错：" + data);
     }
   });
   const onDownloadImageClickPng = () => {
-    // we calculate a transform for the nodes so that all nodes are visible
-    // we then overwrite the transform of the `.react-flow__viewport` element
-    // with the style option of the html-to-image library
-    snackActions.info("Saving image to png...");
+    // 我们计算节点的变换以确保所有节点可见
+    // 然后使用html-to-image库的样式选项覆盖`.react-flow__viewport`元素的变换
+    snackActions.info("正在保存图像为PNG...");
     (async () => {
       const canvas = await html2canvas(responseRef.current);
       const image = canvas.toDataURL("image/png", 1.0);
@@ -612,7 +611,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
           />
       }
         <SpeedDial
-            ariaLabel="Task Speeddial"
+            ariaLabel="任务快速拨号"
             icon={<SettingsTwoToneIcon fontSize={"large"} />}
             style={{...style}}
             onClick={()=>{setOpenSpeedDial(!openSpeedDial)}}
@@ -624,84 +623,84 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
               icon={viewBrowserScript ? <CodeOffIcon color={"error"} /> : <CodeIcon color={"success"}/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Toggle BrowserScript"}
+              tooltipTitle={"切换浏览器脚本显示"}
               onClick={() => {toggleViewBrowserScript();setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={viewAllOutput ? <CloseFullscreenIcon color={"error"} /> : <FontAwesomeIcon style={{color: theme.palette.success.main}} icon={faExpandArrowsAlt} size="lg" />}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={viewAllOutput ? "View Paginated Output" : "View All Output"}
+              tooltipTitle={viewAllOutput ? "查看分页输出" : "查看全部输出"}
               onClick={() => {toggleSelectAllOutput();setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={<SearchIcon color={"info"} />}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Search Output"}
+              tooltipTitle={"搜索输出"}
               onClick={() => {toggleOpenSearch();setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={<GetAppIcon color={"success"}/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Download output"}
+              tooltipTitle={"下载输出"}
               onClick={onDownloadResponses}
           />
           <SpeedDialAction
               icon={<InsertPhotoIcon/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Download screenshot of output"}
+              tooltipTitle={"下载输出截图"}
               onClick={onDownloadImageClickPng}
           />
           <SpeedDialAction
               icon={<LocalOfferOutlinedIcon/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Edit Tags"}
+              tooltipTitle={"编辑标签"}
               onClick={()=>{setOpenTaskTagDialog(true);setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={<FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Open Task in New Window"}
+              tooltipTitle={"在新窗口中打开任务"}
               onClick={()=> {window.open('/new/task/' + task.display_id, "_blank")}}
           />
           <SpeedDialAction
               icon={<FileCopyOutlinedIcon/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Copy original params to clipboard"}
+              tooltipTitle={"复制原始参数到剪贴板"}
               onClick={copyToClipboard}
           />
           <SpeedDialAction
               icon={<RateReviewOutlinedIcon/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"Edit Comment"}
+              tooltipTitle={"编辑评论"}
               onClick={()=>{setOpenCommentDialog(true);setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={<KeyboardIcon/>}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"View All Parameters And Timestamps"}
+              tooltipTitle={"查看所有参数和时间戳"}
               onClick={()=>{setOpenParametersDialog(true);setOpenSpeedDial(false);}}
           />
           <SpeedDialAction
               icon={<FontAwesomeIcon style={{color: theme.palette.error.main}} icon={faExclamationTriangle} size="lg" />}
               arrow
               tooltipPlacement={"top"}
-              tooltipTitle={"View Stdout/Stderr of Task"}
+              tooltipTitle={"查看任务的Stdout/Stderr"}
               onClick={()=>{setOpenStdoutStderrDialog(true);setOpenSpeedDial(false);}}
           />
         <SpeedDialAction
             icon={<PlayCircleFilledTwoToneIcon />}
             arrow
             tooltipPlacement={"top"}
-            tooltipTitle={"Trigger Eventing Based on Task"}
+            tooltipTitle={"基于任务触发事件"}
             onClick={()=>{onTriggerEventing();setOpenSpeedDial(false);}}
             />
           {task.opsec_pre_blocked === null ? null : (  task.opsec_pre_bypassed === false ? (
@@ -709,7 +708,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                       icon={<LockIcon style={{color: theme.palette.error.main}}/>}
                       arrow
                       tooltipPlacement={"top"}
-                      tooltipTitle={"Submit OPSEC PreCheck Bypass Request"}
+                      tooltipTitle={"提交OPSEC预检绕过请求"}
                       onClick={()=>{setOpenOpsecDialog({open: true, view: "pre"});setOpenSpeedDial(false);}}
                   />
               ): (
@@ -717,7 +716,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                       icon={<LockOpenIcon style={{color: theme.palette.success.main}}/>}
                       arrow
                       tooltipPlacement={"top"}
-                      tooltipTitle={"View OPSEC PreCheck Data"}
+                      tooltipTitle={"查看OPSEC预检数据"}
                       onClick={()=>{setOpenOpsecDialog({open: true, view: "pre"});setOpenSpeedDial(false);}}
                   />
               )
@@ -728,7 +727,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                       icon={<LockIcon style={{color: theme.palette.error.main}}/>}
                       arrow
                       tooltipPlacement={"top"}
-                      tooltipTitle={"Submit OPSEC PostCheck Bypass Request"}
+                      tooltipTitle={"提交OPSEC后检绕过请求"}
                       onClick={()=>{setOpenOpsecDialog({open: true, view: "post"});setOpenSpeedDial(false);}}
                   />
               ): (
@@ -736,7 +735,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                       icon={<LockOpenIcon style={{color: theme.palette.success.main}}/>}
                       arrow
                       tooltipPlacement={"top"}
-                      tooltipTitle={"View OPSEC PostCheck Data"}
+                      tooltipTitle={"查看OPSEC后检数据"}
                       onClick={()=>{setOpenOpsecDialog({open: true, view: "post"});setOpenSpeedDial(false);}}
                   />
               )
@@ -747,7 +746,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                   icon={<ConfirmationNumberIcon />}
                   arrow
                   tooltipPlacement={"top"}
-                  tooltipTitle={"View Token Information"}
+                  tooltipTitle={"查看令牌信息"}
                   onClick={()=>{setOpenTokenDialog(true);setOpenSpeedDial(false);}}
               />
           )}
@@ -756,7 +755,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                   icon={<ReplayIcon style={{color: theme.palette.warning.main}}/>}
                   arrow
                   tooltipPlacement={"top"}
-                  tooltipTitle={"Resubmit Tasking"}
+                  tooltipTitle={"重新下发任务"}
                   onClick={onReissueTask}
               />
           ) : null}
@@ -765,7 +764,7 @@ const SpeedDialDisplayGeneric = ({toggleViewBrowserScript, toggleSelectAllOutput
                   icon={<ReplayIcon style={{color: theme.palette.warning.main}}/>}
                   arrow
                   tooltipPlacement={"top"}
-                  tooltipTitle={"Resubmit Task Handler"}
+                  tooltipTitle={"重新提交任务处理器"}
                   onClick={onReissueTaskHandler}
               />
           ):null}

@@ -46,7 +46,7 @@ export function TaskCommentDialog(props) {
     }
     if (error) {
      console.error(error);
-     return <div>Error!</div>;
+     return <div>错误！</div>;
     }
     const onCommitSubmit = (newValue) => {
         updateComment({variables: {task_id: props.task_id, comment: newValue}});
@@ -54,7 +54,7 @@ export function TaskCommentDialog(props) {
 
   return (
     <React.Fragment>
-        <MythicModifyStringDialog title={`Edit Task Comment`}
+        <MythicModifyStringDialog title={`编辑任务注释`}
                                   onClose={props.onClose}
                                   value={comment}
                                   dontCloseOnSubmit={true}
@@ -62,4 +62,3 @@ export function TaskCommentDialog(props) {
   </React.Fragment>
   );
 }
-

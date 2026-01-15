@@ -45,22 +45,22 @@ export function ImportCallbackConfigDialog(props) {
   }
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Import Callback Config From Other Mythic Server</DialogTitle>
+        <DialogTitle id="form-dialog-title">从其他Mythic服务器导入回连配置</DialogTitle>
 
         <DialogContent dividers={true}>
-            Export a callback config from another Mythic server and import it here to interact with that callback from this server.
+            从另一台 Mythic 服务器导出回连配置，导入到这里，与该服务器的回连进行交互。
             <br/>
           <Button variant="contained" component="label"> 
-              { fileValue.name === "" ? "Select File" : fileValue.name } 
+              { fileValue.name === "" ? "选择文件" : fileValue.name } 
               <input onChange={onFileChange} type="file" hidden /> 
           </Button>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" onClick={props.onClose} color="primary">
-            Close
+            取消
           </Button>
           <Button variant="contained" onClick={onCommitSubmit} color="success">
-            Submit
+            上传
           </Button>
         </DialogActions>
   </React.Fragment>

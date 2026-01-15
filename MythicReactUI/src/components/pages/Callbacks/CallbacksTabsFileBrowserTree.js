@@ -81,42 +81,42 @@ export const CallbacksTabsFileBrowserTreePreMemo = ({ treeRootData, treeAdjMatri
     }, [selectedFolderData]);
     const contextMenuOptions= (callback_id, callback_display_id, node) => [
         {
-            name: "Copy to Clipboard", icon: null, click: () => {}, type: "menu",
+            name: "复制到剪贴板", icon: null, click: () => {}, type: "menu",
             menuItems: [
                 {
-                    name: 'Name', type: "item",
+                    name: '名称', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(node.name_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Full Path', type: "item",
+                    name: '完整路径', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(node.full_path_text)){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
                 {
-                    name: 'Metadata', type: "item",
+                    name: '元数据', type: "item",
                     icon: <FileCopyOutlinedIcon style={{ paddingRight: '5px' }} />,
                     click: ({event}) => {
                         event.stopPropagation();
                         if(copyStringToClipboard(JSON.stringify(node?.metadata, null, 2))){
-                            snackActions.success("Copied to clipboard");
+                            snackActions.success("已复制到剪贴板");
                         }
                     },
                 },
             ]
         },
       {
-          name: 'List', type: "item", icon: <ListIcon color="warning" style={{ paddingRight: '5px'}} />,
+          name: '列出', type: "item", icon: <ListIcon color="warning" style={{ paddingRight: '5px'}} />,
           click: ({event}) => {
               event.stopPropagation();
               taskListing(node, callback_id, callback_display_id);
@@ -144,7 +144,7 @@ export const CallbacksTabsFileBrowserTreePreMemo = ({ treeRootData, treeAdjMatri
             options.push(...contextMenuOptions(tabInfo["callbackID"], tabInfo["displayID"], contextMenuData.current?.item));
             if(contextMenuData.current?.item?.callback?.["display_id"] !== tabInfo["displayID"]){
                 options.push({
-                    name: "Original Callback: " + contextMenuData.current?.item?.callback?.["display_id"],
+                    name: "原始回连: " + contextMenuData.current?.item?.callback?.["display_id"],
                     icon: null, click: () => {}, type: "menu",
                     menuItems: [
                         ...contextMenuOptions(contextMenuData.current?.item?.callback?.id, contextMenuData.current?.item?.callback?.display_id, contextMenuData.current?.item)

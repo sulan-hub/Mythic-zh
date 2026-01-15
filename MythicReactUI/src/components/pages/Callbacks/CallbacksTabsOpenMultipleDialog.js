@@ -35,28 +35,28 @@ const columns = [
     { field: 'display_id', headerName: 'ID', width: 70, type: 'number', },
     {
         field: 'host',
-        headerName: 'Host',
+        headerName: '主机名',
         flex: 0.5,
     },
     {
         field: 'user',
-        headerName: 'User',
+        headerName: '用户',
         flex: 0.5,
     },
     {
         field: 'pid',
-        headerName: 'PID',
+        headerName: '进程ID',
         type: 'number',
         width: 70,
     },
     {
         field: 'description',
-        headerName: 'Description',
+        headerName: '描述',
         flex: 1,
     },
     {
       field: 'ip',
-      headerName: 'IP',
+      headerName: 'IP地址',
       width: 100,
       renderCell: (params) => <CallbacksTableIPCell rowData={params.row} cellData={params.row.ip} />,
         sortable: false,
@@ -70,7 +70,7 @@ const columns = [
     },
     {
         field: "last_checkin",
-        headerName: "Checkin",
+        headerName: "检入时间",
         width: 100,
         valueGetter: (value, row) => new Date(row.last_checkin),
         renderCell: (params) =>
@@ -78,14 +78,14 @@ const columns = [
     },
     {
         field: "payload.payloadtype.name",
-        headerName: "Agent",
+        headerName: "代理",
         flex: 0.5,
         valueGetter: (value, row) => row.payload.payloadtype.name,
         renderCell: (params) => <CallbacksTablePayloadTypeCell rowData={params.row} />
     },
     {
         field: "mythictree_groups_string",
-        headerName: "Groups",
+        headerName: "分组",
         flex: 0.5,
     }
 ];
@@ -125,7 +125,7 @@ export function CallbacksTabsOpenMultipleDialog({onClose, tabType, onOpenTabs}) 
       fetchPolicy: "no-cache",
       onCompleted: (data) => {
         const callbackData = data.callback.map( c => {
-          // for each callback, get a unique set of supported features
+          // 为每个回连获取唯一的支持功能集
           const display = `${c.display_id} - ${c.user}@${c.host} (${c.pid}) - ${c.description}`;
           return {...c, display};
         });
@@ -139,17 +139,16 @@ export function CallbacksTabsOpenMultipleDialog({onClose, tabType, onOpenTabs}) 
 
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Select Callback to open {tabType} tab</DialogTitle>
+        <DialogTitle id="form-dialog-title">选择要打开 {tabType} 标签页的回连</DialogTitle>
             <CustomSelectTable initialData={initialData}
                                selectedData={selectedData}
                                onRowClick={onRowClick}
             />
         <DialogActions>
           <Button onClick={onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
         </DialogActions>
   </React.Fragment>
   );
 }
-

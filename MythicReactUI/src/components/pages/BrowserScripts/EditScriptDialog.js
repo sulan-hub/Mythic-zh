@@ -97,8 +97,8 @@ export function EditScriptDialog(props) {
     });
     const editorRef = useRef(null);
     const outputRef = useRef(null);
-    const [logOutput, setLogOutput] = React.useState("console.log messages:\n");
-    const logStreamRef = React.useRef("console.log messages:\n");
+    const [logOutput, setLogOutput] = React.useState("console.log 消息:\n");
+    const logStreamRef = React.useRef("console.log 消息:\n");
     useEffect( () => {
         if(selectedCommand !== ""){
             getAvailableTasks({variables: {command_id: selectedCommand}})
@@ -108,7 +108,6 @@ export function EditScriptDialog(props) {
     useEffect( () => {
         if(props.script !== undefined){
           try{
-            //setScript(atob(props.script));
             setScript(decodeURIComponent(window.atob(props.script)));
           }catch(error){
             setScript(props.script);
@@ -119,16 +118,12 @@ export function EditScriptDialog(props) {
         setScript(value);
     }
     const onSubmit = () => {
-        //let newScript = window.btoa(encodeURIComponent(script));
-        //props.onSubmitEdit({script: newScript, command_id: selectedCommand, payload_type_id: selectedPayloadType});
         props.onSubmitEdit({script: script, command_id: selectedCommand, payload_type_id: selectedPayloadType});
         props.onClose();
     }
     const onTest = () => {
-        //let newScript = window.btoa(encodeURIComponent(script));
-        //props.onSubmitEdit({script: newScript, command_id: selectedCommand, payload_type_id: selectedPayloadType});
         props.onSubmitEdit({script: script, command_id: selectedCommand, payload_type_id: selectedPayloadType});
-        logStreamRef.current = "console.log messages:\n";
+        logStreamRef.current = "console.log 消息:\n";
         setLogOutput(logStreamRef.current);
     }
     const onRevert = () => {
@@ -148,7 +143,6 @@ export function EditScriptDialog(props) {
       setSelectedCommand(event.target.value);
     }
     const onLoad = (editor) => {
-        // Your editor options comes here
         editor.on('change', (arg, activeEditor) => {
             editorRef.current = activeEditor;
             editor.removeEventListener('change');
@@ -156,7 +150,6 @@ export function EditScriptDialog(props) {
         });
     }
     const onOutputLoad = (editor) => {
-        // Your editor options comes here
         editor.on('change', (arg, activeEditor) => {
             outputRef.current = activeEditor;
             editor.removeEventListener('change');
@@ -186,12 +179,12 @@ export function EditScriptDialog(props) {
   return (
     <React.Fragment>
         <DialogTitle >
-          {props.title ? props.title : "Edit " + props.author + "'s BrowserScript Code"}
+          {props.title ? props.title : "编辑 " + props.author + " 的浏览器脚本代码"}
           </DialogTitle>
         <DialogContent dividers={true} style={{height: `calc(100vh)`, display: "flex", flexDirection: "column", width: "100%"}}>
             <div style={{display: "flex"}}>
                 <FormControl style={{width: "50%"}}>
-                    <InputLabel ref={inputPTRef}>Payload Type</InputLabel>
+                    <InputLabel ref={inputPTRef}>载荷类型</InputLabel>
                     <Select
                         labelId="demo-dialog-select-label"
                         id="demo-dialog-select"
@@ -205,7 +198,7 @@ export function EditScriptDialog(props) {
                     </Select>
                 </FormControl>
                 <FormControl style={{width: "50%", paddingBottom: "10px"}}>
-                    <InputLabel ref={inputCMDRef}>Command</InputLabel>
+                    <InputLabel ref={inputCMDRef}>命令</InputLabel>
                     <Select
                         labelId="demo-dialog-select-label"
                         id="demo-dialog-select"
@@ -220,9 +213,9 @@ export function EditScriptDialog(props) {
                 </FormControl>
             </div>
             <p>
-                <b>To test locally</b>: Make your changes in the top left code box. Any <b>console.log</b> entries will appear in the box to the right when executed.
-                Click <b>Save for Testing</b> to finalize your changes. Make sure to select an already executed task that matches this command from the bottom.
-                You will need to collapse and re-expand the task to pull in your updated changes.
+                <b>本地测试方法</b>: 在左上方的代码框中修改您的脚本。执行时的任何 <b>console.log</b> 输出将显示在右侧框中。
+                点击 <b>保存并测试</b> 来应用您的修改。请确保从下方选择一个已经执行过的匹配此命令的任务。
+                您需要折叠并重新展开任务来拉取您更新的修改。
             </p>
             <div style={{display: "flex", width: "100%", flexGrow: 1}}>
                 <Split direction="vertical" style={{height: "100%", width: "100%"}} sizes={[30, 70]} onDrag={onDragging} >
@@ -260,7 +253,7 @@ export function EditScriptDialog(props) {
                     </Split>
                     <div className="bg-gray-light" >
                         <FormControl style={{width: "100%"}}>
-                            <InputLabel ref={inputTaskRef} style={{paddingTop: "10px"}}>Test Script With Task</InputLabel>
+                            <InputLabel ref={inputTaskRef} style={{paddingTop: "10px"}}>使用任务测试脚本</InputLabel>
                             <Select
                                 labelId="demo-dialog-select-label"
                                 id="demo-dialog-select"
@@ -282,22 +275,22 @@ export function EditScriptDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.onClose} variant="contained" color="primary">
-            Close
+            关闭
           </Button>
           {props.new ? (
             <Button onClick={onSubmit} variant="contained" color="success">
-              Create
+              创建
           </Button>
           ) : (
             <React.Fragment>
               <Button onClick={onRevert} variant="contained" color="warning">
-                Revert
+                恢复
               </Button>
                 <Button onClick={onTest} variant="contained" color="info">
-                    Save For Testing
+                    保存并测试
                 </Button>
               <Button onClick={onSubmit} variant="contained" color="success">
-                Save and Exit
+                保存并退出
               </Button>
             </React.Fragment>
           )}
@@ -306,5 +299,3 @@ export function EditScriptDialog(props) {
   </React.Fragment>
   );
 }
-
-

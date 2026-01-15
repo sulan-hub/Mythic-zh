@@ -67,7 +67,6 @@ export function BrowserScripts({me}){
       variables: {operator_id: me?.user?.id || 0}, fetchPolicy: "no-cache",
       shouldResubscribe: true,
       onSubscriptionData: ({subscriptionData}) => {
-        //console.log(subscriptionData)
         if(!mountedRef.current){return}
         let scripts = [...subscriptionData.data.browserscript];
         scripts.sort((a,b) => {
@@ -83,37 +82,37 @@ export function BrowserScripts({me}){
     });
     const [toggleActive] = useMutation(updateBrowserScriptActive, {
         onCompleted: data => {
-            snackActions.success("Successfully Updated!", {autoHideDuration: 1000});
+            snackActions.success("更新成功!", {autoHideDuration: 1000});
         },
         onError: data => {
             console.error(data);
-            snackActions.error("Failed to update status");
+            snackActions.error("更新状态失败");
         }
     });
     const [updateScript] = useMutation(updateBrowserScriptScript, {
         onCompleted: data => {
-            snackActions.success("Successfully Updated!", {autoHideDuration: 1000});
+            snackActions.success("更新成功!", {autoHideDuration: 1000});
         },
         onError: data => {
             console.error(data);
-            snackActions.error("Failed to update script");
+            snackActions.error("更新脚本失败");
         }
     });
     const [revertScript] = useMutation(updateBrowserScriptRevert, {
         onCompleted: data => {
-            snackActions.success("Successfully Updated!", {autoHideDuration: 1000});
+            snackActions.success("更新成功!", {autoHideDuration: 1000});
         },
         onError: data => {
             console.error(data);
-            snackActions.error("Failed to revert script");
+            snackActions.error("恢复脚本失败");
         }
     });
     const [createBrowserScript] = useMutation(addBrowserScript, {
       onCompleted: data => {
-        snackActions.success("Successfully created new browser script!");
+        snackActions.success("成功创建新的浏览器脚本!");
       },
       onError: data => {
-        snackActions.error("Failed to create new script: " + data);
+        snackActions.error("创建新脚本失败: " + data);
       }
     });
     const onToggleActive = ({browserscript_id, active}) => {

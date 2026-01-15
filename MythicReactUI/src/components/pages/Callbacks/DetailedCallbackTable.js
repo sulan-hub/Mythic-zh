@@ -227,7 +227,7 @@ export function DetailedCallbackTable(props){
     const issueNextMod = () => {
       if(commandMods.current.add >= addTotal.current){
         if(commandMods.current.remove >= removeTotal.current) {
-          snackActions.success("Finished adjusting commands");
+          snackActions.success("命令调整完成");
         } else {
           removeLoadedCommands({variables: {id: commandMods.current.commandsToRemove[commandMods.current.remove].id}})
         }
@@ -241,7 +241,7 @@ export function DetailedCallbackTable(props){
       commandMods.current.commandsToAdd = commandsToAdd
       commandMods.current.commandsToRemove = commandsToRemove
       if(commandsToAdd.length === 0 && commandsToRemove.length === 0){
-        snackActions.info("Not adding or removing any commands")
+        snackActions.info("未添加或移除任何命令")
       } else {
         setOpenProgressIndicator(true);
         issueNextMod();
@@ -308,9 +308,9 @@ export function DetailedCallbackTable(props){
             if(data.updatePayload.status === "success"){
                 setPayloadCallbackAllowed(data.updatePayload.callback_allowed);
                 if(data.updatePayload.callback_allowed){
-                    snackActions.success("New Callbacks allowed from this Payload");
+                    snackActions.success("此载荷现在允许新回调");
                 } else {
-                    snackActions.warning("No new Callback allowed from this Payload");
+                    snackActions.warning("此载荷不允许新回调");
                 }
             } else {
                 console.log(data.updatePayload);
@@ -328,38 +328,38 @@ export function DetailedCallbackTable(props){
     }
     if (error) {
      console.error(error);
-     return <div>Error! {error.message}</div>;
+     return <div>错误! {error.message}</div>;
     }
     return (
         <React.Fragment>
-          <DialogTitle id="form-dialog-title">Callback Configuration</DialogTitle>
+          <DialogTitle id="form-dialog-title">回调配置</DialogTitle>
           <DialogContent dividers={true}>
           <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
               <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                  Callback Information
+                  回调信息
               </Typography>
             </Paper>
             <ExpandedCallbackSideDetailsTable {...data.callback_by_pk} />
                 
             <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
               <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                  Payload Information
+                  载荷信息
               </Typography>
             </Paper>
             <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow hover>
-                    <TableCell >Payload Info</TableCell>
-                    <TableCell>Value</TableCell>
+                    <TableCell >载荷信息</TableCell>
+                    <TableCell>值</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow hover>
-                        <TableCell>Payload Type</TableCell>
+                        <TableCell>载荷类型</TableCell>
                         <TableCell>{data.callback_by_pk.payload.payloadtype.name}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Selected OS</TableCell>
+                        <TableCell>选择的操作系统</TableCell>
                         <TableCell>{data.callback_by_pk.payload.os}</TableCell>
                     </TableRow>
                     <TableRow hover>
@@ -379,22 +379,22 @@ export function DetailedCallbackTable(props){
                         ) : null }
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Creation Time</TableCell>
+                        <TableCell>创建时间</TableCell>
                         <TableCell>{toLocalTime(data.callback_by_pk.payload.creation_time, me.user.view_utc_time)}</TableCell>
                     </TableRow>
                     { data.callback_by_pk.payload.filemetum ? (
                         <TableRow key={'filename_text'} hover>
-                            <TableCell>Filename</TableCell>
+                            <TableCell>文件名</TableCell>
                             <TableCell>{b64DecodeUnicode(data.callback_by_pk.payload.filemetum.filename_text)}</TableCell>
                         </TableRow>
                     ) : null }
                     <TableRow hover>
-                        <TableCell>Download URL</TableCell>
+                        <TableCell>下载链接</TableCell>
                         <TableCell style={{display: "flex", alignItems: "center"}}>
                             <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" href={"/direct/download/" + data.callback_by_pk.payload.filemetum.agent_file_id}>
                                 {window.location.origin + "/direct/download/" + data.callback_by_pk.payload.filemetum.agent_file_id}
                             </Link>
-                            <MythicStyledTooltip title={"Host Payload Through C2"} >
+                            <MythicStyledTooltip title={"通过C2托管载荷"} >
                                 <PublicIcon color={"info"} style={{marginLeft: "20px", cursor: "pointer"}} onClick={()=>{setOpenHostDialog(true);}}  />
                             </MythicStyledTooltip>
                             {openHostDialog &&
@@ -416,11 +416,11 @@ export function DetailedCallbackTable(props){
                         <TableCell>{data.callback_by_pk.payload.filemetum.md5}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Created By</TableCell>
+                        <TableCell>创建者</TableCell>
                         <TableCell>{data.callback_by_pk.payload?.operator?.username}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>New Callbacks Allowed?</TableCell>
+                        <TableCell>允许新回调？</TableCell>
                         <TableCell>
                             <Switch
                                 checked={payloadCallbackAllowed}
@@ -434,7 +434,7 @@ export function DetailedCallbackTable(props){
                     {data.callback_by_pk.payload?.eventstepinstance &&
                         <>
                             <TableRow hover>
-                                <TableCell>Generated via Eventing</TableCell>
+                                <TableCell>通过事件生成</TableCell>
                                 <TableCell>
                                     <Link color="textPrimary" underline="always"
                                           href={"/new/eventing?eventgroup=" +
@@ -453,14 +453,14 @@ export function DetailedCallbackTable(props){
               </Table>
               <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                 <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                    Build Parameters
+                    构建参数
                 </Typography>
               </Paper>
             <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{width: "50%"}}>Parameter</TableCell>
-                    <TableCell>Value</TableCell>
+                    <TableCell style={{width: "50%"}}>参数</TableCell>
+                    <TableCell>内容</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody style={{whiteSpace: "pre-line"}}>
@@ -479,10 +479,10 @@ export function DetailedCallbackTable(props){
                                 )
                               }
                                   {cmd.enc_key === null ? null : (<React.Fragment>
-                                    <br/><b>Encryption Key: </b> {cmd.enc_key}
+                                    <br/><b>加密密钥: </b> {cmd.enc_key}
                                   </React.Fragment>) }
                                 {cmd.dec_key === null ? null : (<React.Fragment>
-                                    <br/><b>Decryption Key: </b> {cmd.dec_key}
+                                    <br/><b>解密密钥: </b> {cmd.dec_key}
                                 </React.Fragment>) }
                             </TableCell>
                         </TableRow>
@@ -493,15 +493,15 @@ export function DetailedCallbackTable(props){
               </Table>
               <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                 <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                    Build Steps
+                    构建步骤
                 </Typography>
               </Paper>
               <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{width: "30%"}}>Name</TableCell>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Status</TableCell>
+                    <TableCell style={{width: "30%"}}>名称</TableCell>
+                    <TableCell>描述</TableCell>
+                    <TableCell>状态</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody style={{whiteSpace: "pre-line"}}>
@@ -531,8 +531,8 @@ export function DetailedCallbackTable(props){
                         <Table size="small" aria-label="details" style={{"overflowWrap": "break-word"}}>
                             <TableHead>
                               <TableRow>
-                                <TableCell style={{width: "50%"}}>Parameter</TableCell>
-                                <TableCell>Value</TableCell>
+                                <TableCell style={{width: "50%"}}>参数</TableCell>
+                                <TableCell>内容</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody style={{whiteSpace: "pre-line"}}>
@@ -543,10 +543,10 @@ export function DetailedCallbackTable(props){
                                         <TableCell>
                                             <ParseForDisplay cmd={cmd} />
                                             {cmd.enc_key === null ? null : (<React.Fragment>
-                                                <br/><b>Encryption Key: </b> {cmd.enc_key}
+                                                <br/><b>加密密钥: </b> {cmd.enc_key}
                                               </React.Fragment>) }
                                             {cmd.dec_key === null ? null : (<React.Fragment>
-                                                <br/><b>Decryption Key: </b> {cmd.dec_key}
+                                                <br/><b>解密密钥: </b> {cmd.dec_key}
                                             </React.Fragment>) }
                                         </TableCell>
                                     </TableRow>
@@ -558,19 +558,18 @@ export function DetailedCallbackTable(props){
                 ))}
             <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
               <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                  Loaded Commands
-                  
+                  加载的命令
               </Typography>
-              <Button style={{float: "right"}} variant="contained" size="small" onClick={()=>{setOpenAddRemoveCommandsDialog(true)}} >Add/Remove Commands</Button>
+              <Button style={{float: "right"}} variant="contained" size="small" onClick={()=>{setOpenAddRemoveCommandsDialog(true)}} >添加/移除命令</Button>
             </Paper>
             <Table size="small" aria-label="details" style={{"overflowWrap": "break-word"}}>
             <TableHead>
               <TableRow>
-                <TableCell style={{width: "40px"}}>Payload</TableCell>
-                <TableCell>Command Name</TableCell>
-                <TableCell>Mythic Version</TableCell>
-                <TableCell>Loaded Version</TableCell>
-                <TableCell style={{width: "5rem"}}>Documentation</TableCell>
+                <TableCell style={{width: "40px"}}>载荷</TableCell>
+                <TableCell>命令名称</TableCell>
+                <TableCell>Mythic 版本</TableCell>
+                <TableCell>已加载版本</TableCell>
+                <TableCell style={{width: "5rem"}}>文档</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -611,9 +610,9 @@ export function DetailedCallbackTable(props){
                     >
                         <DialogContent>
                           {addProgress === addTotal.current ? (
-                            "Adding Commands - Complete!"
+                            "添加命令 - 完成！"
                           ) : (
-                            "Adding Commands..."
+                            "添加命令中..."
                           )}
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ width: '100%', mr: 1 }}>
@@ -622,9 +621,9 @@ export function DetailedCallbackTable(props){
                               <Typography  style={{width: "5rem"}} variant="body2" color="text.secondary">{addProgress} / {addTotal.current} </Typography>
                             </Box>
                           {removeProgress === removeTotal.current ? (
-                            "Removing Commands - Complete!"
+                            "移除命令 - 完成！"
                           ) : (
-                            "Removing Commands..."
+                            "移除命令中..."
                           )}
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Box sx={{ width: '100%', mr: 1 }}>
@@ -641,10 +640,9 @@ export function DetailedCallbackTable(props){
           </DialogContent>
           <DialogActions>
             <Button onClick={props.onClose} variant="contained" color="primary">
-              Close
+              关闭
             </Button>
         </DialogActions>
         </React.Fragment>
         )
 }
-

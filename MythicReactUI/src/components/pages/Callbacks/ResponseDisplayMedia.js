@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {Typography, Link} from '@mui/material';
 import { Button, IconButton } from '@mui/material';
@@ -114,7 +115,7 @@ export const ResponseDisplayMedia = ({media, expand, task}) =>{
                 chunks_received: data.filemeta[0].chunks_received
             })
         } else {
-            snackActions.warning("failed to find file specified")
+            snackActions.warning("未能找到指定文件")
         }
     }
     const fetchFileMetaData = useMythicLazyQuery(fileMetaQuery, {
@@ -144,11 +145,11 @@ export const ResponseDisplayMedia = ({media, expand, task}) =>{
                     scrollButtons='auto'
                     style={{maxWidth: '100%', width: '100%'}}
                     aria-label='scrollable auto tabs example'>
-                    <Tab className={value === 0 ? "selectedCallback": ""} label={"Preview"}></Tab>
-                    <Tab className={value === 1 ? "selectedCallback": ""} label={"Text"}></Tab>
-                    <Tab className={value === 2 ? "selectedCallback": ""} label={"Hex"}></Tab>
-                    <Tab className={value === 3 ? "selectedCallback": ""} label={"Database"}></Tab>
-                    <MythicStyledTooltip title={"Download the file"} tooltipStyle={{display: "inline-flex"}}>
+                    <Tab className={value === 0 ? "selectedCallback": ""} label={"预览"}></Tab>
+                    <Tab className={value === 1 ? "selectedCallback": ""} label={"文本"}></Tab>
+                    <Tab className={value === 2 ? "selectedCallback": ""} label={"十六进制"}></Tab>
+                    <Tab className={value === 3 ? "selectedCallback": ""} label={"数据库"}></Tab>
+                    <MythicStyledTooltip title={"下载文件"} tooltipStyle={{display: "inline-flex"}}>
                         <Button style={{}}  size={"small"} href={"/direct/download/" +  media.agent_file_id}
                                 download color={"success"}>
                             <DownloadIcon />
@@ -264,7 +265,7 @@ export const DisplayMedia = ({agent_file_id, filename, expand, task, fileMetaDat
     const [fileData, setFileData] = React.useState({
         display: false,
         display_type: undefined,
-        message: "Loading...",
+        message: "加载中...",
         filename: filename,
         agent_file_id: ""
     })
@@ -276,7 +277,7 @@ export const DisplayMedia = ({agent_file_id, filename, expand, task, fileMetaDat
                 display_type: display_type,
                 filename: filename,
                 agent_file_id: agent_file_id,
-                message: "File not found"
+                message: "文件未找到"
             });
         }else{
             setFileData({
@@ -284,12 +285,12 @@ export const DisplayMedia = ({agent_file_id, filename, expand, task, fileMetaDat
                 display_type: undefined,
                 filename: filename,
                 agent_file_id: "",
-                message: "Invalid file extension to render"
+                message: "文件扩展名不支持渲染"
             });
         }
     }, [agent_file_id, filename]);
     const scrollContent = (node, isAppearing) => {
-        // only auto-scroll if you issued the task
+        // 仅当您发出任务时自动滚动
         document.getElementById(`scrolltotaskbottom${task?.id}`)?.scrollIntoView({
             //behavior: "smooth",
             block: "end",
@@ -309,10 +310,10 @@ export const DisplayMedia = ({agent_file_id, filename, expand, task, fileMetaDat
             <>
                 <div style={{display: "flex", width: "100%", height: "100%", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
                     <Typography variant={"h4"} >
-                        {"Media Hidden by Default Due to User Settings"}
+                        {"根据用户设置，默认隐藏媒体内容"}
                     </Typography>
                     <Button variant={"contained"} color={"error"} onClick={() => {setShowMedia(!showMedia)}}>
-                        {"Show Media"}
+                        {"显示媒体"}
                     </Button>
                 </div>
             </>
@@ -325,7 +326,7 @@ export const DisplayMedia = ({agent_file_id, filename, expand, task, fileMetaDat
                     {fileData.message}
                 </Typography>
                 <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" href={"/direct/download/" + agent_file_id} >
-                    {"Download here"}
+                    {"此处下载"}
                 </Link>
             </div>
         )
@@ -377,12 +378,12 @@ const DisplayFileMetaData = ({fileMetaData}) => {
         <Table style={{marginLeft: "0px", width: "100%", tableLayout: "fixed"}}>
             <TableHead>
                 <TableRow>
-                    <MythicStyledTableCell style={{width: "7rem"}}>Size</MythicStyledTableCell>
-                    <MythicStyledTableCell>Host</MythicStyledTableCell>
-                    <MythicStyledTableCell>File</MythicStyledTableCell>
-                    <MythicStyledTableCell>Path</MythicStyledTableCell>
-                    <MythicStyledTableCell style={{width: "5rem"}}>Task</MythicStyledTableCell>
-                    <MythicStyledTableCell style={{}}>Tags</MythicStyledTableCell>
+                    <MythicStyledTableCell style={{width: "7rem"}}>大小</MythicStyledTableCell>
+                    <MythicStyledTableCell>主机</MythicStyledTableCell>
+                    <MythicStyledTableCell>文件</MythicStyledTableCell>
+                    <MythicStyledTableCell>路径</MythicStyledTableCell>
+                    <MythicStyledTableCell style={{width: "5rem"}}>任务</MythicStyledTableCell>
+                    <MythicStyledTableCell style={{}}>标签</MythicStyledTableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -400,7 +401,7 @@ const DisplayFileMetaData = ({fileMetaData}) => {
                                     {fileMetaData.total_chunks}
                                 </Typography>
                                  <Typography style={{display: "inline-block", whiteSpace: "pre"}}>
-                                     {" Chunks"}
+                                     {" 块"}
                                  </Typography>
                             </>
 
@@ -448,18 +449,18 @@ const DisplayText = ({agent_file_id, expand, filename, preview, fileMetaData}) =
     const currentContentRef = React.useRef();
     React.useEffect( () => {
         if(preview){
-            // get first 512KB
+            // 获取前512KB
             previewFileString({variables: {file_id: agent_file_id}})
         }else{
-            // get entire file
+            // 获取整个文件
             fetch('/direct/view/' + agent_file_id).then((response) => {
                 if(response.status !== 200){
-                    snackActions.warning("Failed to fetch contents from Mythic");
+                    snackActions.warning("从Mythic获取内容失败");
                     return;
                 }
                 response.text().then(data => {
                     if(data.length > MaxRenderSize){
-                        snackActions.warning("File too large (> 2MB), truncating the render");
+                        snackActions.warning("文件过大（> 2MB），渲染将被截断");
                         setLimitedPreviewWarning(true);
                         setContent(data.substring(0, MaxRenderSize));
                         return;
@@ -471,16 +472,16 @@ const DisplayText = ({agent_file_id, expand, filename, preview, fileMetaData}) =
                         setContent(data.substring(0, MaxRenderSize));
                     }
                 }).catch(error => {
-                    snackActions.warning("Error getting contents from server: " + error.toString());
-                    console.log("Error trying to get json response", error, response);
+                    snackActions.warning("从服务器获取内容时出错：" + error.toString());
+                    console.log("尝试获取JSON响应时出错", error, response);
                 });
             }).catch(error => {
                 if(error.toString() === "TypeError: Failed to fetch"){
-                    snackActions.warning("Please refresh and accept the SSL connection error");
+                    snackActions.warning("请刷新页面并接受SSL连接错误");
                 } else {
-                    snackActions.warning("Error talking to server: " + error.toString());
+                    snackActions.warning("与服务器通信时出错：" + error.toString());
                 }
-                console.log("There was an error!", error);
+                console.log("出现错误！", error);
             });
         }
         if(filename){
@@ -509,7 +510,7 @@ const DisplayText = ({agent_file_id, expand, filename, preview, fileMetaData}) =
             setContent(tmp);
             setMode("json");
         }catch(error){
-            snackActions.warning("Failed to reformat as JSON")
+            snackActions.warning("重新格式化为JSON失败")
         }
     }
     return (
@@ -518,7 +519,7 @@ const DisplayText = ({agent_file_id, expand, filename, preview, fileMetaData}) =
                 <FormControl sx={{ display: "inline-block", marginLeft: "10px" }} size="small" color={"secondary"}>
                     <TextField
                         select
-                        label={"Syntax"}
+                        label={"语法"}
                         margin={"dense"}
                         size={"small"}
                         style={{display: "inline-block", width: "100%",}}
@@ -533,22 +534,22 @@ const DisplayText = ({agent_file_id, expand, filename, preview, fileMetaData}) =
                         }
                     </TextField>
                 </FormControl>
-                <MythicStyledTooltip title={wrapText ?  "Unwrap Text" : "Wrap Text"} >
+                <MythicStyledTooltip title={wrapText ?  "取消换行" : "换行"} >
                     <IconButton onClick={toggleWrapText} style={{}}>
                         <WrapTextIcon color={wrapText ? "success" : "secondary"}
                                       style={{cursor: "pointer"}}
                         />
                     </IconButton>
                 </MythicStyledTooltip>
-                <MythicStyledTooltip title={"Auto format JSON"} >
+                <MythicStyledTooltip title={"自动格式化JSON"} >
                     <IconButton onClick={formatJSON} style={{}}>
                         <CodeIcon color={"info"} style={{cursor: "pointer"}} />
                     </IconButton>
                 </MythicStyledTooltip>
                 {limitedPreviewWarning &&
                     <>
-                        <MythicStyledTooltip title={preview ? "Only first 512KB of file is shown" :
-                            "Only first 2MB of file is shown"}>
+                        <MythicStyledTooltip title={preview ? "仅显示文件的前512KB" :
+                            "仅显示文件的前2MB"}>
                             <WarningOutlinedIcon style={{marginLeft: "5px"}} color={"warning"} />
                         </MythicStyledTooltip>
                     </>
@@ -686,7 +687,7 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
                 const result = sql.exec(query);
                 //console.log(result);
                 if(result.length > 0){
-                    setResults([...results, {name: `Query: ${queryCountRef.current}`, query: query, results: result[0]}]);
+                    setResults([...results, {name: `查询: ${queryCountRef.current}`, query: query, results: result[0]}]);
                     setSelectedTab(queryCountRef.current - 1);
                     queryCountRef.current += 1;
                 }
@@ -696,7 +697,7 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
             }
         } else {
             console.log(sql);
-            snackActions.error("Failed to load as SQL Database");
+            snackActions.error("作为SQL数据库加载失败");
         }
     }
     const onChangeTab = (_, v) => {
@@ -707,9 +708,9 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
     const onCopyToClipboard = (data) => {
         let result = copyStringToClipboard(data);
         if(result){
-            snackActions.success("Copied text!");
+            snackActions.success("已复制文本！");
         }else{
-            snackActions.error("Failed to copy text");
+            snackActions.error("复制文本失败");
         }
     }
     const onSaveOutputCSV = (result) => {
@@ -762,7 +763,7 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
             fetch('/direct/view/' + agent_file_id).then((response) => {
                 if(response.status !== 200){
                     setLoading(false);
-                    snackActions.warning("Failed to fetch contents from Mythic");
+                    snackActions.warning("从Mythic获取内容失败");
                     return;
                 }
                 response.arrayBuffer().then( data => {
@@ -773,24 +774,24 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
                     setLoading(false);
                 }).catch(error => {
                         setLoading(false);
-                        snackActions.warning("Error getting contents from server: " + error.toString());
-                        console.log("Error trying to get json response", error, response);
+                        snackActions.warning("从服务器获取内容时出错：" + error.toString());
+                        console.log("尝试获取JSON响应时出错", error, response);
                     });
             }).catch(error => {
                 if(error.toString() === "TypeError: Failed to fetch"){
-                    snackActions.warning("Please refresh and accept the SSL connection error");
+                    snackActions.warning("请刷新页面并接受SSL连接错误");
                 } else {
-                    snackActions.warning("Error talking to server: " + error.toString());
+                    snackActions.warning("与服务器通信时出错：" + error.toString());
                 }
                 setLoading(false);
-                console.log("There was an error!", error);
+                console.log("出现错误！", error);
             });
         }
         initialize();
     }, []);
     React.useEffect(() => {
         const handleKeyDown = (e) => {
-            // Execute query on Ctrl+Enter or Cmd+Enter when in the SQL editor
+            // 在SQL编辑器中按Shift+Enter时执行查询
             if (e.shiftKey && e.key === 'Enter') {
                 onSubmitQuery(e);
             }
@@ -826,7 +827,7 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
                         useWorker: false,
                         showInvisibles: false,
                     }}/>
-                <Button color={"success"} variant={"contained"} onClick={onSubmitQuery} >Query</Button>
+                <Button color={"success"} variant={"contained"} onClick={onSubmitQuery} >查询</Button>
             </div>
                 <TabContext style={{width: "100%", height: "100%", borderBottom: "1px solid grey"}} value={selectedTab}>
                     <TabList onChange={onChangeTab} indicatorColor='secondary'
@@ -855,14 +856,14 @@ const DisplayDatabase = ({agent_file_id, expand, fileMetaData}) => {
                                 <Paper key={"overflow" + index} style={{display: selectedTab === index ? "flex" : "none",
                                     justifyContent: "center", hidden: selectedTab !== index}}>
                                     <WarningOutlinedIcon color={"warning"}></WarningOutlinedIcon>
-                                    {"Output is truncated to first " + MAX_ROWS + " rows"}
+                                    {"输出被截断为前 " + MAX_ROWS + " 行"}
                                     <WarningOutlinedIcon color={"warning"}></WarningOutlinedIcon>
                                 </Paper>
                             }
                             <div key={"output" + index} style={{display: selectedTab === index ? "flex" : "none", alignItems: "center"}}>
-                                {"Save Output As: "}
+                                {"保存输出为："}
                                 <Button variant={"outlined"} style={{marginLeft: "10px"}} onClick={() => onSaveOutputCSV(result)} >CSV</Button>
-                                <Button variant={"outlined"} style={{marginLeft: "10px"}} onClick={() => onSaveOutputPrettyPrint(result)} >Pretty Print</Button>
+                                <Button variant={"outlined"} style={{marginLeft: "10px"}} onClick={() => onSaveOutputPrettyPrint(result)} >美观打印</Button>
                             </div>
                             <TabPanel value={index} key={"tabpanel" + index}
                                       style={{padding: 0, height: "100%", width: "100%", overflow: "auto", position: "relative",

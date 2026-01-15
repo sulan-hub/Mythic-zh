@@ -19,47 +19,50 @@ export function CallbacksTabs({ onCloseTab, openTabs, onDragTab, onDragEnd, clic
 
     const mountedRef = React.useRef(true);
     const [value, setValue] = React.useState(0);
+    
+    // 处理标签页切换
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        //console.log("clickedTab", newValue, openTabs[newValue]);
         if(openTabs[newValue] === undefined){return}
         localStorage.setItem('clickedTab', openTabs[newValue].tabID);
         setClickedTabId(openTabs[newValue].tabID);
     };
+    
     React.useEffect( () => {
         return() => {
             mountedRef.current = false;
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+    
+    // 本地关闭标签页处理
     const onCloseTabLocal = ({ tabID, index }) => {
         if (index > 0) {
             setClickedTabId(openTabs[index-1].tabID);
             setValue(index - 1);
-            //console.log("closing index", index)
         } else if(openTabs.length > 0) {
-            //console.log("closing index length > 0", index)
             setClickedTabId(openTabs[0].tabID);
             setValue(0);
         }
         onCloseTab({ tabID, index });
     };
+    
+    // 同步选中标签页状态
     useEffect(() => {
-        //console.log(clickedTabId);
-        //console.log(clickedTabId, openTabs);
         for (let i = 0; i < openTabs.length; i++) {
-            //console.log("openTabs[i]", i, openTabs[i]);
             if (openTabs[i].tabID === clickedTabId) {
-                //console.log("setting value", i);
                 setValue(i);
                 return;
             }
         }
     }, [clickedTabId, openTabs]);
+    
     const [collapseTaskRequest, setCollapseTaskRequest] = React.useState({})
+    
+    // 修改交互标签页的上下文菜单选项（添加折叠所有任务选项）
     const modifiedInteractContextMenuOptions = [...contextMenuOptions,
         {
-            name: 'Collapse All Tasks',
+            name: '折叠所有任务',
             click: ({event, index}) => {
                 setCollapseTaskRequest((prevState) => {
                     if(prevState[index] !== undefined){
@@ -74,14 +77,22 @@ export function CallbacksTabs({ onCloseTab, openTabs, onDragTab, onDragEnd, clic
         },]
 
     return (
-        <div style={{width: "100%", maxWidth: "100%", display: 'flex', flexDirection: 'column', flexGrow: 1, height: "100%" }}>
+        <div style={{
+            width: "100%", 
+            maxWidth: "100%", 
+            display: 'flex', 
+            flexDirection: 'column', 
+            flexGrow: 1, 
+            height: "100%" 
+        }}>
             <AppBar color='default' position={"static"} style={{backgroundColor: "transparent"}} >
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="callback-tabs-list" direction={"horizontal"}>
                         {(provided) => (
                             <>
                                 <Tabs
-                                    ref={provided.innerRef} {...provided.droppableProps}
+                                    ref={provided.innerRef} 
+                                    {...provided.droppableProps}
                                     value={value}
                                     onChange={handleChange}
                                     indicatorColor='primary'
@@ -90,7 +101,8 @@ export function CallbacksTabs({ onCloseTab, openTabs, onDragTab, onDragEnd, clic
                                     scrollButtons={true}
                                     style={{ }}
                                     TabIndicatorProps={{style: {display: "none"}}}
-                                    aria-label='scrollable tabs'>
+                                    aria-label='可滚动标签页'
+                                >
                                     {openTabs.map((tab, index) => {
                                         switch (tab.tabType) {
                                             case 'interact':
@@ -190,12 +202,12 @@ export function CallbacksTabs({ onCloseTab, openTabs, onDragTab, onDragEnd, clic
                                     {provided.placeholder}
                                 </Tabs>
                             </>
-
                         )}
                     </Droppable>
                 </DragDropContext>
             </AppBar>
 
+            {/* 标签页内容面板 */}
             {openTabs.map((tab, index) => {
                 switch (tab.tabType) {
                     case 'interact':

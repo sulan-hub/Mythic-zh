@@ -11,7 +11,7 @@ export const ResponseDisplayScreenshot = (props) =>{
     setOpenScreenshot(true);
   }
   const scrollContent = (node, isAppearing) => {
-        // only auto-scroll if you issued the task
+        // 仅在你发布任务时自动滚动
         document.getElementById(`scrolltotaskbottom${props.task.id}`)?.scrollIntoView({
             //behavior: "smooth",
             block: "end",
@@ -32,7 +32,7 @@ export const ResponseDisplayScreenshot = (props) =>{
       <pre style={{display: "inline-block"}}>
         {props?.plaintext || ""}
       </pre>
-      <MythicStyledTooltip title={props?.hoverText || "View Screenshot (s)"}  >
+      <MythicStyledTooltip title={props?.hoverText || "查看截图"}  >
         <Button color="primary" variant={props.variant ? props.variant : "contained"} onClick={clickOpenScreenshot} style={{marginBottom: "10px"}}>{props.name}</Button>
       </MythicStyledTooltip>
     </>

@@ -50,9 +50,9 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
     const [setCallbackGroups] = useMutation(setMythicTreeGroups, {
       onCompleted: data => {
             if(data.update_callback.affected_rows > 0){
-                snackActions.success("Successfully updated callback groups.\nPlease close and reopen all process browser and file browser tabs.");
+                snackActions.success("成功更新回连分组。\n请关闭并重新打开所有进程浏览器和文件浏览器标签。");
             } else {
-                snackActions.error("Failed to update callback groups");
+                snackActions.error("更新回连分组失败");
             }
       },
       onError: error => {
@@ -72,9 +72,9 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
                     data.callback[i].mythictree_groups.forEach( (e) => otherGroupOptions.add(e) );
                 }
             }
-            otherGroupOptions.delete("Default")
+            otherGroupOptions.delete("默认")
             let otherGroupArray = Array.from(otherGroupOptions).sort();
-            otherGroupArray.unshift("Default");
+            otherGroupArray.unshift("默认");
             setOtherGroups(otherGroupArray);
             if( otherGroupArray.length > 0 ){
                 setSelectedGroupDropdown(otherGroupArray[0]);
@@ -112,14 +112,14 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
     return (
         <React.Fragment>
           <DialogTitle id="form-dialog-title" style={{display: "flex", justifyContent: "space-between"}}>
-              Updating Callback Groups for Callback {callbackDisplayID.current}
-              <MythicStyledTooltip title="View all groups" >
+              更新回连 {callbackDisplayID.current} 的分组
+              <MythicStyledTooltip title="查看全部分组" >
                   <IconButton size="small" onClick={()=>{setOpenViewAllCallbacksDialog(true);}} style={{color: theme.palette.info.main}} variant="contained"><LayersIcon/></IconButton>
               </MythicStyledTooltip>
           </DialogTitle>
             <div style={{paddingLeft: "30px"}}>
-                Group information from this callback and others when looking at the FileBrowser and ProcessBrowser trees. <br/>
-                <b>Note:</b> Having <b>no</b> group entries will hide all information from this callback from your FileBrowser and ProcessBrowser views.
+                此回连和其他回连在查看文件浏览器和进程浏览器树时的分组信息。<br/>
+                <b>注意：</b>如果<b>没有</b>分组条目，将隐藏此回连在文件浏览器和进程浏览器视图中的所有信息。
             </div>
           <DialogContent dividers={true}>
             <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
@@ -128,7 +128,7 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
                 <TableBody>
                     {otherGroups.length > 0 &&
                         <TableRow>
-                            <MythicStyledTableCell style={{width: "20%"}}>Add an existing group to this callback</MythicStyledTableCell>
+                            <MythicStyledTableCell style={{width: "20%"}}>将现有分组添加到此回连</MythicStyledTableCell>
                             <MythicStyledTableCell>
                                 <FormControl >
                                     <Select
@@ -170,10 +170,10 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
           </DialogContent>
           <DialogActions>
             <Button onClick={props.onClose} variant="contained" color="primary">
-              Close
+              关闭
             </Button>
           <Button onClick={submit} variant="contained" color={"success"}>
-              Update
+              更新
           </Button>
         </DialogActions>
             {openViewAllCallbacksDialog &&
@@ -190,4 +190,3 @@ export function ModifyCallbackMythicTreeGroupsDialog(props){
         </React.Fragment>
         )
 }
-
