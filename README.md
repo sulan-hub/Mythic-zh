@@ -21,7 +21,7 @@
 
 ## 汉化进度
 ![汉化进度截图](https://github.com/sulan-hub/Mythic-zh/blob/master/images/162102.png)
-![汉化进度](https://geps.dev/progress/3) **3% 完成**
+![汉化进度](https://geps.dev/progress/15) **15% 完成**
 
 # Mythic
 一个跨平台的、基于漏洞利用后的红队框架，使用 GoLang、Docker、Docker-Compose 和网页浏览器界面构建。它为操作人员、管理人员和报告人员提供协作性强且用户友好的界面，贯穿整个红队演练过程。
