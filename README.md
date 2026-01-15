@@ -2,7 +2,6 @@
 <a href="https://github.com/its-a-feature/Mythic/pulse">
         <img src="https://img.shields.io/github/commit-activity/m/its-a-feature/Mythic/master" 
           alt="Activity"/></a>
-<img src="https://img.shields.io/github/v/tag/its-a-feature/Mythic?include_prereleases&label=Latest GitHub Tag"/>
 <img src="https://img.shields.io/github/commits-since/its-a-feature/Mythic/latest?include_prereleases&color=orange" 
   alt="commits since last release"/>
 <a href="https://twitter.com/its_a_feature_">
