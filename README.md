@@ -101,9 +101,9 @@ Mythic 对其所有组件都使用 Docker 和 Docker-compose，这使得 Mythic 
   <img src="https://img.shields.io/github/v/tag/MythicMeta/MythicContainerPypi?include_prereleases&label=Latest GitHub Tag&color=orange" alt="latest tags" />
 </p>
 
-The `mythic-container` PyPi package source code is available on [MythicMeta](https://github.com/MythicMeta/MythicContainerPyPi) and is automatically installed on all of the `mythic_python_*` Docker images.
+`mythic-container` PyPi 包的源代码可以在 [MythicMeta](https://github.com/MythicMeta/MythicContainerPyPi) 上获取，并且会自动安装在所有 `mythic_python_*` Docker 镜像中。
 
-This PyPi package is responsible for connecting to RabbitMQ, syncing your data to Mythic, and responding to things like Tasking, Webhooks, and configuration updates.
+这个 PyPi 包负责连接 RabbitMQ、将你的数据同步到 Mythic，以及响应任务、Webhooks 和配置更新等事件。
 
 ### github.com/MythicMeta/MythicContainer
 <p align="left">
@@ -111,9 +111,9 @@ This PyPi package is responsible for connecting to RabbitMQ, syncing your data t
   <img src="https://img.shields.io/github/v/tag/MythicMeta/MythicContainer?label=Latest%20GitHub%20Tag&color=green" alt="MythicContainer latest stable version" />
 </p>
 
-The `github.com/MythicMeta/MythicContainer` Golang package source code is available on [MythicMeta](https://github.com/MythicMeta/MythicContainer).
+`github.com/MythicMeta/MythicContainer` Golang 包的源代码可在 [MythicMeta](https://github.com/MythicMeta/MythicContainer) 获取。
 
-This Golang package is responsible for connecting to RabbitMQ, syncing your data to Mythic, and responding to things like Tasking, Webhooks, and configuration updates.
+这个 Golang 包负责连接到 RabbitMQ，将你的数据同步到 Mythic，并处理任务、Webhooks 和配置更新等内容。
 
 ## Mythic Scripting
 <p align="left">
@@ -124,39 +124,39 @@ This Golang package is responsible for connecting to RabbitMQ, syncing your data
 </p>
 
 
-* Scripting source code (https://github.com/MythicMeta/Mythic_Scripting)
+* 脚本源代码 (https://github.com/MythicMeta/Mythic_Scripting)
 
-## Documentation
+## 文档
 
-All documentation for the Mythic project is being maintained on the [docs.mythic-c2.net](https://docs.mythic-c2.net) website.
+Mythic 项目的所有文档都在 [docs.mythic-c2.net](https://docs.mythic-c2.net) 网站上维护。
 
 
-## Contributions
+## 贡献
 
-A bunch of people have suffered through bug reports, changes, and fixes to help make this project better. Thank you!
+许多人经历了错误报告、修改和修复的过程，以帮助改进这个项目。谢谢大家！
 
-The following people have contributed a lot to the project. As you see their handles throughout the project on Payload Types and C2 Profiles, be sure to reach out to them for help and contributions:
+以下人员对项目做出了大量贡献。在项目中的有效载荷类型（Payload Types）和 C2 配置文件（C2 Profiles）中，你可以看到他们的昵称，遇到问题或想贡献时，请务必联系他们：
 - [@djhohnstein](https://twitter.com/djhohnstein)
 - [@xorrior](https://twitter.com/xorrior)
 - [@Airzero24](https://twitter.com/airzero24)
 - [@SpecterOps](https://twitter.com/specterops)
 
-## Sponsors
+## 赞助商
 
 - [w33ts](https://github.com/w33ts) / [@w33t_io](https://twitter.com/w33t_io)
 - [DonnieMarco](https://github.com/DonnieMarco)
 
-## Liability
+## 免责声明
 
-This is an open source project meant to be used with authorization to assess the security posture and for research purposes.
+这是一个开源项目，旨在在获得授权的情况下用于评估安全状况和研究目的。
 
-## Historic References
-* Check out a [series of YouTube videos](https://www.youtube.com/playlist?list=PLHVFedjbv6sNLB1QqnGJxRBMukPRGYa-H) showing how Mythic looks/works and highlighting a few key features
-* Check out the [blog post](https://posts.specterops.io/a-change-of-mythic-proportions-21debeb03617) on the rebranding.
-* BSides Seattle 2019 Slides: [Ready Player 2: Multiplayer Red Teaming against macOS](https://www.slideshare.net/CodyThomas6/ready-player-2-multiplayer-red-teaming-against-macos)
-* BSides Seattle 2019 Demo Videos: [Available on my Youtube](https://www.youtube.com/playlist?list=PLHVFedjbv6sOz8OGuLdomdkr6-7VdMRQ9)
-* Objective By the Sea 2019 talk on JXA: https://objectivebythesea.com/v2/talks/OBTS_v2_Thomas.pdf
-* Objective By the sea 2019 Video: https://www.youtube.com/watch?v=E-QEsGsq3uI&list=PLliknDIoYszvTDaWyTh6SYiTccmwOsws8&index=17
+## 历史参考
+* 查看一系列 [YouTube 视频](https://www.youtube.com/playlist?list=PLHVFedjbv6sNLB1QqnGJxRBMukPRGYa-H)，展示 Mythic 的外观/功能并突出几个关键特性
+* 查看关于品牌重塑的 [博客文章](https://posts.specterops.io/a-change-of-mythic-proportions-21debeb03617)
+* BSides Seattle 2019 幻灯片：[Ready Player 2: 针对 macOS 的多人红队演练](https://www.slideshare.net/CodyThomas6/ready-player-2-multiplayer-red-teaming-against-macos)
+* BSides Seattle 2019 演示视频：[可在我的 YouTube 上观看](https://www.youtube.com/playlist?list=PLHVFedjbv6sOz8OGuLdomdkr6-7VdMRQ9)
+* Objective By the Sea 2019 关于 JXA 的讲座: https://objectivebythesea.com/v2/talks/OBTS_v2_Thomas.pdf
+* Objective By the Sea 2019 视频: https://www.youtube.com/watch?v=E-QEsGsq3uI&list=PLliknDIoYszvTDaWyTh6SYiTccmwOsws8&index=17
 
 
 ---
