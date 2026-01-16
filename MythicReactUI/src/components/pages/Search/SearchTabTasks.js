@@ -141,7 +141,7 @@ const getOperators = gql`
 
 export function SearchTabTasksLabel(props){
     return (
-        <MythicSearchTabLabel label={"Tasks"} iconComponent={<AssignmentIcon />} {...props}/>
+        <MythicSearchTabLabel label={"命令"} iconComponent={<AssignmentIcon />} {...props}/>
     )
 }
 

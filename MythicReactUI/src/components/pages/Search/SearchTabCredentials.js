@@ -133,7 +133,7 @@ mutation createCredential($comment: String!, $account: String!, $realm: String!,
 
 export function SearchTabCredentialsLabel(props){
     return (
-        <MythicSearchTabLabel label={"Credentials"} iconComponent={<VpnKeyIcon />} {...props}/>
+        <MythicSearchTabLabel label={"凭证"} iconComponent={<VpnKeyIcon />} {...props}/>
     )
 }
 

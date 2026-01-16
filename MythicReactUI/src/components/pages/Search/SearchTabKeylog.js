@@ -118,7 +118,7 @@ query hostQuery($operation_id: Int!, $host: String!, $offset: Int!, $fetchLimit:
 
 export function SearchTabKeylogsLabel(props){
     return (
-        <MythicSearchTabLabel label={"Keylogs"} iconComponent={<KeyboardIcon />} {...props}/>
+        <MythicSearchTabLabel label={"按键记录"} iconComponent={<KeyboardIcon />} {...props}/>
     )
 }
 

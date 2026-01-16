@@ -56,7 +56,7 @@ export function PayloadFilenameDialog(props) {
 
   return (
     <React.Fragment>
-        <MythicModifyStringDialog title={"Edit Payload Filename"}
+        <MythicModifyStringDialog title={"编辑命名载荷名称"}
                                   maxRows={2}
                                   onClose={props.onClose}
                                   value={description}

@@ -42,7 +42,7 @@ export function PayloadConfigCheckDialog(props) {
     
   return (
       <React.Fragment>
-          <DialogTitle id="form-dialog-title">Payload Config Check</DialogTitle>
+          <DialogTitle id="form-dialog-title">载荷配置检查</DialogTitle>
           <div style={{height: "calc(80vh)", overflowY: "auto"}}>
               <ResponseDisplayPlaintext
                   initial_mode={"html"}
@@ -54,7 +54,7 @@ export function PayloadConfigCheckDialog(props) {
           </div>
           <DialogActions>
               <Button variant="contained" onClick={props.onClose} color="primary">
-                  Close
+                  关闭
               </Button>
           </DialogActions>
       </React.Fragment>

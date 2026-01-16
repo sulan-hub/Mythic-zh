@@ -159,7 +159,7 @@ query pidQuery($operation_id: Int!, $callbackPID: Int!, $offset: Int!, $fetchLim
 
 export function SearchTabCallbacksLabel(props){
     return (
-        <MythicSearchTabLabel label={"Callbacks"} iconComponent={<PhoneCallbackIcon />} {...props}/>
+        <MythicSearchTabLabel label={"会话"} iconComponent={<PhoneCallbackIcon />} {...props}/>
     )
 }
 

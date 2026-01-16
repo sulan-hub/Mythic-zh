@@ -91,7 +91,7 @@ const fetchLimit = 100;
 
 export function SearchTabProcessesLabel(props){
     return (
-        <MythicSearchTabLabel label={"Processes"} iconComponent={<AccountTreeIcon />} {...props}/>
+        <MythicSearchTabLabel label={"流程"} iconComponent={<AccountTreeIcon />} {...props}/>
     )
 }
 

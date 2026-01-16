@@ -101,7 +101,7 @@ query getC2ProfilesAndPayloadTypes{
 
 export function SearchTabPayloadsLabel(props) {
     return (
-        <MythicSearchTabLabel label={"Payloads"} iconComponent={
+        <MythicSearchTabLabel label={"载荷"} iconComponent={
             <FontAwesomeIcon size="lg" style={{marginTop: "4px", marginBottom: "5px"}} icon={faBiohazard} />
         } {...props}/>
     )

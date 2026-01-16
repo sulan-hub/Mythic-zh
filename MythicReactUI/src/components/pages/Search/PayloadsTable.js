@@ -28,7 +28,7 @@ export function SearchPayloadsTable({payloads, setPayloads, showDeleted, me}){
                     }
                 });
                 setPayloads(updated);
-                snackActions.success("Successfully deleted");
+                snackActions.success("删除成功");
             }else{
                 snackActions.error(data.updatePayload.error);
             }

@@ -163,7 +163,7 @@ export function OperationTableRow(props){
                         variant="contained">分析</Button>
                 </TableCell>
                 <TableCell>
-                    {props.id === me.user.current_operation_id ? ("Current Operation") : (
+                    {props.id === me.user.current_operation_id ? ("当前操作") : (
                       <React.Fragment>
                         <Button size="small" startIcon={<PlayArrowIcon/>} onClick={makeCurrentOperation} color="info" variant="contained">设为当前</Button>
                       </React.Fragment>

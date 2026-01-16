@@ -160,13 +160,13 @@ const GetPayloads = gql`
 export function DetailedPayloadTable(props){
     return (
         <React.Fragment>
-          <DialogTitle id="form-dialog-title">Payload Configuration</DialogTitle>
+          <DialogTitle id="form-dialog-title">载荷的配置</DialogTitle>
           <DialogContent dividers={true}>
            <DetailedPayloadInnerTable {...props} />
           </DialogContent>
           <DialogActions>
             <Button onClick={props.onClose} variant="contained" color="primary">
-              Close
+              关闭
             </Button>
         </DialogActions>
         </React.Fragment>
@@ -207,7 +207,7 @@ export function DetailedPayloadComparisonTable(props){
     return (
         <React.Fragment>
             <DialogTitle id="form-dialog-title">
-                Compare Payload Configurations
+                比较载荷配置
                 <Select
                     value={view}
                     onChange={handleViewChange}
@@ -298,7 +298,7 @@ export function DetailedPayloadComparisonTable(props){
             </DialogContent>
                 <DialogActions>
                     <Button onClick={props.onClose} variant="contained" color="primary">
-                        Close
+                        关闭
                     </Button>
                 </DialogActions>
         </React.Fragment>
@@ -548,23 +548,23 @@ function DetailedPayloadInnerTable(props){
       <React.Fragment>
             <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", }} variant={"elevation"}>
               <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                  Payload Information
+                  载荷信息
               </Typography>
             </Paper>
             <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow hover>
-                    <TableCell >Payload Info</TableCell>
-                    <TableCell>Value</TableCell>
+                    <TableCell >信息</TableCell>
+                    <TableCell>值</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow hover>
-                        <TableCell>Payload Type</TableCell>
+                        <TableCell>类型</TableCell>
                         <TableCell>{data.payload[0].payloadtype.name}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Selected OS</TableCell>
+                        <TableCell>操作系统</TableCell>
                         <TableCell>{data.payload[0].os}</TableCell>
                     </TableRow>
                     <TableRow hover>
@@ -572,19 +572,19 @@ function DetailedPayloadInnerTable(props){
                         <TableCell>{data.payload[0].uuid}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Creation Time</TableCell>
+                        <TableCell>创建时间</TableCell>
                         <TableCell>{toLocalTime(data.payload[0].creation_time, me?.user?.view_utc_time)}</TableCell>
                     </TableRow>
                     { data.payload[0].filemetum ? (
                         <TableRow key={'filename_text'} hover>
-                            <TableCell>Filename</TableCell>
+                            <TableCell>文件名</TableCell>
                             <TableCell>{b64DecodeUnicode(data.payload[0].filemetum.filename_text)}</TableCell>
                         </TableRow>
                         
                     ) : null }
 
                     <TableRow hover>
-                        <TableCell>Download URL</TableCell>
+                        <TableCell>下载 URL</TableCell>
                         <TableCell style={{display: "flex", alignItems: "center"}}>
                             <Link style={{wordBreak: "break-all"}} color="textPrimary" underline="always" href={"/direct/download/" + data.payload[0].filemetum.agent_file_id}>
                                 {window.location.origin + "/direct/download/" + data.payload[0].filemetum.agent_file_id}
@@ -603,7 +603,7 @@ function DetailedPayloadInnerTable(props){
                         </TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Agent File ID</TableCell>
+                        <TableCell>代理文件 ID</TableCell>
                         <TableCell>{data.payload[0].filemetum.agent_file_id}</TableCell>
                     </TableRow>
                     <TableRow hover>
@@ -615,17 +615,17 @@ function DetailedPayloadInnerTable(props){
                         <TableCell>{data.payload[0].filemetum.md5}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Size</TableCell>
+                        <TableCell>大小</TableCell>
                         <TableCell>
                             <TableRowSizeCell cellData={data.payload[0].filemetum.size} />
                         </TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>Created By</TableCell>
+                        <TableCell>创建者</TableCell>
                         <TableCell>{data.payload[0]?.operator?.username}</TableCell>
                     </TableRow>
                     <TableRow hover>
-                        <TableCell>New Callbacks Allowed?</TableCell>
+                        <TableCell>允许新的会话吗？</TableCell>
                         <TableCell>
                             <Switch
                                 checked={payloadCallbackAllowed}
@@ -639,7 +639,7 @@ function DetailedPayloadInnerTable(props){
                     {data.payload[0]?.eventstepinstance &&
                         <>
                             <TableRow hover>
-                                <TableCell>Generated via Eventing</TableCell>
+                                <TableCell>通过事件生成</TableCell>
                                 <TableCell>
                                     <Link color="textPrimary" underline="always"
                                           href={"/new/eventing?eventgroup=" +
@@ -658,14 +658,14 @@ function DetailedPayloadInnerTable(props){
               </Table>
               <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                 <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                    Build Parameters
+                    构建参数
                 </Typography>
               </Paper>
               <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{width: "50%"}}>Parameter</TableCell>
-                    <TableCell>Value</TableCell>
+                    <TableCell style={{width: "50%"}}>参数</TableCell>
+                    <TableCell>值</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody style={{whiteSpace: "pre-line", "overflowWrap": "break-word"}}>
@@ -683,10 +683,10 @@ function DetailedPayloadInnerTable(props){
                             <TableCell>
                                 <ParseForDisplay cmd={cmd} />
                                   {cmd.enc_key === null ? null : (<React.Fragment>
-                                    <br/><b>Encryption Key: </b> {cmd.enc_key}
+                                    <br/><b>加密-密钥: </b> {cmd.enc_key}
                                   </React.Fragment>) }
                                 {cmd.dec_key === null ? null : (<React.Fragment>
-                                    <br/><b>Decryption Key: </b> {cmd.dec_key}
+                                    <br/><b>解密-密钥: </b> {cmd.dec_key}
                                 </React.Fragment>) }
                             </TableCell>
                         </TableRow>
@@ -697,15 +697,15 @@ function DetailedPayloadInnerTable(props){
               </Table>
               <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                 <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                    Build Steps
+                    构建步骤
                 </Typography>
               </Paper>
               <Table size="small" aria-label="details" style={{ "overflowWrap": "break-word"}}>
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{width: "30%"}}>Name</TableCell>
-                    <TableCell>Description</TableCell>
-                    <TableCell>Status</TableCell>
+                    <TableCell style={{width: "30%"}}>名字</TableCell>
+                    <TableCell>备注</TableCell>
+                    <TableCell>状态</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -733,8 +733,8 @@ function DetailedPayloadInnerTable(props){
                         <Table size="small" aria-label="details" style={{"overflowWrap": "break-word"}}>
                             <TableHead>
                               <TableRow>
-                                <TableCell style={{width: "50%"}}>Parameter</TableCell>
-                                <TableCell>Value</TableCell>
+                                <TableCell style={{width: "50%"}}>参数</TableCell>
+                                <TableCell>值</TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody style={{whiteSpace: "pre-line"}}>
@@ -752,10 +752,10 @@ function DetailedPayloadInnerTable(props){
                                         <TableCell>
                                             <ParseForDisplay cmd={cmd} />
                                           {cmd.enc_key === null ? null : (<React.Fragment>
-                                            <br/><b>Encryption Key: </b> {cmd.enc_key}
+                                            <br/><b>加密-密钥: </b> {cmd.enc_key}
                                           </React.Fragment>) }
                                         {cmd.dec_key === null ? null : (<React.Fragment>
-                                            <br/><b>Decryption Key: </b> {cmd.dec_key}
+                                            <br/><b>解密-密钥: </b> {cmd.dec_key}
                                         </React.Fragment>) }
                                         </TableCell>
                                     </TableRow>
@@ -770,18 +770,18 @@ function DetailedPayloadInnerTable(props){
                 <React.Fragment>
                     <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                       <Typography variant="h6" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                          Loaded Commands
+                          载荷中可用的命令
                       </Typography>
-                      <Button style={{float: "right"}} variant="contained" size="small" onClick={()=>{setOpenAddRemoveCommandsDialog(true)}} >Add/Remove Commands</Button>
+                      <Button style={{float: "right"}} variant="contained" size="small" onClick={()=>{setOpenAddRemoveCommandsDialog(true)}} >添加/移除命令</Button>
                     </Paper>
                     {commands.length > 0 &&
                       <Table size="small" aria-label="details" style={{"overflowWrap": "break-word"}}>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Command Name</TableCell>
+                          <TableCell>命令</TableCell>
                           <TableCell>Mythic Version</TableCell>
                           <TableCell>Loaded Version</TableCell>
-                          <TableCell style={{width: "5rem"}}>Documentation</TableCell>
+                          <TableCell style={{width: "5rem"}}>使用文档</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -852,7 +852,7 @@ function DetailedPayloadInnerTable(props){
                 <React.Fragment>
                   <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,marginBottom: "5px", marginTop: "10px"}} variant={"elevation"}>
                       <Typography variant="h5" style={{textAlign: "left", display: "inline-block", marginLeft: "20px", color: theme.pageHeaderColor}}>
-                          Wrapped Payload Information
+                          封装的载荷信息
                       </Typography>
                     </Paper>
                   <DetailedPayloadInnerTable me={props.me} payload_id={data.payload[0].wrapped_payload_id} />

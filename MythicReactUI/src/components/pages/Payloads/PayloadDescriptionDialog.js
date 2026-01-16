@@ -103,14 +103,14 @@ export function PayloadDescriptionDialog(props) {
 
   return (
     <React.Fragment>
-        <MythicModifyStringDialog title={"Edit Payload Description"}
+        <MythicModifyStringDialog title={"编辑载荷备注"}
                                   maxRows={5}
                                   onClose={props.onClose}
                                   value={oldDescription}
                                   dontCloseOnSubmit={true}
                                   onSubmit={onCommitSubmit} />
         {openUpdateAll &&
-            <MythicConfirmDialog title={"Update Associated Callback's Descriptions?"}
+            <MythicConfirmDialog title={"是否更新关联会话的备注？"}
                                  dontCloseOnSubmit={true}
                                  dialogText={updateAllDialogText}
                                  cancelText={"Update Only Payload"}

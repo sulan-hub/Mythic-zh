@@ -433,7 +433,7 @@ query uuidFileMetaEventingWorkflowQuery($operation_id: Int!, $agent_file_id: Str
 
 export function SearchTabFilesLabel(props) {
     return (
-        <MythicSearchTabLabel label={"Files"} iconComponent={<AttachmentIcon/>} {...props}/>
+        <MythicSearchTabLabel label={"文件"} iconComponent={<AttachmentIcon/>} {...props}/>
     )
 }
 

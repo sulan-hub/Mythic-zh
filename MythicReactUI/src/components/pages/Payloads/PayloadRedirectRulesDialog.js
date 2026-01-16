@@ -42,7 +42,7 @@ export function PayloadRedirectRulesDialog(props) {
     
   return (
     <React.Fragment>
-        <DialogTitle id="form-dialog-title">Payload Redirect Rules Check</DialogTitle>
+        <DialogTitle id="form-dialog-title">载荷重定向规则检查</DialogTitle>
         <div style={{height: "calc(80vh)", overflowY: "auto"}}>
             <ResponseDisplayPlaintext
                 initial_mode={"apache_conf"}
@@ -54,7 +54,7 @@ export function PayloadRedirectRulesDialog(props) {
         </div>
         <DialogActions>
             <Button variant="contained" onClick={props.onClose} color="primary">
-                Close
+                关闭
             </Button>
         </DialogActions>
     </React.Fragment>

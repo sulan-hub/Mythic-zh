@@ -42,7 +42,7 @@ export function SettingsOperatorDialog(props) {
             <MythicStyledTooltip tooltipStyle={{float: "right", display: "inline-block"}}
                                  title={"Generate invite link for somebody to create their own username/password"}>
                 <Button onClick={createInviteLink} variant={"contained"}>
-                    Generate Invite Link
+                    生成邀请链接
                 </Button>
             </MythicStyledTooltip>
             {openInviteLinkDialog &&
@@ -56,7 +56,7 @@ export function SettingsOperatorDialog(props) {
 
         <DialogContent dividers={true}>
           <DialogContentText>
-                <b>Note:</b> If you're an admin, you don't need to know a user's old password to set a new one.
+                <b>提示:</b> 如果你是管理员，你不需要知道用户的旧密码就可以设置新密码。
           </DialogContentText>
             <form autoComplete={"off"}>
                 <MythicTextField

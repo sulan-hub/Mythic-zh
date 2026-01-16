@@ -150,7 +150,7 @@ mutation createNewArtifact($task_id: Int, $base_artifact: String!, $artifact: St
 
 export function SearchTabArtifactsLabel(props){
     return (
-        <MythicSearchTabLabel label={"Artifacts"} iconComponent={<FingerprintIcon />} {...props}/>
+        <MythicSearchTabLabel label={"指纹"} iconComponent={<FingerprintIcon />} {...props}/>
     )
 }
 

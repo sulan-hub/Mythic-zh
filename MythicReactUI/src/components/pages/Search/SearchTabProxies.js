@@ -47,7 +47,7 @@ subscription portsSub{
 
 export function SearchTabSocksLabel(props){
     return (
-        <MythicSearchTabLabel label={"PROXIES"} iconComponent={
+        <MythicSearchTabLabel label={"代理"} iconComponent={
             <FontAwesomeIcon icon={faSocks} size="lg" style={{marginTop: "4px", marginBottom: "5px"}}/>} {...props}/>
     )
 }

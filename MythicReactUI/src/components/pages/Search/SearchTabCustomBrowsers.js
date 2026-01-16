@@ -111,7 +111,7 @@ const fetchLimit = 100;
 
 export function SearchTabCustomBrowserLabel(props){
     return (
-        <MythicSearchTabLabel label={"Browsers"} iconComponent={<FolderIcon />} {...props}/>
+        <MythicSearchTabLabel label={"文件浏览器"} iconComponent={<FolderIcon />} {...props}/>
     )
 }
 const SearchTabCustomBrowserSearchPanel = (props) => {

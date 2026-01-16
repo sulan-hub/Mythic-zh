@@ -80,7 +80,7 @@ query hostQuery($operation_id: Int!, $host: String!, $offset: Int!, $fetchLimit:
 `;
 export function SearchTabTokensLabel(props){
     return (
-        <MythicSearchTabLabel label={"Tokens"} iconComponent={<ConfirmationNumberIcon />} {...props}/>
+        <MythicSearchTabLabel label={"标记"} iconComponent={<ConfirmationNumberIcon />} {...props}/>
     )
 }
 

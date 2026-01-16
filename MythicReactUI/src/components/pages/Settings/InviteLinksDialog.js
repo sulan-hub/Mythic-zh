@@ -122,7 +122,7 @@ export function InviteLinksDialog(props) {
             <MythicStyledTooltip tooltipStyle={{float: "right", display: "inline-block"}}
                                  title={"Generate invite link for somebody to create their own username/password"}>
                 <Button onClick={createInviteLink} variant={"contained"}>
-                    Generate Invite Link
+                    生成邀请链接
                 </Button>
             </MythicStyledTooltip>
         </DialogTitle>

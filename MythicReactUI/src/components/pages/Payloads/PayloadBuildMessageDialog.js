@@ -45,7 +45,7 @@ export function PayloadBuildMessageDialog(props) {
     
   return (
       <React.Fragment>
-          <DialogTitle id="form-dialog-title">Payload Build Messages</DialogTitle>
+          <DialogTitle id="form-dialog-title">载荷构建消息</DialogTitle>
           <div style={{height: "calc(80vh)", overflowY: "auto"}}>
               <ResponseDisplayPlaintext
                   initial_mode={"html"}
@@ -57,7 +57,7 @@ export function PayloadBuildMessageDialog(props) {
           </div>
           <DialogActions>
               <Button variant="contained" onClick={props.onClose} color="primary">
-                  Close
+                  关闭
               </Button>
           </DialogActions>
       </React.Fragment>

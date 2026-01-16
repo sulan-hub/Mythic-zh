@@ -145,7 +145,7 @@ const fetchLimit = 50;
 
 export function SearchTabTagsLabel(props){
     return (
-        <MythicSearchTabLabel label={"Tags"} iconComponent={<LocalOfferIcon />} {...props}/>
+        <MythicSearchTabLabel label={"标签"} iconComponent={<LocalOfferIcon />} {...props}/>
     )
 }
 

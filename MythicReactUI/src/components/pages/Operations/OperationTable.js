@@ -146,7 +146,7 @@ export function OperationTable(props){
         <React.Fragment>
         <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main}} variant={"elevation"}>
             <Typography variant="h5" style={{textAlign: "left", display: "inline-block", marginLeft: "20px"}}>
-                Operations
+                操作
             </Typography>
             {showDeleted ? (
                 <MythicStyledTooltip title={"Hide Deleted Operations"} tooltipStyle={{float: "right"}}>
@@ -175,13 +175,13 @@ export function OperationTable(props){
             <Button size="small" onClick={() => {setOpenNewOperationDialog(true);}}
                     style={{marginRight: "20px", float: "right", color: "white"}}
                     startIcon={<AddCircleIcon color="success" style={{backgroundColor: "white", borderRadius: "10px"}}/>} >
-                New Operation
+                新操作
             </Button>
 
             {openNewOperator &&
                 <MythicDialog open={openNewOperator} 
                     onClose={()=>{setOpenNewOperatorDialog(false);}} 
-                    innerDialog={<SettingsOperatorDialog title="New Operator" onAccept={onSubmitNewOperator} handleClose={()=>{setOpenNewOperatorDialog(false);}}  {...props}/>}
+                    innerDialog={<SettingsOperatorDialog title="新操作" onAccept={onSubmitNewOperator} handleClose={()=>{setOpenNewOperatorDialog(false);}}  {...props}/>}
                 />
             }
             {openNewOperation &&

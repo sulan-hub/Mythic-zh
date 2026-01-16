@@ -27,7 +27,7 @@ export function MitreGrid({entries, onGetCommands, onGetTasks, onGetCommandsFilt
             <Paper elevation={5}  style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main,
                 marginBottom: "5px", marginRight: "5px"}} variant={"elevation"}>
                 <Typography variant="h5" style={{textAlign: "left", display: "inline-block", marginLeft: "20px"}}>
-                    {"MITRE ATT&CK Mappings"}
+                    {"MITRE ATT&CK 映射"}
                 </Typography>
                 <PoperDropdown onGetCommands={onGetCommands} 
                     onGetTasks={onGetTasks} 
@@ -59,7 +59,7 @@ function PoperDropdown({onGetCommands, onGetTasks, onGetCommandsFiltered, onGetT
     const [openFilterCommands, setOpenFilterCommands] = React.useState(false);
     const dropDownOptions = [
         {
-            name: "Fetch All Commands Mapped to MITRE",
+            name: "获取所有映射到 MITRE 的命令",
             click: () => {
                 setBackdropOpen(true);
                 setDropdownOpen(false);
@@ -67,7 +67,7 @@ function PoperDropdown({onGetCommands, onGetTasks, onGetCommandsFiltered, onGetT
             }
         },
         {
-            name: "Fetch All Issued Tasks Mapped to MITRE",
+            name: "获取所有映射到MITRE的已发布任务",
             click: () => {
                 setBackdropOpen(true);
                 setDropdownOpen(false);
@@ -75,14 +75,14 @@ function PoperDropdown({onGetCommands, onGetTasks, onGetCommandsFiltered, onGetT
             }
         },
         {
-            name: "Fetch Command Mappings by Payload Type",
+            name: "按负载类型获取命令映射",
             click: () => {
                 setDropdownOpen(false);
                 setOpenFilterCommands(true);
             }
         },
         {
-            name: "Fetch Task Mappings by Payload Type",
+            name: "按负载类型获取任务映射",
             click: () => {
                 setDropdownOpen(false);
                 setOpenFilterTasks(true);
@@ -90,21 +90,21 @@ function PoperDropdown({onGetCommands, onGetTasks, onGetCommandsFiltered, onGetT
             }
         },
         {
-            name: "Fetch Task Mappings by Task Tag",
+            name: "按任务标签获取任务映射",
             click: () => {
                 setDropdownOpen(false);
                 onFilterByTags();
             }
         },
         {
-            name: "Export Highlighted to ATT&CK Navigator",
+            name: "将高亮导出到 ATT&CK 导航器",
             click: () => {
                 setDropdownOpen(false);
                 exportAttackNavigator();
             }
         },
         {
-            name: "View MITRE License",
+            name: "查看MITRE许可",
             click: () => {
                 setOpenLicense(true);
                 setDropdownOpen(false);
