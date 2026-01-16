@@ -219,7 +219,7 @@ const Payloads = () => {
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} icon={faBiohazard} size="lg"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"插件"} />
+        <ListItemText primary={"载荷"} />
       </StyledListItem>
   )
 }
@@ -233,7 +233,7 @@ const SearchCallbacks = () => {
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Callbacks"} />
+        <ListItemText primary={"搜索会话"} />
       </StyledListItem>
   )
 }
@@ -246,7 +246,7 @@ const SearchTasks = () => {
                 <AssignmentIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Tasks"} />
+        <ListItemText primary={"搜索任务"} />
       </StyledListItem>
   )
 }
@@ -260,7 +260,7 @@ const SearchPayloads = () => {
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Payloads"} />
+        <ListItemText primary={"搜索载荷"} />
       </StyledListItem>
   )
 }
@@ -273,7 +273,7 @@ const SearchFiles = () => {
                 <AttachmentIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Files"} />
+        <ListItemText primary={"搜索文件"} />
       </StyledListItem>
   )
 }
@@ -286,7 +286,7 @@ const SearchScreenshots = () => {
                     <CameraAltTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
                 </MythicStyledTooltip>
             </StyledListItemIcon>
-            <ListItemText primary={"Search Screenshots"} />
+            <ListItemText primary={"搜索截图"} />
         </StyledListItem>
     )
 }
@@ -299,7 +299,7 @@ const SearchCredentials = () => {
                 <VpnKeyIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement" />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Credentials"} />
+        <ListItemText primary={"搜索凭证"} />
       </StyledListItem>
   )
 }
@@ -312,7 +312,7 @@ const SearchKeylogs = () => {
                 <KeyboardIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Keylogs"} />
+        <ListItemText primary={"搜索按键记录"} />
       </StyledListItem>
   )
 }
@@ -325,7 +325,7 @@ const SearchArtifacts = () => {
                 <FingerprintIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Artifacts"} />
+        <ListItemText primary={"搜索指纹"} />
       </StyledListItem>
   )
 }
@@ -338,7 +338,7 @@ const SearchTokens = () => {
                 <ConfirmationNumberIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Tokens"} />
+        <ListItemText primary={"搜索标记"} />
       </StyledListItem>
   )
 }
@@ -351,7 +351,7 @@ const SearchProxies = () => {
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} size={"lg"} icon={faSocks} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Proxies"} />
+        <ListItemText primary={"搜索代理"} />
       </StyledListItem>
   )
 }
@@ -364,7 +364,7 @@ const SearchProcesses = () => {
                 <AccountTreeIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Processes"} />
+        <ListItemText primary={"搜索进程"} />
       </StyledListItem>
   )
 }
@@ -378,7 +378,7 @@ const SearchTags = () => {
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Search Tags"} />
+        <ListItemText primary={"搜索标签"} />
       </StyledListItem>
   )
 }
@@ -404,7 +404,7 @@ const Reporting = () => {
                 <SportsScoreIcon style={{color: theme.navBarTextIconColor}} size={"medium"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Reporting"} />
+        <ListItemText primary={"报告"} />
       </StyledListItem>
   )
 }
@@ -417,7 +417,7 @@ const Tags = () => {
                 <LocalOfferTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Tags"} />
+        <ListItemText primary={"标签"} />
       </StyledListItem>
   )
 }
@@ -430,7 +430,7 @@ const Eventing = () => {
                 <PlayCircleFilledTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Eventing"} />
+        <ListItemText primary={"事件处理"} />
       </StyledListItem>
   )
 }
@@ -442,7 +442,7 @@ const JupyterNotebook = () => {
                 <img src={JupyterLogo} height={"25px"} width={"25px"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Jupyter Notebooks"} />
+        <ListItemText primary={"Jupyter 笔记本"} />
       </StyledListItem>
   )
 }
@@ -454,7 +454,7 @@ const GraphQL = () => {
                 <img src={GraphQLLogo} height={"25px"} width={"25px"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"GraphQL Console"} />
+        <ListItemText primary={"GraphQL 控制台"} />
       </StyledListItem>
   )
 }
@@ -508,7 +508,7 @@ const Operations = () => {
                 <EditIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"Modify Operations"} />
+        <ListItemText primary={"修改操作"} />
       </StyledListItem>
   )
 }
@@ -989,7 +989,7 @@ function TopBarRightShortcutsVertical({me, menuOpen, serverName}){
                     <ThumbDownTwoTone style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement" />
                 </MythicStyledTooltip>
             </StyledListItemIcon>
-            <ListItemText primary={"Send Feedback"} />
+            <ListItemText primary={"发送反馈"} />
           </StyledListItem>
             {openFeedbackForm &&
                 <MythicDialog fullWidth={true} maxWidth="md" open={openFeedbackForm}
@@ -1006,7 +1006,7 @@ function TopBarRightShortcutsVertical({me, menuOpen, serverName}){
                   <KeyboardArrowDownIcon style={{color: theme.navBarTextIconColor, display: menuOpen ? "" : "none"}} />
                 </MythicStyledTooltip>
             </StyledListItemIcon>
-            <ListItemText primary={"Help"} />
+            <ListItemText primary={"帮助"} />
           </StyledListItem>
 
           <StyledListItem className={classes.listSubHeader} component={Link} to='/new/EventFeed' >
@@ -1015,7 +1015,7 @@ function TopBarRightShortcutsVertical({me, menuOpen, serverName}){
                     <TopAppBarVerticalEventLogNotifications />
                 </MythicStyledTooltip>
             </StyledListItemIcon>
-            <ListItemText primary={"Event Feed"} />
+            <ListItemText primary={"事件动态"} />
           </StyledListItem>
 
           <StyledListItem className={classes.listSubHeader} onClick={handleSettingsMenu} >
@@ -1025,7 +1025,7 @@ function TopBarRightShortcutsVertical({me, menuOpen, serverName}){
                     <KeyboardArrowDownIcon style={{color: theme.navBarTextIconColor, display: menuOpen ? "" : "none"}} />
                 </MythicStyledTooltip>
             </StyledListItemIcon>
-            <ListItemText primary={"Settings"} />
+            <ListItemText primary={"设置"} />
           </StyledListItem>
         </>
     )
