@@ -19,7 +19,7 @@
 🌐 **Read in:** [English](README-en.md) | [中文](README-zh.md)
 
 ## 汉化进度
-![汉化进度截图](https://github.com/sulan-hub/Mythic-zh/blob/master/images/162102.png)
+![汉化进度截图](https://github.com/sulan-hub/Mythic-zh/blob/2dbceaa0f368fb9d08432dd3ed30498f92222c10/images/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-01-16%20161127.png)
 
 开始于：2026/1/13
 
