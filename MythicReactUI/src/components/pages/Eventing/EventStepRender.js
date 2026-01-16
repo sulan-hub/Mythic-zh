@@ -1018,7 +1018,7 @@ function EventStepInstanceDetailDialog({selectedEventStepInstance, onClose}) {
                 let tempData = {...data};
                 tempData.eventstepinstance_by_pk.payloads = updatedPayloads;
                 setData(tempData);
-                snackActions.success("Successfully deleted");
+                snackActions.success("删除成功");
             }else{
                 snackActions.error(completedData.deleteFile.error);
             }
@@ -1321,7 +1321,7 @@ function EventGroupInstanceDetailDialog({selectedEventGroupInstance, onClose}) {
                     }
                 });
                 setData({...data, payload: updatedPayloads});
-                snackActions.success("Successfully deleted");
+                snackActions.success("删除成功");
             }else{
                 snackActions.error(completedData.deleteFile.error);
             }

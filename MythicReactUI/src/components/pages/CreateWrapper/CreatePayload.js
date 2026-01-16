@@ -9,7 +9,7 @@ import {Step5Build} from './Step5Build';
 import { snackActions } from '../../utilities/Snackbar';
 
 function getSteps(){
-    return ['选择目标操作系统', 'Payload Type', 'Select Payload', 'Build']
+    return ['选择目标操作系统', '载荷类型', '选择载荷', '构建']
 }
 
 export function CreatePayloadWrapper(props){

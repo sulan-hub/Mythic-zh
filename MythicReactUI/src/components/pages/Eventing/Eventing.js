@@ -227,7 +227,7 @@ export function Eventing({me}){
         for(let i = 0; i < evt.target.files.length; i++){
             let uploadStatus = await UploadEventFile(evt.target.files[i], "New Eventing Workflow");
             if(!uploadStatus){
-                snackActions.error("Failed to upload file");
+                snackActions.error("文件上传失败");
                 continue
             }
             if(uploadStatus.status === "error"){
@@ -315,13 +315,13 @@ export function Eventing({me}){
                                     {paddingTop: 0, paddingBottom: 0, borderLeft: `5px solid ${theme.palette.info.main}`,
                                         borderRight: `5px solid ${theme.palette.info.main}`} :
                                     {paddingTop: 0, paddingBottom: 0}}>
-                                <ListItemText primary={"View All Instances"} />
+                                <ListItemText primary={"查看所有实例"} />
                             </ListItem>
                             <div style={{flexGrow: 1, overflowY: "auto", height:"100%"}}>
                                 <List style={{border: 0, backgroundColor: "unset"}}
                                 subheader={
                                     <ListSubheader style={{lineHeight: "30px"}} component="div">
-                                        Registered Event Groups
+                                        已注册的事件组
                                         {showDeleted ? (
                                             <MythicStyledTooltip title={"Hide Deleted Services"} tooltipStyle={{float: "right"}}>
                                                 <IconButton size="small" style={{float: "right", }} variant="contained" onClick={() => setShowDeleted(!showDeleted)}><VisibilityIcon /></IconButton>

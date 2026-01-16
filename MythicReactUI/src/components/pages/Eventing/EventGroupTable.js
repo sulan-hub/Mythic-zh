@@ -144,7 +144,7 @@ export function EventGroupTable({selectedEventGroup, me, showInstances, showGrap
      <div style={{marginLeft: "5px", display: "flex", overflowY: "auto", flexDirection: "column", height: "100%"}}>
 
          {selectedEventGroup.id === 0 &&
-             <Typography variant={"h4"}><strong>All Eventing Runs</strong></Typography>
+             <Typography variant={"h4"}><strong>正在运行的所有事件</strong></Typography>
          }
          {selectedEventGroup.id !== 0 &&
              <div>
@@ -153,7 +153,7 @@ export function EventGroupTable({selectedEventGroup, me, showInstances, showGrap
                          <MythicStyledTooltip title={"Restore event group workflow"}>
                              <Button color={"secondary"} size="small" onClick={onAcceptDelete} >
                                  <RestoreFromTrashIcon color="success"/>
-                                 Restore
+                                 恢复
                              </Button>
                          </MythicStyledTooltip>
                      </div>
@@ -187,7 +187,7 @@ export function EventGroupTable({selectedEventGroup, me, showInstances, showGrap
                                      setOpenActiveDialog(true);
                                  }}>
                                      <NotificationsActiveTwoToneIcon size={"small"} color={"success"}/>
-                                     Enabled
+                                     已启用
                                  </Button>
                              </MythicStyledTooltip>
                              {openActiveDialog &&
@@ -204,7 +204,7 @@ export function EventGroupTable({selectedEventGroup, me, showInstances, showGrap
                          <MythicStyledTooltip title={"Enable Event Group"}>
                              <Button color={"secondary"} onClick={onAcceptActive}>
                                  <NotificationsOffTwoToneIcon size={"small"} color={"warning"}/>
-                                 Disabled
+                                 已禁用
                              </Button>
                          </MythicStyledTooltip>
                      )

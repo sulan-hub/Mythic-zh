@@ -1540,7 +1540,7 @@ const EventingStepActionDataCreatePayload = ({allSteps, updateStep, index, prevD
                     <TableRow>
                         <MythicStyledTableCell>
                             <Typography style={{fontWeight: 600}}>
-                                {"Payload Configuration"}
+                                {"有效载荷配置"}
                             </Typography>
                             <Typography style={{color: theme.palette.warning.main, fontWeight: 600}}>
                                 {"Required"}
