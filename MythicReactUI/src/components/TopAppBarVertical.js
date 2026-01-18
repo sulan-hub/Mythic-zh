@@ -188,7 +188,7 @@ const Dashboard = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new' key={"home"} >
         <StyledListItemIcon >
-            <MythicStyledTooltip title={"Operation Dashboard"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"仪表盘"} tooltipStyle={{display: "inline-flex"}}>
                 <SpaceDashboardTwoToneIcon style={{color: theme.navBarTextIconColor}}  fontSize={"medium"} className="mythicElement" />
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -201,7 +201,7 @@ const ActiveCallbacks = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/callbacks' key={"callbacks"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Active Callbacks"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"会话列表"} tooltipStyle={{display: "inline-flex"}}>
                 <PhoneCallbackIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
 
@@ -215,7 +215,7 @@ const Payloads = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/payloads' key={"payloads"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Payloads"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"载荷"} tooltipStyle={{display: "inline-flex"}}>
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} icon={faBiohazard} size="lg"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -228,7 +228,7 @@ const SearchCallbacks = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=callbacks&searchField=Host&search=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Callbacks"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索会话"} tooltipStyle={{display: "inline-flex"}}>
                 <PhoneCallbackIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
@@ -242,7 +242,7 @@ const SearchTasks = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=tasks&searchField=Command+and+Parameters&search=&taskStatus=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Tasks"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索任务"} tooltipStyle={{display: "inline-flex"}}>
                 <AssignmentIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -255,7 +255,7 @@ const SearchPayloads = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=payloads&searchField=Filename&search=&taskStatus=&c2=All+C2&payloadtype=All+Payload+Types'>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Payloads"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索载荷"} tooltipStyle={{display: "inline-flex"}}>
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} size={"lg"} icon={faBiohazard} />
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
@@ -269,7 +269,7 @@ const SearchFiles = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?searchField=Filename&tab=files&location=Downloads&host=&search=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Files"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索文件"} tooltipStyle={{display: "inline-flex"}}>
                 <AttachmentIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -282,7 +282,7 @@ const SearchScreenshots = () => {
     return (
         <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?searchField=Filename&tab=files&location=Screenshots' >
             <StyledListItemIcon>
-                <MythicStyledTooltip title={"Search Screenshots"} tooltipStyle={{display: "inline-flex"}}>
+                <MythicStyledTooltip title={"搜索截图"} tooltipStyle={{display: "inline-flex"}}>
                     <CameraAltTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
                 </MythicStyledTooltip>
             </StyledListItemIcon>
@@ -295,7 +295,7 @@ const SearchCredentials = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?t?searchField=Account&tab=credentials&search='>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Credentials"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索凭证"} tooltipStyle={{display: "inline-flex"}}>
                 <VpnKeyIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement" />
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -308,7 +308,7 @@ const SearchKeylogs = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=keylogs&searchField=Host&search='>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Keylogs"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索按键记录"} tooltipStyle={{display: "inline-flex"}}>
                 <KeyboardIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -321,7 +321,7 @@ const SearchArtifacts = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=artifacts&searchField=Host&search=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Artifacts"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索指纹"} tooltipStyle={{display: "inline-flex"}}>
                 <FingerprintIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -334,7 +334,7 @@ const SearchTokens = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=tokens&searchField=Host&search=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Tokens"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索标记"} tooltipStyle={{display: "inline-flex"}}>
                 <ConfirmationNumberIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -347,7 +347,7 @@ const SearchProxies = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=socks'>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Proxies"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索代理"} tooltipStyle={{display: "inline-flex"}}>
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} size={"lg"} icon={faSocks} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -360,7 +360,7 @@ const SearchProcesses = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=processes&searchField=Name&search=&host=' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Processes"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索进程"} tooltipStyle={{display: "inline-flex"}}>
                 <AccountTreeIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -373,7 +373,7 @@ const SearchTags = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/search?tab=tags&searchField=TagType&search=&host='>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Search Tags"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"搜索标签"} tooltipStyle={{display: "inline-flex"}}>
                 <LocalOfferTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
                 <ManageSearchIcon style={{color: theme.navBarTextIconColor, marginLeft: "-8px", marginTop: "7px", borderRadius: "5px"}} fontSize={"small"} />
             </MythicStyledTooltip>
@@ -400,7 +400,7 @@ const Reporting = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/reporting' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Reporting"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"报告"} tooltipStyle={{display: "inline-flex"}}>
                 <SportsScoreIcon style={{color: theme.navBarTextIconColor}} size={"medium"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -413,7 +413,7 @@ const Tags = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/tagtypes' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Tags"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"标签"} tooltipStyle={{display: "inline-flex"}}>
                 <LocalOfferTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -426,7 +426,7 @@ const Eventing = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/eventing' >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Eventing"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"事件处理"} tooltipStyle={{display: "inline-flex"}}>
                 <PlayCircleFilledTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -438,7 +438,7 @@ const JupyterNotebook = () => {
   return (
       <StyledListItem className={classes.listSubHeader} target="_blank" component={Link} to='/jupyter' key={"jupyter"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Jupyter Notebooks"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"Jupyter 笔记本"} tooltipStyle={{display: "inline-flex"}}>
                 <img src={JupyterLogo} height={"25px"} width={"25px"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -450,7 +450,7 @@ const GraphQL = () => {
   return (
       <StyledListItem className={classes.listSubHeader} target="_blank" component={Link} to='/console' key={"console"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"GraphQL Console"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"GraphQL 控制台"} tooltipStyle={{display: "inline-flex"}}>
                 <img src={GraphQLLogo} height={"25px"} width={"25px"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -463,12 +463,12 @@ const CreatePayload = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/createpayload' key={"createpayload"}  state={{from: 'TopAppBar'}}>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Create Payload"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"创建载荷"} tooltipStyle={{display: "inline-flex"}}>
                 <FontAwesomeIcon style={{color: theme.navBarTextIconColor}} size={"lg"} icon={faBiohazard} />
                 <AddCircleIcon color={"success"} style={{marginLeft: "-8px", marginTop: "7px", backgroundColor: "white", borderRadius: "10px"}} fontSize={"small"} />
             </MythicStyledTooltip>
         </StyledListItemIcon>
-        <ListItemText primary={"创建有效载荷"} />
+        <ListItemText primary={"创建载荷"} />
       </StyledListItem>
   )
 }
@@ -477,7 +477,7 @@ const CreateWrapper = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/createwrapper' key={"createwrapper"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Create Wrapper"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"创建封装"} tooltipStyle={{display: "inline-flex"}}>
                 <PostAddIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
                 <AddCircleIcon color={"success"} style={{marginLeft: "-8px", marginTop: "7px", backgroundColor: "white", borderRadius: "10px"}} fontSize={"small"} />
             </MythicStyledTooltip>
@@ -491,7 +491,7 @@ const PayloadTypesAndC2 = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/payloadtypes' key={"payloadtypes"}>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Installed Services"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"已安装的插件"} tooltipStyle={{display: "inline-flex"}}>
                 <HeadsetTwoToneIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -504,7 +504,7 @@ const Operations = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/operations' key={"modifyoperations"}>
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Modify Operations"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"修改操作"} tooltipStyle={{display: "inline-flex"}}>
                 <EditIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -517,7 +517,7 @@ const BrowserScripts = () => {
   return (
       <StyledListItem className={classes.listSubHeader} component={Link} to='/new/browserscripts' key={"browserscripts"} >
         <StyledListItemIcon>
-            <MythicStyledTooltip title={"Browser Scripts"} tooltipStyle={{display: "inline-flex"}}>
+            <MythicStyledTooltip title={"浏览脚本"} tooltipStyle={{display: "inline-flex"}}>
                 <CodeOffIcon style={{color: theme.navBarTextIconColor}} fontSize={"medium"} className="mythicElement"/>
             </MythicStyledTooltip>
         </StyledListItemIcon>
@@ -526,11 +526,11 @@ const BrowserScripts = () => {
   )
 }
 const AllSettingOptions = [
-    "Dashboard", "ActiveCallbacks", "Payloads", "SearchCallbacks", "SearchTasks", "SearchPayloads",
-    "SearchFiles", "SearchScreenshots", "SearchCredentials", "SearchKeylogs", "SearchArtifacts", "SearchTokens", "SearchProxies",
-    "SearchProcesses", "SearchTags", "Mitre", "Reporting", "Tags", "Eventing", "JupyterNotebook",
-    "GraphQL", "CreatePayload", "CreateWrapper", "PayloadTypesAndC2", "Operations",
-    "BrowserScripts"
+    "仪表板", "会话列表", "载荷", "搜索会话", "搜索任务", "搜索载荷",
+    "搜索文件", "搜索截图", "搜索凭证", "搜索按键记录", "搜索指纹", "搜索标记", "搜索代理",
+    "搜索进程", "搜索标签", "Mitre", "报告", "标签", "事件处理", "Jupyter 笔记本",
+    "GraphQL 控制台", "创建载荷", "创建封装", "已安装的插件", "修改操作",
+    "脚本浏览"
 ].sort();
 
 const TopAppBarVerticalAdjustShortcutsDialog = ({onClose}) => {
@@ -575,7 +575,7 @@ const TopAppBarVerticalAdjustShortcutsDialog = ({onClose}) => {
     };
     return (
         <React.Fragment>
-            <DialogTitle id="form-dialog-title">Configure Side Shortcuts</DialogTitle>
+            <DialogTitle id="form-dialog-title">排序侧边快捷方式</DialogTitle>
             <div style={{height: "calc(70vh)", display: "flex", flexDirection: "column"}}>
                 <Paper elevation={5} style={{backgroundColor: theme.pageHeader.main, color: theme.pageHeaderText.main, marginBottom: "5px"}}>
                     <Button size={"small"} style={{color: "white", marginRight: "20px",}}
@@ -639,10 +639,10 @@ const TopAppBarVerticalAdjustShortcutsDialog = ({onClose}) => {
 
             <DialogActions>
                 <Button onClick={onClose} variant="contained" color="primary">
-                    Cancel
+                    取消
                 </Button>
                 <Button onClick={onUpdate} variant="contained" color="success">
-                    Update
+                    更新
                 </Button>
             </DialogActions>
         </React.Fragment>
@@ -683,57 +683,57 @@ export function TopAppBarVertical(props) {
   const getShortcuts = ({shortcuts}) => {
       return shortcuts.map( (c, i) => {
           switch (c) {
-              case "Dashboard":
+              case "仪表板":
                   return <Dashboard key={c + i} />
-              case "ActiveCallbacks":
+              case "会话列表":
                   return <ActiveCallbacks key={c + i} />
-              case "Payloads":
+              case "载荷":
                   return <Payloads key={c + i} />
-              case "SearchCallbacks":
+              case "搜索会话":
                   return <SearchCallbacks key={c + i} />
-              case "SearchTasks":
+              case "搜索任务":
                   return <SearchTasks key={c + i} />
-              case "SearchPayloads":
+              case "搜索载荷":
                   return <SearchPayloads key={c + i} />
-              case "SearchFiles":
+              case "搜索文件":
                   return <SearchFiles key={c + i} />
-              case "SearchScreenshots":
+              case "搜索截图":
                   return <SearchScreenshots key={c + i} />
-              case "SearchCredentials":
+              case "搜索凭证":
                   return <SearchCredentials key={c + i} />
-              case "SearchKeylogs":
+              case "搜索按键记录":
                   return <SearchKeylogs key={c + i} />
-              case "SearchArtifacts":
+              case "搜索指纹":
                   return <SearchArtifacts key={c + i} />
-              case "SearchTokens":
+              case "搜索标记":
                   return <SearchTokens key={c + i} />
-              case "SearchProxies":
+              case "搜索代理":
                   return <SearchProxies key={c + i} />
-              case "SearchProcesses":
+              case "搜索进程":
                   return <SearchProcesses key={c + i} />
-              case "SearchTags":
+              case "搜索标签":
                   return <SearchTags key={c + i} />
               case "Mitre":
                   return <Mitre key={c + i} />
-              case "Reporting":
+              case "报告":
                   return <Reporting key={c + i} />
-              case "Tags":
+              case "标签":
                   return <Tags key={c + i} />
-              case "Eventing":
+              case "事件处理":
                   return <Eventing key={c + i} />
-              case "JupyterNotebook":
+              case "Jupyter 笔记本":
                   return <JupyterNotebook key={c + i} />
-              case "GraphQL":
+              case "GraphQL 控制台":
                   return <GraphQL key={c + i} />
-              case "CreatePayload":
+              case "创建载荷":
                   return <CreatePayload key={c + i} />
-              case "CreateWrapper":
+              case "创建封装":
                   return <CreateWrapper key={c + i} />
-              case "PayloadTypesAndC2":
+              case "已安装的插件":
                   return <PayloadTypesAndC2 key={c + i} />
-              case "Operations":
+              case "修改操作":
                   return <Operations key={c + i} />
-              case "BrowserScripts":
+              case "脚本浏览":
                   return <BrowserScripts key={c + i} />
           }
       })
