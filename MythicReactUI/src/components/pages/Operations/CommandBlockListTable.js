@@ -248,7 +248,7 @@ function CommandBlockListTableRow(props){
                 <MythicConfirmDialog onClose={() => {setOpenDeleteDialog(false);}} onSubmit={onAcceptDelete} open={openDelete}/>
             </TableCell>
             <TableCell>
-                <Button size="small" onClick={()=>{setOpenUpdateDialog(true);}} startIcon={<TuneIcon/>} color="primary" variant="contained">Edit</Button>
+                <Button size="small" onClick={()=>{setOpenUpdateDialog(true);}} startIcon={<TuneIcon/>} color="primary" variant="contained">编辑</Button>
                 {openUpdate &&
                     <MythicDialog open={openUpdate} fullWidth maxWidth={"lg"}
                         onClose={()=>{setOpenUpdateDialog(false);}} 

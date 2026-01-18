@@ -136,7 +136,7 @@ export function OperationTableRow(props){
                 </TableCell>
                 <TableCell><Button size="small" onClick={()=>{setOpenUpdateNotifications(true);}} startIcon={<EditIcon/>}
                                    disabled={me?.user?.current_operation_id !== props.id}
-                                   color={props.complete ? "success" : "primary"} variant="contained">Edit</Button>
+                                   color={props.complete ? "success" : "primary"} variant="contained">编辑</Button>
                 {openUpdateNotifications && 
                     <MythicDialog open={openUpdateNotifications} fullWidth maxWidth={"lg"}
                         onClose={()=>{setOpenUpdateNotifications(false);}} 
@@ -146,7 +146,7 @@ export function OperationTableRow(props){
                 </TableCell>
                 <TableCell><Button size="small" onClick={()=>{setOpenUpdateOperators(true);}}
                                    disabled={me?.user?.current_operation_id !== props.id}
-                                   startIcon={<AssignmentIndIcon/>} color={props.complete ? "success" : "primary"} variant="contained">Edit</Button>
+                                   startIcon={<AssignmentIndIcon/>} color={props.complete ? "success" : "primary"} variant="contained">编辑</Button>
                 {openUpdateOperators && 
                     <MythicDialog open={openUpdateOperators} maxHeight={"calc(80vh)"} fullWidth maxWidth={"lg"}
                         onClose={()=>{setOpenUpdateOperators(false);}} 

@@ -1105,7 +1105,7 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
                                                <MythicTableCell>
                                                    <Button size="small" onClick={()=>{setOpenUpdateNotifications(true);}} startIcon={<EditIcon/>}
                                                                   disabled={me?.user?.current_operation_id !== d.operation.id}
-                                                                  color={d.operation.complete ? "success" : "primary"} variant="contained">Edit</Button>
+                                                                  color={d.operation.complete ? "success" : "primary"} variant="contained">编辑</Button>
                                                    {openUpdateNotifications &&
                                                        <MythicDialog open={openUpdateNotifications} fullWidth maxWidth={"lg"}
                                                                      onClose={()=>{setOpenUpdateNotifications(false);}}
@@ -1116,7 +1116,7 @@ const MyOperationsDashboardElement = ({me, data, reloadDashboard, editing, remov
                                                <MythicTableCell>
                                                    <Button size="small" onClick={()=>{setOpenUpdateOperators(true);}}
                                                                   disabled={me?.user?.current_operation_id !== d.operation.id}
-                                                                  startIcon={<AssignmentIndIcon/>} color={d.operation.complete ? "success" : "primary"} variant="contained">Edit</Button>
+                                                                  startIcon={<AssignmentIndIcon/>} color={d.operation.complete ? "success" : "primary"} variant="contained">编辑</Button>
                                                    {openUpdateOperators &&
                                                        <MythicDialog open={openUpdateOperators} maxHeight={"calc(80vh)"} fullWidth maxWidth={"lg"}
                                                                      onClose={()=>{setOpenUpdateOperators(false);}}
